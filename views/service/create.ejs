@@ -1,0 +1,436 @@
+<%- contentFor('HeaderCss') %>
+<%- contentFor('breadcrumb') %>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0">Add Services</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="/admin/services">Services</a></li>
+                    <li class="breadcrumb-item active">Create</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<%- contentFor('body') %>
+<% if (message!="" ) { %>
+    <div class="alert alert-success">
+        <%= message  %>
+    </div>
+<% } %>
+<% if (error!="") { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+<% } %>
+<form class="row" action="/admin/service/store" method="post" enctype="multipart/form-data">
+    <div class="col-lg-12">        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">First Section</h3>
+                    </div>
+                    <div class="card-body row">
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="title">Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Enter title" name="firstsection_main_title" >
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="" class="form-label">Banner Image <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" name="firstsection_banner_image" >
+                        </div>
+                        <div class="mt-3 col-md-4">
+                            <label for="" class="form-label">Content One</label>
+                            <textarea name="firstsection_content_one" rows="4" class="form-control" placeholder="Enter content one"></textarea>
+                        </div>
+                        <div class="mt-3 col-md-4">
+                            <label for="" class="form-label">Content Two</label>
+                            <textarea name="firstsection_content_two" rows="4" class="form-control" placeholder="Enter content two"></textarea>
+                        </div>
+                        <div class="mt-3 col-md-4">
+                            <label for="" class="form-label">Content Three</label>
+                            <textarea name="firstsection_content_three" rows="4" class="form-control" placeholder="Enter content three"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Second Section</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="" class="form-label">Title</label>
+                            <input type="text" class="form-control" name="secondsection_main_title" placeholder="Enter main title">
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Title One</label>
+                                    <input type="text" name="secondsection_title_one" class="form-control" placeholder="Enter title one">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Image One</label>
+                                    <input type="file" class="form-control" name="secondsection_image_one">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Content One</label>
+                                    <textarea name="secondsection_content_one" rows="3" class="form-control"></textarea>
+                                </div>
+                            </div>                            
+                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Title Two</label>
+                                    <input type="text" name="secondsection_title_two" class="form-control" placeholder="Enter title two">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Image Two</label>
+                                    <input type="file" class="form-control" name="secondsection_image_two">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Content One</label>
+                                    <textarea name="secondsection_content_two" rows="3" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Title Three</label>
+                                    <input type="text" name="secondsection_title_three" class="form-control" placeholder="Enter title three">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Image Three</label>
+                                    <input type="file" class="form-control" name="secondsection_image_three">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Content Three</label>
+                                    <textarea name="secondsection_content_three" rows="3" class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Third Section</h4>
+                    </div>
+                    <div class="card-body row">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="" class="form-label">Enter main Title</label>
+                                <input type="text" class="form-control" name="thirdsection_main_title" placeholder="Enter main title">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="" class="form-label">Enter main content</label>
+                                <textarea class="form-control" name="thirdsection_main_content" rows="3" placeholder="Enter main content"></textarea>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter title one</label>
+                                    <input type="text" class="form-control" name="thirdsection_title_one">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter content one</label>
+                                    <textarea name="thirdsection_content_one" rows="4" placeholder="Enter content" class="form-control"></textarea>
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Select image one</label>
+                                    <input type="file" class="form-control" name="thirdsection_image_one">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter button label one</label>
+                                    <input type="text" class="form-control" name="thirdsection_button_label_one" placeholder="Enter button label">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter button link one</label>
+                                    <input type="text" class="form-control" name="thirdsection_button_link_one" placeholder="Enter button link">
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter title two</label>
+                                    <input type="text" class="form-control" name="thirdsection_title_two">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter content two</label>
+                                    <textarea name="thirdsection_content_two" rows="4" placeholder="Enter content" class="form-control"></textarea>
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Select image two</label>
+                                    <input type="file" class="form-control" name="thirdsection_image_two" >
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter button label two</label>
+                                    <input type="text" class="form-control" name="thirdsection_button_label_two" placeholder="Enter button label">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter button link two</label>
+                                    <input type="text" class="form-control" name="thirdsection_button_link_two" placeholder="Enter button link">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter title three</label>
+                                    <input type="text" class="form-control" name="thirdsection_title_three">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter content three</label>
+                                    <textarea name="thirdsection_content_three" rows="4" placeholder="Enter content" class="form-control"></textarea>
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Select image three</label>
+                                    <input type="file" class="form-control" name="thirdsection_image_three">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter button label three</label>
+                                    <input type="text" class="form-control" name="thirdsection_button_label_three" placeholder="Enter button label">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter button link three</label>
+                                    <input type="text" class="form-control" name="thirdsection_button_link_three" placeholder="Enter button link">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Fourth Section</h4>
+                    </div>
+                    <div class="card-body row">
+                        <div class="form-group col-md-6">
+                            <label for="" class="form-label">Enter Title</label>
+                            <input type="text" class="form-control" name="fourthsection_main_title" placeholder="Enter title">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="" class="form-label">Select Image</label>
+                            <input type="file" class="form-control" name="fourthsection_image">
+                        </div>
+                        <div class="mt-3">
+                            <label for="" class="form-label">Enter content</label>
+                            <textarea name="fourthsection_content" rows="4" class="form-control fourthsection_content   " placeholder="Enter content"></textarea>
+                        </div>
+                        <div class="mt-3 col-md-6">
+                            <label for="" class="form-label">Enter button label</label>
+                            <input type="text" class="form-control" name="fourthsection_button_label" placeholder="Enter button label">
+                        </div>
+                        <div class="mt-3 col-md-6">
+                            <label for="" class="form-label">Enter button link</label>
+                            <input type="text" class="form-control" name="fourthsection_button_link" placeholder="Enter button link">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Fivth Section</h4>
+                    </div>
+                    <div class="card-body row">
+                        <div class="form-group col-md-12">
+                            <label for="" class="form-label">Enter main title</label>
+                            <input type="text" class="form-control" name="fivthsection_main_title">
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter title one</label>
+                                    <input type="text" class="form-control" name="fivthsection_title_one">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter subtitle one</label>
+                                    <input type="text" class="form-control" name="fivthsection_subtitle_one">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter content one</label>
+                                    <textarea name="fivthsection_content_one" rows="4" class="form-control"></textarea>
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Select image one</label>
+                                    <input type="file" class="form-control" name="fivthsection_image_one">
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter title two</label>
+                                    <input type="text" class="form-control" name="fivthsection_title_two">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter subtitle two</label>
+                                    <input type="text" class="form-control" name="fivthsection_subtitle_two">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter content two</label>
+                                    <textarea name="fivthsection_content_two" rows="4" class="form-control"></textarea>
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Select image two</label>
+                                    <input type="file" class="form-control" name="fivthsection_image_two">
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter title three</label>
+                                    <input type="text" class="form-control" name="fivthsection_title_three">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter subtitle three</label>
+                                    <input type="text" class="form-control" name="fivthsection_subtitle_three">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Enter content three</label>
+                                    <textarea name="fivthsection_content_three" rows="4" class="form-control"></textarea>
+                                </div>
+                                <div class="mt-3">
+                                    <label for="" class="form-label">Select image three</label>
+                                    <input type="file" class="form-control" name="fivthsection_image_three">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Sixth Section</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="" class="form-label">Enter main title</label>
+                                <input type="text" class="form-control" name="sixthsection_main_title" placeholder="Enter main title">
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Enter content</label>
+                                <textarea name="sixthsection_content" rows="4" class="form-control sixthsection_content" placeholder="Enter content"></textarea>
+                            </div>
+                            <div class="mt-3 col-md-6">
+                                <label for="" class="form-label">Enter button label</label>
+                                <input type="text" class="form-control" name="sixthsection_button_label" placeholder="Enter button label">
+                            </div>
+                            <div class="mt-3 col-md-6">
+                                <label for="" class="form-label">Enter button link</label>
+                                <input type="text" class="form-control" name="sixthsection_button_link" placeholder="Enter button link">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Seventh Section</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="" class="form-label">Enter main title</label>
+                            <input type="text" class="form-control" name="seventhsection_main_title" placeholder="Enter main title">
+                        </div>
+                        <div class="mt-3">
+                            <label for="" class="form-label">Enter sub title</label>
+                            <input type="text" class="form-control" name="seventhsection_subtitle" placeholder="Enter sub title">
+                        </div>
+                        <div class="mt-3">
+                            <label for="" class="form-label">Enter youtube link</label>
+                            <input type="text" class="form-control" name="seventhsection_youtube_link" placeholder="Enter youtube link">
+                        </div>
+                        <div class="mt-3">
+                            <label for="" class="form-label">Enter content</label>
+                            <input type="text" class="form-control seventhsection_content" name="seventhsection_content" placeholder="Enter content">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Eighth Section</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="" class="form-label">Enter main tile</label>
+                            <input type="text" class="form-control" name="eighthsection_main_title" placeholder="Enter main title">
+                        </div>
+                        <div class="mt-3">
+                            <label for="" class="form-label">Select images</label>
+                            <input type="file" class="form-control" name="eighthsection_images" multiple>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-md-12 text-left">
+                        <a href="/admin/services" class="btn btn-secondary w-md">Back</a>
+                        <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<%- contentFor('FooterJs') %>
+<%- contentFor('BottomJs') %>
+<script src="/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script type="text/javascript">
+    ClassicEditor.create(
+        document.querySelector(".fourthsection_content"),
+        {
+            ckfinder: {
+                uploadUrl: '/admin/page/editor/upload'
+            },
+        }
+    )
+    .then(function (editor) {
+        console.log('CKEditor initialized successfully:', editor);
+        editor.ui.view.editable.element.style.height = "200px";
+    })
+    .catch(function (error) {
+        console.error('Error initializing CKEditor:', error);
+    });
+// =======================================================================================
+    ClassicEditor.create(
+        document.querySelector(".sixthsection_content"),
+        {
+            ckfinder: {
+                uploadUrl: '/admin/page/editor/upload'
+            },
+        }
+    )
+    .then(function (editor) {
+        console.log('CKEditor initialized successfully:', editor);
+        editor.ui.view.editable.element.style.height = "200px";
+    })
+    .catch(function (error) {
+        console.error('Error initializing CKEditor:', error);
+    });
+// =======================================================================================
+    ClassicEditor.create(
+        document.querySelector(".seventhsection_content"),
+        {
+            ckfinder: {
+                uploadUrl: '/admin/page/editor/upload'
+            },
+        }
+    )
+    .then(function (editor) {
+        console.log('CKEditor initialized successfully:', editor);
+        editor.ui.view.editable.element.style.height = "200px";
+    })
+    .catch(function (error) {
+        console.error('Error initializing CKEditor:', error);
+    });
+    
+</script>

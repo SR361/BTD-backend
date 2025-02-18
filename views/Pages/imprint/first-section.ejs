@@ -1,0 +1,99 @@
+<%- contentFor('HeaderCss') %>
+<%- contentFor('breadcrumb') %>
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0">Imprint</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="/admin/page/imprint">Imprint Section</a></li>
+                    <li class="breadcrumb-item active">First Section</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<%- contentFor('body') %>
+<% if (message!="" ) { %>
+    <div class="alert alert-success">
+        <%= message  %>
+    </div>
+<% } %>
+<% if (error!="") { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+<% } %>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Imprint Section</h4>
+            </div>
+            <form action="/admin/imprintpage/firstsection/update" method="post">
+                <div class="card-body row">
+                    <%
+                        const contentJSONParse = JSON.parse(firstsection.content);
+                    %>
+                    <div class="col-md-6">
+                        <label class="form-label">Meta keywords<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter meta keywords" name="metakeywords" value="<%= firstsection.metakeywords %>" required >
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Meta description<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter meta description" name="metadescription" value="<%= firstsection.metadescription %>" required >
+                    </div>
+                    <div class="mt-3">
+                        <label class="form-label">Enter title</label>
+                        <input type="text" class="form-control" name="title" value="<%= contentJSONParse.title %>">
+                    </div>
+                    <div class="mt-3">
+                        <label class="form-label">Enter content</label>
+                        <textarea name="content" class="form-control content"><%= contentJSONParse.content %></textarea>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <a href="/admin/page/imprint" class="btn btn-secondary w-md">Back</a>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <input type="hidden" name="id" value="<%= firstsection.id %>">
+                            <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Form Layout -->
+
+
+<%- contentFor('FooterJs') %>
+<%- contentFor('BottomJs') %>
+
+<script src="/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script type="text/javascript">
+    ClassicEditor.create(
+        document.querySelector(".content"),
+        {
+            ckfinder: {
+                uploadUrl: '/admin/page/editor/upload'
+            },
+        }
+    )
+    .then(function (editor) {
+        console.log('CKEditor initialized successfully:', editor);
+        editor.ui.view.editable.element.style.height = "400px";
+    })
+    .catch(function (error) {
+        console.error('Error initializing CKEditor:', error);
+    });
+</script>

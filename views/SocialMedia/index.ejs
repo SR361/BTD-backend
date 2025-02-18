@@ -1,0 +1,100 @@
+<%- contentFor('HeaderCss') %>
+<%- contentFor('breadcrumb') %>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0">Social Media</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="/admin/social-media">Social Media</a></li>
+                    <li class="breadcrumb-item active">Add</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<%- contentFor('body') %>
+<% if (message!="" ) { %>
+    <div class="alert alert-success">
+        <%= message  %>
+    </div>
+<% } %>
+<% if (error!="") { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+<% } %>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Social Media Links</h4>
+            </div>
+            <form action="/admin/social-media/update" method="post">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="title">Instagram <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter instagram link" name="instagram" value="<%= links.instagram %>" required >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="title">Linkedin <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter linkedin link" name="linkedin" value="<%= links.linkedin %>" required >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="title">Wiki <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter wiki link" name="wiki" value="<%= links.wiki %>" required >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="title">Pinterest <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter pinterest link" name="pinterest" value="<%= links.pinterest %>" required >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="title">TikTok <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter tiktok link" name="tiktok" value="<%= links.tiktok %>" required >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="title">Facebook <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter facebook link" name="facebook" value="<%= links.facebook %>" required >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="title">YouTube <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter youtube link" name="youtube" value="<%= links.youtube %>" required >
+                            </div>
+                        </div>
+                        
+                    </div>              
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <!-- <a href="/admin/product-size" class="btn btn-secondary w-md">Back</a> -->
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <input type="hidden" name="id" value="<%= links.id %>">
+                            <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>               
+        </div>
+    </div>
+</div>
+
+<%- contentFor('FooterJs') %>
+<%- contentFor('BottomJs') %>

@@ -1,0 +1,111 @@
+<%- contentFor('HeaderCss') %>
+<%- contentFor('breadcrumb') %>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0">Blog</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="/admin/blog">Blog</a></li>
+                    <li class="breadcrumb-item active">Add</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<%- contentFor('body') %>
+<% if (message!="" ) { %>
+    <div class="alert alert-success">
+        <%= message  %>
+    </div>
+<% } %>
+<% if (error!="") { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+<% } %>
+<form action="/admin/blog/insert" method="post" enctype="multipart/form-data">    
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title mb-0">Create Blog</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="" class="form-label">Select categorie</label>
+                    <% categories.forEach(categorie => { %>
+                        <div class="form-group">
+                            <input type="checkbox" name="categories[]" value="<%= categorie.id %>">
+                            <label for=""><%= categorie.name %></label>
+                        </div>
+                    <% }); %>
+                </div>
+                <div class="col-md-9">
+                    <label for="" class="form-label">Select tags</label>
+                    <div class="row">
+                        <% tags.forEach(tag => { %>
+                            <div class="form-group col-md-3">
+                                <input type="checkbox" name="tags[]" value="<%= tag.id %>">
+                                <label for=""><%= tag.name %></label>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-2">
+                    <label for="" class="form-label">Enter meta title</label>
+                    <input type="text" class="form-control" name="meta_title">
+                </div>
+                <div class="col-md-6 mt-2">
+                    <label for="" class="form-label">Enter meta keywords</label>
+                    <input type="text" class="form-control" name="meta_keywords">
+                </div>
+                <div class="col-md-12 mt-2">
+                    <label for="" class="form-label">Ente meta description</label>
+                    <textarea name="meta_description" rows="5" class="form-control"></textarea>
+                </div>
+                <div class="col-md-6 mt-2">
+                    <label for="" class="form-label">Select banner image</label>
+                    <input type="file" class="form-control" name="banner_image">
+                </div>
+                <div class="col-md-6 mt-2">
+                    <label for="" class="form-label">Enter blog title</label>
+                    <input type="text" class="form-control" name="blog_title">
+                </div>
+                <div class="col-md-12 mt-2">
+                    <label for="" class="form-label">Enter short description</label>
+                    <textarea name="short_description" rows="5" class="form-control"></textarea>
+                </div>
+                <div class="col-md-12 mt-2">
+                    <label for="" class="form-label">Enter content</label>
+                    <textarea name="content" class="form-control content"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="/admin/blog" class="btn btn-secondary w-md">Back</a>
+            <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+        </div>
+    </div>
+</form>
+<%- contentFor('FooterJs') %>
+<%- contentFor('BottomJs') %>
+<script src="/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script type="text/javascript">
+    ClassicEditor.create(
+        document.querySelector(".content"),
+        {
+            ckfinder: {
+                uploadUrl: '/admin/page/editor/upload'
+            },
+        }
+    )
+    .then(function (editor) {
+        console.log('CKEditor initialized successfully:', editor);
+        editor.ui.view.editable.element.style.height = "400px";
+    })
+    .catch(function (error) {
+        console.error('Error initializing CKEditor:', error);
+    });
+</script>

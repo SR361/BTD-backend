@@ -1,0 +1,154 @@
+<%- contentFor('HeaderCss') %>
+<%- contentFor('breadcrumb') %>
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0">Home</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="/admin/pages">Home page</a></li>
+                    <li class="breadcrumb-item active">Second Section</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<%- contentFor('body') %>
+<% if (message!="" ) { %>
+    <div class="alert alert-success">
+        <%= message  %>
+    </div>
+<% } %>
+<% if (error!="") { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+<% } %>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Home page</h4>
+            </div>
+            <form action="/admin/homepage/secondsection/update" method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                    <%
+                        const contentJSONParse = JSON.parse(secondsection.content);
+                    %>
+                    <div class="row">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mt-3">
+                                <label for="" class="form-label">Select image One</label>
+                                <input type="file" class="form-control" name="image_one">
+                                <% if(contentJSONParse.image_one!="" && contentJSONParse.image_one != null){ %>
+                                    <div class="image-container mt-3"> 
+                                        <div class="inner">
+                                            <img src="<%= contentJSONParse.image_one %>" width="200" />
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Title one</label>
+                                <input type="text" class="form-control" name="title_one" value="<%= contentJSONParse.title_one %>">
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Link label one</label>
+                                <input type="text" class="form-control" name="link_label_one" value="<%= contentJSONParse.link_label_one %>">
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Link one</label>
+                                <input type="text" class="form-control" name="link_one" value="<%= contentJSONParse.link_one %>">
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Content one</label>
+                                <textarea name="content_one" rows="4" class="form-control"><%= contentJSONParse.content_one %></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="border-left: 1px solid #e2e5e8; border-right: 1px solid #e2e5e8;">
+                            <div class="mt-3">
+                                <label for="" class="form-label">Select image two</label>
+                                <input type="file" class="form-control" name="image_two">
+                                <% if(contentJSONParse.image_two != "" && contentJSONParse.image_two != null){ %>
+                                    <div class="image-container mt-3"> 
+                                        <div class="inner">
+                                            <img src="<%= contentJSONParse.image_two %>" width="200" />
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Title two</label>
+                                <input type="text" class="form-control" name="title_two" value="<%= contentJSONParse.title_two %>">
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Link label two</label>
+                                <input type="text" class="form-control" name="link_label_two" value="<%= contentJSONParse.link_label_two %>">
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Link two</label>
+                                <input type="text" class="form-control" name="link_two" value="<%= contentJSONParse.link_two %>">
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Content two</label>
+                                <textarea name="content_two" rows="4" class="form-control"><%= contentJSONParse.content_two %></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mt-3">
+                                <label for="" class="form-label">Select image three</label>
+                                <input type="file" class="form-control" name="image_three">
+                                <% if(contentJSONParse.image_three!="" && contentJSONParse.image_three != null){ %>
+                                    <div class="image-container mt-3"> 
+                                        <div class="inner">
+                                            <img src="<%= contentJSONParse.image_three %>" width="200" />
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Title three</label>
+                                <input type="text" class="form-control" name="title_three" value="<%= contentJSONParse.title_three %>">
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Link label three</label>
+                                <input type="text" class="form-control" name="link_label_three" value="<%= contentJSONParse.link_label_three %>">
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Link three</label>
+                                <input type="text" class="form-control" name="link_three" value="<%= contentJSONParse.link_three %>">
+                            </div>
+                            <div class="mt-3">
+                                <label for="" class="form-label">Content three</label>
+                                <textarea name="content_three" rows="4" class="form-control"><%= contentJSONParse.content_three %></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <a href="/admin/pages" class="btn btn-secondary w-md">Back</a>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <input type="hidden" name="id" value="<%= secondsection.id %>">
+                            <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Form Layout -->
+
+
+<%- contentFor('FooterJs') %>
+<%- contentFor('BottomJs') %>

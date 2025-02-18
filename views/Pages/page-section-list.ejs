@@ -1,0 +1,58 @@
+<%- contentFor('HeaderCss') %>
+<%- contentFor('breadcrumb') %>
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0">Page Sections</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="/admin/pages">Pages Section</a></li>
+                    <li class="breadcrumb-item active">Add</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<%- contentFor('body') %>
+<% if (message!="" ) { %>
+    <div class="alert alert-success">
+        <%= message  %>
+    </div>
+<% } %>
+<% if (error!="") { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+<% } %>
+        
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header mb-0">
+                <h4 class="card-title"><%= page.page_name %> Sections</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <% pageSectioLists.forEach(pageSectioList => { %>
+                        <div class="col-md-3">
+                            <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="<%= page.background_image %>" style="width: 100% !important; height: 200px;">
+                                <div class="card-body">
+                                    <h5 class="card-title  mb-3"><%= pageSectioList.section %></h5>
+                                    <a href="/admin/page/edit/<%= pageSectioList.slug %>/<%= pageSectioList.section %>/<%= pageSectioList.id %>" class="btn btn-primary">Edit Section</a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Form Layout -->
+<%- contentFor('FooterJs') %>
+<%- contentFor('BottomJs') %>
