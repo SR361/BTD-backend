@@ -1,0 +1,56 @@
+<%- contentFor('HeaderCss') %>
+<%- contentFor('breadcrumb') %>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0">Blog</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="/admin/blog">Blog</a></li>
+                    <li class="breadcrumb-item active">Meta content</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<%- contentFor('body') %>
+<% if (message!="" ) { %>
+    <div class="alert alert-success">
+        <%= message  %>
+    </div>
+<% } %>
+<% if (error!="") { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+<% } %>
+<form action="/admin/blog/meta/update" method="post">    
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title mb-0">Blog content</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mt-2">
+                    <label for="" class="form-label">Enter meta title</label>
+                    <input type="text" class="form-control" name="meta_title" value="<%= blog.meta_title %>">
+                </div>
+                <div class="col-md-6 mt-2">
+                    <label for="" class="form-label">Enter meta keywords</label>
+                    <input type="text" class="form-control" name="meta_keywords" value="<%= blog.meta_keywords %>">
+                </div>
+                <div class="col-md-12 mt-2">
+                    <label for="" class="form-label">Ente meta description</label>
+                    <textarea name="meta_description" rows="5" class="form-control"><%= blog.meta_description %></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="/admin/blog" class="btn btn-secondary w-md">Back</a>
+            <input type="hidden" name="id" value="<%= blog.id %>">
+            <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+        </div>
+    </div>
+</form>
+<%- contentFor('FooterJs') %>
+<%- contentFor('BottomJs') %>

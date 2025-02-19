@@ -52,19 +52,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <% if(stories.length>0){ %>
-                                    <% stories.forEach(story => { %>
+                                <% if(blogs.length>0){ %>
+                                    <% blogs.forEach(blog => { %>
                                         <tr>
-                                            <td><%= story.title %></td>
+                                            <td><%= blog.title %></td>
                                             <td>
                                                 <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                                    <input type="checkbox" class="form-check-input slide-status" id="storiestatus" name="status" data-id="<%= story.id %>" <%= (story.status==1)? 'checked':''; %> value="active">
-                                                    <label class="form-check-label" for="customSwitch1"><%= (story.status==1)? 'Active':'Inactive'; %></label>
+                                                    <input type="checkbox" class="form-check-input slide-status" id="storiestatus" name="status" data-id="<%= blog.id %>" <%= (blog.status==1)? 'checked':''; %> value="active">
+                                                    <label class="form-check-label" for="customSwitch1"><%= (blog.status==1)? 'Active':'Inactive'; %></label>
                                                 </div>  
                                             </td>
                                             <td>
-                                                <a href="/admin/blog/edit/<%= story.id %>" class="btn btn-success btn-sm mr-2">Edit</a> 
-                                                <a href="/admin/blog/delete/<%= story.id %>" id="delete-btn" class="btn btn-danger btn-sm">Delete</a>
+                                                <a href="/admin/blog/edit/<%= blog.id %>" class="btn btn-success btn-sm mr-2">Edit</a> 
+                                                <a href="/admin/blog/delete/<%= blog.id %>" id="delete-btn" class="btn btn-danger btn-sm">Delete</a>
+                                                <a href="/admin/blog/meta-content/edit/<%= blog.id %>" id="delete-btn" class="btn btn-primary btn-sm">Meta Content</a>
                                             </td>
                                         </tr>
                                     <% }); %>
@@ -110,7 +111,7 @@
                 $(".slide-status").on('change', function(event){
                     var status= ($(this).prop('checked'))? '1':'0';
                     var id = $(this).data('id');
-                    window.location = '/admin/story/status/'+id+'/'+status;
+                    window.location = '/admin/blog/status/'+id+'/'+status;
                 });
             });
         </script>

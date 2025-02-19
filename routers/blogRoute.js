@@ -8,12 +8,12 @@ const {
     getAllBlogs,
     create,
     insert,
-    editBlog,
-    updateBlog,
+    edit,
+    update,
     deleteBlog,
     statusBlog,
-    deleteBlogImage,
-    deleteBlogSliderImage
+    metaContentEdit,
+    metaContentUpdate
 } = require("../controllers/admin/BlogController");
 
 
@@ -33,39 +33,22 @@ router.post(
     isAdminAllowed,
     insert
 );
-
-router.get("/admin/blog/edit/:id", isAdminAllowed, editBlog);
-
+router.get("/admin/blog/edit/:id", isAdminAllowed, edit);
 router.post(
     "/admin/blog/update",
     storyupload.fields([
         {
-            name: "image_1",
+            name: "banner",
             maxCount: 1,
-        },
-        {
-            name : "image_2",
-            maxCount:1
-        },
-        {
-            name : "image_3",
-            maxCount : 1
-        },
-        {
-            name : "image_4",
-            maxCount : 1
         }
     ]),
     isAdminAllowed,
-    updateBlog
-  );
-
+    update
+);
 router.get("/admin/blog/delete/:id", isAdminAllowed, deleteBlog);
-
 router.get("/admin/blog/status/:id/:status", isAdminAllowed, statusBlog);
-router.get("/admin/blog/delete-image/:imagenumber/:id", isAdminAllowed, deleteBlogImage);
-router.get("/admin/blog/delete-slider-image/:id", isAdminAllowed, deleteBlogSliderImage);
 
+router.get("/admin/blog/meta-content/edit/:id", isAdminAllowed, metaContentEdit);
+router.post("/admin/blog/meta/update", urlencodeParser, isAdminAllowed, metaContentUpdate);
 /*---------- WEB Routes  -------------*/
-
 module.exports = router;

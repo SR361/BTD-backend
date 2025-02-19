@@ -8,7 +8,7 @@
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="/admin/customer-queries">Contact Queries</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/contact-queries">Contact Queries</a></li>
                     <li class="breadcrumb-item active">List</li>
                 </ol>
             </div>
@@ -35,19 +35,13 @@
                     <table class="table table-bordered border-grey table-hover mb-0">
                         <thead>
                             <tr class="table-dark">
-                                <td>Topic</td>
                                 <td>Full Name</td>
                                 <td>Email</td>
                                 <td>Phone</td>
-                                <!-- <td>Address</td> -->
-                                <td>Street</td>
-                                <td>No</td>
-                                <td>Additional Address</td>
-                                <td>Countrie</td>
-                                <!-- <td>State</td> -->
-                                <td>City</td>
-                                <td>Postcode</td>
-                                <td>Order Number</td>
+                                <td>Company</td>
+                                <td>Position</td>
+                                <td>Regarding</td>
+                                <td>Find Out</td>
                                 <td>Message</td>
                             </tr>
                         </thead>
@@ -55,25 +49,19 @@
                         <% if(contactqueries.length>0){ %>
                             <% contactqueries.forEach(contactquerie => { %>
                                 <tr>
-                                    <td><%= contactquerie.topic %></td>
                                     <td><%= contactquerie.first_name %> <%= contactquerie.last_name %></td>
                                     <td><%= contactquerie.email %></td>
                                     <td><%= contactquerie.phone %></td>
-                                    <!-- <td><%= contactquerie.address %></td> -->
-                                    <td><%= contactquerie.street %></td>
-                                    <td><%= contactquerie.no %></td>
-                                    <td><%= contactquerie.additional_address %></td>
-                                    <td><%= contactquerie.countrie_name %></td>
-                                    <!-- <td><%= contactquerie.state_name %></td> -->
-                                    <td><%= contactquerie.city_name %></td>
-                                    <td><%= contactquerie.postcode %></td>
-                                    <td><%= contactquerie.order_number %></td>
+                                    <td><%= contactquerie.company %></td>
+                                    <td><%= contactquerie.your_position %></td>
+                                    <td><%= contactquerie.regarding %></td>
+                                    <td><%= contactquerie.find_out_about_us %></td>
                                     <td><%= contactquerie.message %></td>
                                 </tr>
                             <% }); %>
                         <% }else{ %>
                             <tr>
-                                <td colspan="5"  class="text-center text-bold">Sorry. No product size records exits!</td>
+                                <td colspan="8"  class="text-center text-bold">Sorry. message not found exits!</td>
                             </tr>
                         <% } %>
                         </tbody>
@@ -86,7 +74,7 @@
                         <ul class="pagination justify-content-center">
                             <% for (let i = 1; i <= totalPages; i++) { %>
                             <li class="page-item <%= i == currentPage ? 'active' : '' %>">
-                                <a class="page-link" href="/admin/customer-queries?page=<%= i %>"><%= i %></a>
+                                <a class="page-link" href="/admin/contact-queries?page=<%= i %>"><%= i %></a>
                             </li>
                             <% } %>
                         </ul>

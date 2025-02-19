@@ -8,7 +8,7 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="/admin/blog">Blog</a></li>
-                    <li class="breadcrumb-item active">Add</li>
+                    <li class="breadcrumb-item active">Update</li>
                 </ol>
             </div>
 
@@ -26,22 +26,29 @@
         <%= error %>
     </div>
 <% } %>
-<form action="/admin/blog/insert" method="post" enctype="multipart/form-data">    
+<form action="/admin/blog/update" method="post" enctype="multipart/form-data">    
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title mb-0">Create Blog</h4>
+            <h4 class="card-title mb-0">Update Blog</h4>
         </div>
         <div class="card-body">
             <div class="row">
+                <%
+                    const categorieJSON = JSON.parse(blog.cat_id);
+                    const categorieData = categorieJSON.categories_stringify;
+
+                    const tagJSON = JSON.parse(blog.tag_id);
+                    const tagData = tagJSON.tags_stringify;
+                %>
                 <div class="col-md-12">
                     <label for="" class="form-label">Select categorie</label>
                     <div class="row">
                         <% categories.forEach(categorie => { %>
                             <div class="form-group col-md-3">
-                                <input type="checkbox" name="categories[]" value="<%= categorie.id %>">
+                                <input type="checkbox" name="categories[]" <% if(categorieData.includes(categorie.id)){ %> checked <% } %> value="<%= categorie.id %>">
                                 <label for=""><%= categorie.name %></label>
                             </div>
-                        <% }); %>                        
+                        <% }); %>
                     </div>
                 </div>
                 <div class="col-md-12 mt-3">
@@ -49,7 +56,7 @@
                     <div class="row">
                         <% tags.forEach(tag => { %>
                             <div class="form-group col-md-3">
-                                <input type="checkbox" name="tags[]" value="<%= tag.id %>">
+                                <input type="checkbox" name="tags[]" <% if(tagData.includes(tag.id)){ %> checked <% } %> value="<%= tag.id %>">
                                 <label for=""><%= tag.name %></label>
                             </div>
                         <% }); %>
@@ -57,24 +64,32 @@
                 </div>
                 <div class="col-md-6 mt-3">
                     <label for="" class="form-label">Select banner image</label>
-                    <input type="file" class="form-control" name="banner_image">
+                    <input type="file" class="form-control" name="banner">
+                    <% if(blog.banner !="" && blog.banner != null){ %>
+                        <div class="image-container mt-3"> 
+                            <div class="inner">
+                                <img src="<%= blog.banner %>" width="200" />
+                            </div>
+                        </div>
+                    <% } %>
                 </div>
                 <div class="col-md-6 mt-3">
                     <label for="" class="form-label">Enter blog title</label>
-                    <input type="text" class="form-control" name="blog_title">
+                    <input type="text" class="form-control" name="blog_title"  value="<%= blog.title %>">
                 </div>
                 <div class="col-md-12 mt-3">
                     <label for="" class="form-label">Enter short description</label>
-                    <textarea name="short_description" rows="5" class="form-control"></textarea>
+                    <textarea name="short_description" rows="5" class="form-control"><%= blog.short_description %></textarea>
                 </div>
                 <div class="col-md-12 mt-3">
                     <label for="" class="form-label">Enter content</label>
-                    <textarea name="content" class="form-control content"></textarea>
+                    <textarea name="content" class="form-control content"><%= blog.description %></textarea>
                 </div>
             </div>
         </div>
         <div class="card-footer">
             <a href="/admin/blog" class="btn btn-secondary w-md">Back</a>
+            <input type="hidden" name="id"  value="<%= blog.id %>">
             <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
         </div>
     </div>

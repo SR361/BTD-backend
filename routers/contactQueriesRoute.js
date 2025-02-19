@@ -4,12 +4,10 @@ var urlencodeParser = bodyParser.urlencoded({ extended: false });
 const isAdminAllowed = require("../middeleware/isAdmin");
 
 const {
-    customerContactQueries,
-    businessContactQueries
+    contactContactQueries
 } = require("../controllers/admin/ContactQueriesController");
 const router = express.Router();
 
-router.get("/admin/customer-queries", isAdminAllowed, customerContactQueries);
-router.get("/admin/business-contact-queries", isAdminAllowed, businessContactQueries);
+router.get("/admin/contact-queries", isAdminAllowed, contactContactQueries);
 
 module.exports = router;
