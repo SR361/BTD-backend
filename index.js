@@ -25,7 +25,6 @@ var blogCategorieRouter = require("./routers/blogCategorieRoute");
 var blogTagRouter = require("./routers/tagRoute");
 var contactQueriesRouter = require("./routers/contactQueriesRoute");
 var SocialMediaRouter = require("./routers/SocialMediaRoute");
-var contactQueriesRoute = require("./routers/contactQueriesRoute");
 
 var APIProfileRouter = require("./routers/APIProfileRoute");
 
