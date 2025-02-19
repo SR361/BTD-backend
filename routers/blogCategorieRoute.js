@@ -9,7 +9,7 @@ const {
     insertCategorie,
     editCategorie,
     updateCategorie,
-    deleteCategorie
+    deleteCategorie, manageBlogCategoryMetaTag, metaTagUpdate
 } = require("../controllers/admin/BlogCategorieController");
 
 const router = express.Router();
@@ -21,5 +21,7 @@ router.post("/admin/blog-categorie/save", urlencodeParser, isAdminAllowed, inser
 router.get('/admin/blog-categorie/edit/:id', isAdminAllowed, editCategorie);
 router.post('/admin/blog-categorie/update/', urlencodeParser, isAdminAllowed, updateCategorie);
 router.get("/admin/blog-categorie/delete/:id", isAdminAllowed, deleteCategorie);
+router.get("/admin/blog-categorie/metatags/:id", isAdminAllowed, manageBlogCategoryMetaTag);
+router.post("/admin/blog-categorie/metatags/update", urlencodeParser, isAdminAllowed, metaTagUpdate);
 /*---------- WEB Routes  -------------*/
 module.exports = router;
