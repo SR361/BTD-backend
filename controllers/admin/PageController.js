@@ -274,7 +274,7 @@ exports.editPage = async (req, res) => {
 }
 // ================================================= HOME PAGE =================================================
 exports.homepageFirstSection = async (req, res) => {
-	const { id, metakeywords, metadescription,  main_title, title_one, title_two, title_three } = req.body;
+	const { id, main_title, title_one, title_two, title_three } = req.body;
 	try {
 		const selectsql = "select * from pages where id = ?";
 		const firstsection = await db.query(selectsql, [id]);
@@ -368,8 +368,8 @@ exports.homepageFirstSection = async (req, res) => {
 			};
 			const contentJSON = JSON.stringify(contentJSONParse);
 
-			const updatesql = "UPDATE `pages` SET title=?, content=?, metakeywords=?, metadescription=? WHERE id=?";
-			const updateresult = await db.query(updatesql, [main_title, contentJSON, metakeywords, metadescription, id]);
+			const updatesql = "UPDATE `pages` SET title=?, content=? WHERE id=?";
+			const updateresult = await db.query(updatesql, [main_title, contentJSON, id]);
 			if (updateresult.affectedRows > 0) {
                 req.flash("message", "Page first section has been update successfully");
                 res.redirect("/admin/page/home");
@@ -631,7 +631,7 @@ exports.homepageFifthSection = async (req, res) => {
 // ================================================= HOME PAGE =================================================
 // ================================================= SERVICE PAGE ==============================================
 exports.servicepageFirstSection = async (req, res) => {
-	const { id, metakeywords, metadescription, main_title, subtitle, content } = req.body;
+	const { id, main_title, subtitle, content } = req.body;
 	try {
 		const selectsql = "select * from pages where id = ?";
 		const firstsection = await db.query(selectsql, [id]);
@@ -643,8 +643,8 @@ exports.servicepageFirstSection = async (req, res) => {
 			};
 
 			const contentJSONParse = JSON.stringify(contentJSON);
-			const updatesql = "UPDATE `pages` SET metakeywords=?, metadescription=?, content=? WHERE id=?";
-			const updateresult = await db.query(updatesql, [metakeywords, metadescription, contentJSONParse, id]);
+			const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
+			const updateresult = await db.query(updatesql, [contentJSONParse, id]);
 			if (updateresult.affectedRows > 0) {
 				req.flash("message", "Page first section has been update successfully");
 				res.redirect("/admin/page/service");
@@ -825,7 +825,7 @@ exports.servicepageThirdSection = async (req, res) => {
 // ================================================= SERVICE PAGE =================================================
 // ================================================= ABOUT US PAGE ================================================
 exports.aboutuspageFirstSection = async (req, res) => {
-	const { id, metakeywords, metadescription, title_one, content_one, title_two, content_two, title_three, content_three, short_title } = req.body;
+	const { id,title_one, content_one, title_two, content_two, title_three, content_three, short_title } = req.body;
 	try {
 		const selectsql = "select * from pages where id = ?";
 		const firstsection = await db.query(selectsql, [id]);
@@ -855,8 +855,8 @@ exports.aboutuspageFirstSection = async (req, res) => {
 			};
 
 			const contentJSONParse = JSON.stringify(contentJSON);
-			const updatesql = "UPDATE `pages` SET metakeywords=?, metadescription=?, content=? WHERE id=?";
-			const updateresult = await db.query(updatesql, [metakeywords, metadescription, contentJSONParse, id]);
+			const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
+			const updateresult = await db.query(updatesql, [contentJSONParse, id]);
 			if (updateresult.affectedRows > 0) {
 				req.flash("message", "About us page content has been update successfully");
 				res.redirect("/admin/page/about-us");
@@ -876,7 +876,7 @@ exports.aboutuspageFirstSection = async (req, res) => {
 // ================================================= ABOUT US PAGE ================================================
 // ================================================= CONTACT PAGE =================================================
 exports.contactpageFirstSection = async (req, res) => {
-	const { id, metakeywords, metadescription, countrie_one, city_one, address_one, phone_one, email_one, countrie_two, city_two, address_two, phone_two, email_two } = req.body;
+	const { id, countrie_one, city_one, address_one, phone_one, email_one, countrie_two, city_two, address_two, phone_two, email_two } = req.body;
 	try {
 		const selectsql = "select * from pages where id = ?";
 		const firstsection = await db.query(selectsql, [id]);
@@ -894,8 +894,8 @@ exports.contactpageFirstSection = async (req, res) => {
 				email_two: email_two
 			};
 			const contentJSONParse = JSON.stringify(contentJSON);
-			const updatesql = "UPDATE `pages` SET metakeywords=?, metadescription=?, content=? WHERE id=?";
-			const updateresult = await db.query(updatesql, [metakeywords, metadescription, contentJSONParse, id]);
+			const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
+			const updateresult = await db.query(updatesql, [contentJSONParse, id]);
 			if (updateresult.affectedRows > 0) {
 				req.flash("message", "Contact page content has been update successfully");
 				res.redirect("/admin/page/contact");
@@ -915,15 +915,15 @@ exports.contactpageFirstSection = async (req, res) => {
 // ================================================= CONTACT PAGE =================================================
 // ================================================= DATA PROTECTION PAGE =========================================
 exports.dataprotectionpageFirstSection = async (req, res) => {
-	const { id, metakeywords, metadescription, title, content } = req.body;
+	const { id, title, content } = req.body;
 	try {
 		const contentJSON = {
 			title : title,
 			content: content
 		}
 		const contentJSONParse = JSON.stringify(contentJSON);
-		const updatesql = "UPDATE `pages` SET metakeywords=?, metadescription=?, content=? WHERE id=?";
-		const updateresult = await db.query(updatesql, [metakeywords, metadescription, contentJSONParse, id]);
+		const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
+		const updateresult = await db.query(updatesql, [contentJSONParse, id]);
 		if (updateresult.affectedRows > 0) {
 			req.flash("message", "Data protection page content has been update successfully");
 			res.redirect("/admin/page/data-protection");
@@ -939,15 +939,15 @@ exports.dataprotectionpageFirstSection = async (req, res) => {
 // ================================================= DATA PROTECTION PAGE =========================================
 // ================================================= IMORINT PAGE =================================================
 exports.imprintpageFirstSection = async (req, res) => {
-	const { id, metakeywords, metadescription, title, content } = req.body;
+	const { id, title, content } = req.body;
 	try {
 		const contentJSON = {
 			title : title,
 			content: content
 		}
 		const contentJSONParse = JSON.stringify(contentJSON);
-		const updatesql = "UPDATE `pages` SET metakeywords=?, metadescription=?, content=? WHERE id=?";
-		const updateresult = await db.query(updatesql, [metakeywords, metadescription, contentJSONParse, id]);
+		const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
+		const updateresult = await db.query(updatesql, [contentJSONParse, id]);
 		if (updateresult.affectedRows > 0) {
 			req.flash("message", "Imprint page content has been update successfully");
 			res.redirect("/admin/page/imprint");
@@ -998,4 +998,57 @@ exports.deleteImage = async (req, res) => {
 		req.flash("error", "Oops! Could not delete image.");
 		res.redirect("back");
     }
+}
+
+// ============================================ Manage page meta tags ===========================================
+
+exports.managePageMetaTag = async (req, res) => {
+    var page_id = req.params.id;
+	
+	try {
+		const metatagssql = "select * from page_lists where id = ?";
+		const metaTags = await db.query(metatagssql, [page_id]);
+		if(metaTags.length > 0){
+			res.render("Pages/meta-tags.ejs", {
+				title: "Home Page",
+				metaTags: metaTags[0],
+				baseUrl: baseUrl,
+				message: req.flash("message"),
+				error: req.flash("error"),
+			});
+		}else{
+			req.flash("error", "Sorry. No page not found!");
+			res.redirect("back");
+		}
+		
+	} catch (error) {
+		console.log("ERROR : ", error);
+		res.redirect("back");	
+	}
+}
+
+exports.metaTagUpdate = async (req, res) => {
+	const { id, metatitle, metakeywords, metadescription } = req.body;
+	try {
+		const selectsql = "select * from page_lists where id = ?";
+		const metTags = await db.query(selectsql, [id]);
+		console.log("Meta Tags @@ =",metTags,id,metatitle,metakeywords,metadescription);
+		if(metTags.length > 0){
+			const updatesql = "UPDATE `page_lists` SET metatitle=?, metakeywords=?, metadescription=? WHERE id=?";
+			const updateresult = await db.query(updatesql, [metatitle, metakeywords, metadescription, id]);
+			if (updateresult.affectedRows > 0) {
+                req.flash("message", "Page meta tags has been update successfully");
+                res.redirect("/admin/pages");
+            } else {
+                req.flash("error", "Something went wrong!");
+                res.redirect("back");
+            }
+		}else{
+			req.flash("error", "Sorry. page meta tags not found!");
+			res.redirect("back");
+		}
+	} catch (error) {
+		console.log("ERROR : ", error);
+		res.redirect("back");
+	}
 }

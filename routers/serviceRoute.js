@@ -12,7 +12,7 @@ const {
     edit,
     update,
     deleteimage,
-    destory
+    destory, manageServiceMetaTag, metaTagUpdate
 } = require("../controllers/admin/ServiceController");
 
 const router = express.Router();
@@ -131,4 +131,6 @@ router.post(
 );
 router.get("/admin/service/delete-image/:id", isAdminAllowed, deleteimage);
 router.get("/admin/service/delete/:id", isAdminAllowed, destory);
+router.get("/admin/service/metatags/:id", isAdminAllowed, manageServiceMetaTag);
+router.post("/admin/service/metatags/update", urlencodeParser, isAdminAllowed, metaTagUpdate);
 module.exports = router;

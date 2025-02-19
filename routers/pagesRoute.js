@@ -21,7 +21,7 @@ const {
     aboutuspageFirstSection,
     contactpageFirstSection,
     dataprotectionpageFirstSection,
-    imprintpageFirstSection
+    imprintpageFirstSection,managePageMetaTag, metaTagUpdate
 } = require("../controllers/admin/PageController");
 const router = express.Router();
 
@@ -30,6 +30,7 @@ const router = express.Router();
 router.get("/admin/pages", isAdminAllowed, getAllPages);
 router.get("/admin/page/:slug", isAdminAllowed, pageSectionList);
 router.get("/admin/page/edit/:slug/:section/:id", isAdminAllowed, editPage);
+router.get("/admin/page/metatags/:id", isAdminAllowed, managePageMetaTag);
 // ================================================= HOME PAGE =================================================
 router.post(
     "/admin/homepage/firtsection/update",
@@ -94,6 +95,8 @@ router.post(
     isAdminAllowed,
     homepageFifthSection
 );
+
+router.post("/admin/page/metatags/update", urlencodeParser, isAdminAllowed, metaTagUpdate);
 // ================================================= HOME PAGE =================================================
 
 // ================================================= SERVICE PAGE =================================================

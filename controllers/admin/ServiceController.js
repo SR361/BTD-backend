@@ -680,3 +680,53 @@ exports.destory = async (req, res) => {
         res.redirect("back");
     }
 }
+// Manage meta tags
+exports.manageServiceMetaTag = async (req, res) => {
+    var service_id = req.params.id;
+    
+    try {
+        const metatagssql = "select * from services where id = ?";
+        const metaTags = await db.query(metatagssql, [service_id]);
+        if(metaTags.length > 0){
+            res.render("service/meta-tags.ejs", {
+                title: "Services",
+                metaTags: metaTags[0],
+                baseUrl: baseUrl,
+                message: req.flash("message"),
+                error: req.flash("error"),
+            });
+        }else{
+            req.flash("error", "Sorry. No page not found!");
+            res.redirect("back");
+        }
+        
+    } catch (error) {
+        console.log("ERROR : ", error);
+        res.redirect("back");	
+    }
+}
+
+exports.metaTagUpdate = async (req, res) => {
+    const { id, metatitle, metakeywords, metadescription } = req.body;
+    try {
+        const selectsql = "select * from services where id = ?";
+        const metTags = await db.query(selectsql, [id]);
+        if(metTags.length > 0){
+            const updatesql = "UPDATE `services` SET metatitle=?, metakeywords=?, metadescription=? WHERE id=?";
+            const updateresult = await db.query(updatesql, [metatitle, metakeywords, metadescription, id]);
+            if (updateresult.affectedRows > 0) {
+                req.flash("message", "Service meta tags has been update successfully");
+                res.redirect("/admin/services");
+            } else {
+                req.flash("error", "Something went wrong!");
+                res.redirect("back");
+            }
+        }else{
+            req.flash("error", "Sorry. page meta tags not found!");
+            res.redirect("back");
+        }
+    } catch (error) {
+        console.log("ERROR : ", error);
+        res.redirect("back");
+    }
+}
