@@ -3,6 +3,7 @@ require("dotenv").config();
 const path = require('path');
 const fs = require('fs/promises');
 const baseUrl = process.env.BASEURL;
+const slugify = require("slugify");
 
 exports.index = async (req, res) => {
     var page = req.query.page || 1;
@@ -194,9 +195,12 @@ exports.store = async (req, res) => {
             const sixthsectionJSON = JSON.stringify(sixthsection);
             const seventhsectionJSON = JSON.stringify(seventhsection);
             const eighthsectionJSON = JSON.stringify(eighthsection);
-            
-            const sql = "INSERT INTO `services` SET title=?, first_section=?, second_section=?, third_section=?, fourth_section=?, fivth_section=?, sixth_section=?, seventh_section=?, eighth_section=?";
-            const results = await db.query(sql, [firstsection_main_title, firstsectionJSON, secondsectionJSON, thirdsectionJSON, fourthsectionJSON, fivthsectionJSON, sixthsectionJSON, seventhsectionJSON, eighthsectionJSON]);
+            const slug = slugify(firstsection_main_title, {
+                lower: true,
+                strict: true,
+            });
+            const sql = "INSERT INTO `services` SET title=?, slug=? first_section=?, second_section=?, third_section=?, fourth_section=?, fivth_section=?, sixth_section=?, seventh_section=?, eighth_section=?";
+            const results = await db.query(sql, [firstsection_main_title,slug, firstsectionJSON, secondsectionJSON, thirdsectionJSON, fourthsectionJSON, fivthsectionJSON, sixthsectionJSON, seventhsectionJSON, eighthsectionJSON]);
 
             if (req.files.eighthsection_images.length > 0) {
                 otherimages = req.files.eighthsection_images;
@@ -532,9 +536,12 @@ exports.update = async (req, res) => {
             const sixthsectionJSON = JSON.stringify(sixthsection);
             const seventhsectionJSON = JSON.stringify(seventhsection);
             const eighthsectionJSON = JSON.stringify(eighthsection);
-
-            const updatesql = "UPDATE `services` SET title=?, first_section=?, second_section=?, third_section=?, fourth_section=?, fivth_section=?, sixth_section=?, seventh_section=?, eighth_section=? WHERE id=?";
-            const updateresult = await db.query(updatesql, [firstsection_main_title, firstsectionJSON, secondsectionJSON, thirdsectionJSON, fourthsectionJSON, fivthsectionJSON, sixthsectionJSON, seventhsectionJSON, eighthsectionJSON, id]);
+            const slug = slugify(firstsection_main_title, {
+                lower: true,
+                strict: true,
+            });
+            const updatesql = "UPDATE `services` SET title=?, slug=?, first_section=?, second_section=?, third_section=?, fourth_section=?, fivth_section=?, sixth_section=?, seventh_section=?, eighth_section=? WHERE id=?";
+            const updateresult = await db.query(updatesql, [firstsection_main_title, slug, firstsectionJSON, secondsectionJSON, thirdsectionJSON, fourthsectionJSON, fivthsectionJSON, sixthsectionJSON, seventhsectionJSON, eighthsectionJSON, id]);
 
             if (req.files.eighthsection_images) {
                 if (req.files.eighthsection_images.length > 0) {

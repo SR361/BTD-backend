@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs/promises');
 const { body } = require('express-validator');
 const baseUrl = process.env.BASEURL;
+const slugify = require("slugify");
 
 exports.getAllCategories = async (req, res) => {    
     var page = req.query.page || 1;
@@ -48,8 +49,12 @@ exports.insertCategorie = async (req, res) => {
         const categorie = await db.query(sql, [name]);
         if(categorie.length === 0)
         {
-            const sql = "INSERT INTO `blog_categories` SET name=?";
-            const results = await db.query(sql, [name]);
+            const slug = slugify(name, {
+                lower: true,
+                strict: true,
+            });
+            const sql = "INSERT INTO `blog_categories` SET name=?, slug=?";
+            const results = await db.query(sql, [name, slug]);
 
             if (results.insertId > 0) {
                 console.log('Blog Categorie inserted:', results.insertId);
@@ -102,10 +107,13 @@ exports.updateCategorie = async (req, res) => {
       
         if(categorie.length > 0)
         {
-            const sql = "UPDATE `blog_categories` SET name=? WHERE id=?";
-            const edit_results = await db.query(sql, [name, id]);
+            const slug = slugify(name, {
+                lower: true,
+                strict: true,
+            });
+            const sql = "UPDATE `blog_categories` SET name=?, slug=? WHERE id=?";
+            const edit_results = await db.query(sql, [name, slug, id]);
         
-
             if (edit_results.affectedRows > 0) {
                 console.log('Blog Categorie affected:', edit_results.affectedRows);
                 req.flash("message", "Blog Categorie has been updated successfully");

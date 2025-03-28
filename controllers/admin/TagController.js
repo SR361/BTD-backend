@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs/promises');
 const { body } = require('express-validator');
 const baseUrl = process.env.BASEURL;
+const slugify = require("slugify");
 
 exports.index = async (req, res) => {    
     var page = req.query.page || 1;
@@ -46,10 +47,13 @@ exports.insert = async (req, res) => {
     try {
         const sql = "SELECT * FROM `blog_tags` WHERE name=?";
         const tag = await db.query(sql, [name]);
-        if(tag.length === 0)
-        {
-            const sql = "INSERT INTO `blog_tags` SET name=?";
-            const results = await db.query(sql, [name]);
+        if(tag.length === 0){
+            const slug = slugify(name, {
+                lower: true,
+                strict: true,
+            });
+            const sql = "INSERT INTO `blog_tags` SET name=?, slug=?";
+            const results = await db.query(sql, [name, slug]);
 
             if (results.insertId > 0) {
                 req.flash("message", "Blog tag has been added successfully");
@@ -99,10 +103,13 @@ exports.update = async (req, res) => {
         const sql = 'SELECT * FROM `blog_tags` WHERE id=?';
         const tag = await db.query(sql, [id]);
       
-        if(tag.length > 0)
-        {
-            const sql = "UPDATE `blog_tags` SET name=? WHERE id=?";
-            const edit_results = await db.query(sql, [name, id]);
+        if(tag.length > 0){
+            const slug = slugify(name, {
+                lower: true,
+                strict: true,
+            });
+            const sql = "UPDATE `blog_tags` SET name=?, slug=? WHERE id=?";
+            const edit_results = await db.query(sql, [name, slug, id]);
             if (edit_results.affectedRows > 0) {
                 req.flash("message", "Blog tag has been updated successfully");
                 res.redirect("back");
