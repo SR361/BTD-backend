@@ -85,7 +85,15 @@
                                 </thead>
                                 <tbody>
                                     <%
-                                        const points = JSON.parse(contentJSONParse.point);
+                                        <!-- const points = JSON.parse(contentJSONParse.point); -->
+                                        let points = [];
+                                        if (contentJSONParse && contentJSONParse.point) {
+                                            try {
+                                                points = JSON.parse(contentJSONParse.point);
+                                            } catch (error) {
+                                                console.error("Invalid JSON in contentJSONParse.point:", error);
+                                            }
+                                        }
                                         for(let index = 0; index < points.length; index++){
                                             %>
                                             <tr>

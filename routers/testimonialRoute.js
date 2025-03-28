@@ -2,6 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var urlencodeParser = bodyParser.urlencoded({ extended: false });
 const isAdminAllowed = require("../middeleware/isAdmin");
+const {storyupload} = require("../middeleware/imageUpload");
 
 const {
     index,
