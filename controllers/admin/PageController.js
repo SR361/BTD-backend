@@ -96,10 +96,14 @@ exports.editPage = async (req, res) => {
 			}else if(section == 'Third Section'){
 				const thirdsectionsql = "select * from pages where id = ?";
 				const thirdsection = await db.query(thirdsectionsql, [page_id]);
+
+				const imagesql = "select * from page_images where page_id = ?";
+				const pageimages = await db.query(imagesql, [page_id]);
 				if(thirdsection.length > 0){
 					res.render("Pages/home/third-section.ejs", {
 						title: "Home Page",
 						thirdsection: thirdsection[0],
+						pageimages: pageimages,
 						baseUrl: baseUrl,
 						message: req.flash("message"),
 						error: req.flash("error"),
@@ -135,6 +139,21 @@ exports.editPage = async (req, res) => {
 					res.render("Pages/home/fifth-section.ejs", {
 						title: "Home Page",
 						fifthsection: fifthsection[0],
+						baseUrl: baseUrl,
+						message: req.flash("message"),
+						error: req.flash("error"),
+					});
+				}else{
+					req.flash("error", "Sorry. No page not found!");
+					res.redirect("back");
+				}
+			}else if(section == 'Sixth Section'){
+				const sixthsectionsql = "select * from pages where id = ?";
+				const sixthsection = await db.query(sixthsectionsql, [page_id]);
+				if(sixthsection.length > 0){
+					res.render("Pages/home/sixth-section.ejs", {
+						title: "Home Page",
+						sixthsection: sixthsection[0],
 						baseUrl: baseUrl,
 						message: req.flash("message"),
 						error: req.flash("error"),
@@ -274,7 +293,7 @@ exports.editPage = async (req, res) => {
 }
 // ================================================= HOME PAGE =================================================
 exports.homepageFirstSection = async (req, res) => {
-	const { id, main_title, title_one, title_two, title_three } = req.body;
+	const { id, main_title, subtitle } = req.body;
 	try {
 		const selectsql = "select * from pages where id = ?";
 		const firstsection = await db.query(selectsql, [id]);
@@ -286,13 +305,9 @@ exports.homepageFirstSection = async (req, res) => {
 			}else{
 				const simplecontentJSONParse = {
 					main_title: "",
-					banner_image: "",
-					title_one: "",
-					image_one: "",
-					title_two: "",
-					image_two: "",
-					title_three: "",
-					image_three: ""
+					subtitle: "",
+					desktop_banner_image: "",
+					mobile_banner_image: ""
 				};
 				
 				const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
@@ -300,71 +315,41 @@ exports.homepageFirstSection = async (req, res) => {
 
 				content = simplecontentJSONParse;
 			}
-			var banner_image_path = content.banner_image;
-			if(req.files.banner_image){
-				if (banner_image_path) {
+			var desktop_banner_image_path = content.desktop_banner_image;
+			if(req.files.desktop_banner_image){
+				if (desktop_banner_image_path) {
 					const oldImagePath = path.join(
 						__dirname,
 						"../../public/",
-						banner_image_path
+						desktop_banner_image_path
 					);
 					try {
 						await fs.access(oldImagePath);
 						await fs.unlink(oldImagePath);
 					} catch (error) { }
 				}
-				banner_image_path = '/uploads/pages/' + req.files.banner_image[0].filename;
+				desktop_banner_image_path = '/uploads/pages/' + req.files.desktop_banner_image[0].filename;
 			}
-			var image_one_path = content.image_one;
-			if(req.files.image_one){
-				if (image_one_path) {
+			var mobile_banner_image_path = content.mobile_banner_image;
+			if(req.files.mobile_banner_image){
+				if (mobile_banner_image_path) {
 					const oldImagePath = path.join(
 						__dirname,
 						"../../public/",
-						image_one_path
+						mobile_banner_image_path
 					);
 					try {
 						await fs.access(oldImagePath);
 						await fs.unlink(oldImagePath);
 					} catch (error) { }
 				}
-				image_one_path = '/uploads/pages/' + req.files.image_one[0].filename;
-			}
-			var image_two_path = content.image_two;
-			if(req.files.image_two){
-				if (image_two_path) {
-					const oldImagePath = path.join(
-						__dirname,
-						"../../public/",
-						image_two_path
-					);
-					try {
-						await fs.access(oldImagePath);
-						await fs.unlink(oldImagePath);
-					} catch (error) { }
-				}
-				image_two_path = '/uploads/pages/' + req.files.image_two[0].filename;
-			}
-			var image_three_path = content.image_three;
-			if(req.files.image_three){
-				if (image_three_path) {
-					const oldImagePath = path.join(__dirname,"../../public/",image_three_path);
-					try {
-						await fs.access(oldImagePath);
-						await fs.unlink(oldImagePath);
-					} catch (error) { }
-				}
-				image_three_path = '/uploads/pages/' + req.files.image_three[0].filename;
+				mobile_banner_image_path = '/uploads/pages/' + req.files.mobile_banner_image[0].filename;
 			}
 			const contentJSONParse = {
 				main_title: main_title,
-				banner_image: banner_image_path,
-				title_one: title_one,
-				image_one: image_one_path,
-				title_two: title_two,
-				image_two: image_two_path,
-				title_three: title_three,
-				image_three: image_three_path
+				subtitle: subtitle,
+				desktop_banner_image: desktop_banner_image_path,
+				mobile_banner_image: mobile_banner_image_path
 			};
 			const contentJSON = JSON.stringify(contentJSONParse);
 
@@ -387,14 +372,96 @@ exports.homepageFirstSection = async (req, res) => {
 	}
 }
 exports.homepageSecondSection = async (req, res) => {
-	const { id, title_one, title_two, title_three, link_label_one, link_label_two, link_label_three, link_one, link_two, link_three, content_one, content_two, content_three } = req.body;
+	const { id, main_title, subtitle, content, button_label, button_link, button_link_full } = req.body;
 	console.log(req.body);
 	try {
 		const selectsql = "select * from pages where id = ?";
 		const secondsection = await db.query(selectsql, [id]);
 
 		if(secondsection.length > 0){
-			content = JSON.parse(secondsection[0]?.content);
+			// content = JSON.parse(secondsection[0]?.content);
+			const contentJSONParse = {
+				main_title: main_title,
+				subtitle: subtitle,
+				content: content,
+				button_label: button_label,
+				button_link: button_link,
+				button_link_full: button_link_full
+			};
+			const contentJSON = JSON.stringify(contentJSONParse);
+
+			const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
+			const updateresult = await db.query(updatesql, [contentJSON, id]);
+			if (updateresult.affectedRows > 0) {
+                req.flash("message", "Page second section has been update successfully");
+                res.redirect("/admin/page/home");
+            } else {
+                req.flash("error", "Something went wrong!");
+                res.redirect("back");
+            }
+		}else{
+			req.flash("error", "Sorry. home page second section not found!");
+			res.redirect("back");
+		}
+	} catch (error) {
+		console.log("ERROR : ", error);
+		res.redirect("back");
+	}
+}
+exports.homepageThirdSection = async (req, res) => {
+	const { id, main_title } = req.body;
+	try {
+		const selectsql = "select * from pages where id = ?";
+		const thirdsection = await db.query(selectsql, [id]);
+
+		if(thirdsection.length > 0){
+			const contentJSONParse = {
+				main_title: main_title
+			}
+			const content = JSON.stringify(contentJSONParse);
+			const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
+			const updateresult = await db.query(updatesql, [content, id]);
+
+			if (req.files.images) {
+				if (req.files.images.length > 0) {
+					otherimages = req.files.images;
+					otherimages.forEach((img) => {
+						var image = "/uploads/pages/" + img.filename;
+						const imgsql = "INSERT INTO `page_images` SET page_id=?, image=?";
+						const img_results = db.query(imgsql, [id, image]);
+					});
+				}
+			}
+
+			if (updateresult.affectedRows > 0) {
+                req.flash("message", "Page third section has been update successfully");
+                res.redirect("/admin/page/home");
+            } else {
+                req.flash("error", "Something went wrong!");
+                res.redirect("back");
+            }
+		}else{
+			req.flash("error", "Sorry. home page third section not found!");
+			res.redirect("back");
+		}
+	} catch (error) {
+		console.log("ERROR : ", error);
+		res.redirect("back");
+	}
+}
+exports.homepageFourthSection = async (req, res) => {
+	const { 
+		id, 
+		title_one, content_one, button_label_one, button_link_one, 
+		title_two, content_two, button_label_two, button_link_two,
+		title_three, content_three, button_label_three, button_link_three,
+		title_four, content_four, button_label_four, button_link_four
+	} = req.body;
+	try {
+		const selectsql = "select * from pages where id = ?";
+		const fourthsection = await db.query(selectsql, [id]);
+		if(fourthsection.length > 0){
+			content = JSON.parse(fourthsection[0]?.content);
 			var image_one_path = content.image_one;
 			if(req.files.image_one){
 				if (image_one_path) {
@@ -428,7 +495,11 @@ exports.homepageSecondSection = async (req, res) => {
 			var image_three_path = content.image_three;
 			if(req.files.image_three){
 				if (image_three_path) {
-					const oldImagePath = path.join(__dirname,"../../public/",image_three_path);
+					const oldImagePath = path.join(
+						__dirname,
+						"../../public/",
+						image_three_path
+					);
 					try {
 						await fs.access(oldImagePath);
 						await fs.unlink(oldImagePath);
@@ -436,107 +507,44 @@ exports.homepageSecondSection = async (req, res) => {
 				}
 				image_three_path = '/uploads/pages/' + req.files.image_three[0].filename;
 			}
-			const contentJSONParse = {
-				title_one: title_one,
-				image_one: image_one_path,
-				link_label_one: link_label_one,
-				link_one: link_one,
-				content_one: content_one,
-				title_two: title_two,
-				image_two: image_two_path,
-				link_label_two: link_label_one,
-				link_two: link_two,
-				content_two: content_two,
-				title_three: title_three,
-				image_three: image_three_path,
-				link_label_three: link_label_three,
-				link_three: link_three,
-				content_three: content_three
-			};
-			const contentJSON = JSON.stringify(contentJSONParse);
+			var image_four_path = content.image_four;
+			if(req.files.image_four){
+				if (image_four_path) {
+					const oldImagePath = path.join(
+						__dirname,
+						"../../public/",
+						image_four_path
+					);
+					try {
+						await fs.access(oldImagePath);
+						await fs.unlink(oldImagePath);
+					} catch (error) { }
+				}
+				image_four_path = '/uploads/pages/' + req.files.image_four[0].filename;
+			}
 
-			const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
-			const updateresult = await db.query(updatesql, [contentJSON, id]);
-			if (updateresult.affectedRows > 0) {
-                req.flash("message", "Page second section has been update successfully");
-                res.redirect("/admin/page/home");
-            } else {
-                req.flash("error", "Something went wrong!");
-                res.redirect("back");
-            }
-		}else{
-			req.flash("error", "Sorry. home page second section not found!");
-			res.redirect("back");
-		}
-	} catch (error) {
-		console.log("ERROR : ", error);
-		res.redirect("back");
-	}
-}
-exports.homepageThirdSection = async (req, res) => {
-	const { id, main_title, youtube_link, content_one, content_two, content_three, content_fourth, content_fivth, button_label_one, button_link_one, button_link_one_full, button_label_two, button_link_two, button_link_two_full } = req.body;
-	console.log(req.body);
-	try {
-		const selectsql = "select * from pages where id = ?";
-		const thirdsection = await db.query(selectsql, [id]);
-
-		if(thirdsection.length > 0){
-			const contentJSONParse = {
-				main_title: main_title,
-				youtube_link: youtube_link,
+			const contentJSON = {
+				title_one:title_one,
 				content_one: content_one,
-				content_two: content_two,
-				content_three: content_three,
-				content_fourth: content_fourth,
-				content_fivth: content_fivth,
 				button_label_one: button_label_one,
 				button_link_one: button_link_one,
-				button_link_one_full: button_link_one_full,
+				title_two: title_two,
+				content_two: content_two,
 				button_label_two: button_label_two,
 				button_link_two: button_link_two,
-				button_link_two_full: button_link_two_full
-			}
-			const content = JSON.stringify(contentJSONParse);
-
-			const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
-			const updateresult = await db.query(updatesql, [content, id]);
-			if (updateresult.affectedRows > 0) {
-                req.flash("message", "Page third section has been update successfully");
-                res.redirect("/admin/page/home");
-            } else {
-                req.flash("error", "Something went wrong!");
-                res.redirect("back");
-            }
-		}else{
-			req.flash("error", "Sorry. home page third section not found!");
-			res.redirect("back");
-		}
-	} catch (error) {
-		console.log("ERROR : ", error);
-		res.redirect("back");
-	}
-}
-exports.homepageFourthSection = async (req, res) => {
-	const { id, main_title, content } = req.body;
-	try {
-		const selectsql = "select * from pages where id = ?";
-		const fourthsection = await db.query(selectsql, [id]);
-		if(fourthsection.length > 0){
-			const contentJSON = {
-				main_title: main_title,
-				content: content
+				title_three: title_three,
+				content_three: content_three,
+				button_label_three: button_label_three,
+				button_link_three: button_link_three,
+				title_four: title_four,
+				content_four: content_four,
+				button_label_four: button_label_four,
+				button_link_four: button_link_four,
+				image_one 	: image_one_path,
+				image_two	: image_two_path,
+				image_three	: image_three_path,
+				image_four	: image_four_path
 			};
-
-			if (req.files.images) {
-				if (req.files.images.length > 0) {
-					otherimages = req.files.images;
-					otherimages.forEach((img) => {
-						var image = "/uploads/pages/" + img.filename;
-						const imgsql = "INSERT INTO `page_images` SET page_id=?, image=?";
-						const img_results = db.query(imgsql, [id, image]);
-					});
-				}
-			}
 
 			const contentJSONParse = JSON.stringify(contentJSON);
 			const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
@@ -558,55 +566,33 @@ exports.homepageFourthSection = async (req, res) => {
 	}
 }
 exports.homepageFifthSection = async (req, res) => {
-	const { id, main_title, title_one, link_label_one, link_one, content_one, title_two, link_label_two, link_two, content_two, subtitle } = req.body;
+	const { id, main_title, subtitle, portfolio_points } = req.body;
 	try {
 		const selectsql = "select * from pages where id = ?";
 		const fivthsection = await db.query(selectsql, [id]);
 		if(fivthsection.length > 0){
 			const content = JSON.parse(fivthsection[0]?.content);
-			var image_one_path = content?.image_one;
-			if(req.files.image_one){
-				if (image_one_path) {
+			var section_image_path = content?.section_image;
+			if(req.files.section_image){
+				if (section_image_path) {
 					const oldImagePath = path.join(
 						__dirname,
 						"../../public/",
-						image_one_path
+						section_image_path
 					);
 					try {
 						await fs.access(oldImagePath);
 						await fs.unlink(oldImagePath);
 					} catch (error) { }
 				}
-				image_one_path = '/uploads/pages/' + req.files.image_one[0].filename;
+				section_image_path = '/uploads/pages/' + req.files.section_image[0].filename;
 			}
-			var image_two_path = content?.image_two;
-			if(req.files.image_two){
-				if (image_two_path) {
-					const oldImagePath = path.join(
-						__dirname,
-						"../../public/",
-						image_two_path
-					);
-					try {
-						await fs.access(oldImagePath);
-						await fs.unlink(oldImagePath);
-					} catch (error) { }
-				}
-				image_two_path = '/uploads/pages/' + req.files.image_two[0].filename;
-			}
+			const pointJSON = JSON.stringify(portfolio_points);
 			const contentJSON = {
 				main_title: main_title,
-				title_one: title_one,
-				link_label_one: link_label_one,
-				link_one: link_one,
-				content_one: content_one,
-				image_one: image_one_path,
-				title_two: title_two,
-				link_label_two: link_label_two,
-				link_two: link_two,
-				content_two: content_two,
-				image_two: image_two_path,
-				subtitle: subtitle
+				subtitle: subtitle,
+				point : pointJSON,
+				section_image : section_image_path
 			};
 
 			const contentJSONParse = JSON.stringify(contentJSON);
@@ -621,6 +607,41 @@ exports.homepageFifthSection = async (req, res) => {
 			}
 		}else{
 			req.flash("error", "Sorry. home page fivth section not found!");
+			res.redirect("back");
+		}
+	} catch (error) {
+		console.log("ERROR : ", error);
+		res.redirect("back");
+	}
+}
+exports.homepageSixthSection = async (req, res) => {
+	const { id, title, main_title, subtitle, content, button_label, button_link, button_link_full } = req.body;
+	try {
+		const selectsql = "select * from pages where id = ?";
+		const sixthsection = await db.query(selectsql, [id]);
+
+		if(sixthsection.length > 0){
+			const contentJSONParse = {
+				main_title: main_title,
+				subtitle: subtitle,
+				content: content,
+				button_label: button_label,
+				button_link: button_link,
+				button_link_full: button_link_full
+			};
+			const contentJSON = JSON.stringify(contentJSONParse);
+
+			const updatesql = "UPDATE `pages` SET title=?, content=? WHERE id=?";
+			const updateresult = await db.query(updatesql, [title, contentJSON, id]);
+			if (updateresult.affectedRows > 0) {
+                req.flash("message", "Page sixth section has been update successfully");
+                res.redirect("/admin/page/home");
+            } else {
+                req.flash("error", "Something went wrong!");
+                res.redirect("back");
+            }
+		}else{
+			req.flash("error", "Sorry. home page first section not found!");
 			res.redirect("back");
 		}
 	} catch (error) {

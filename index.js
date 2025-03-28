@@ -25,6 +25,7 @@ var blogCategorieRouter = require("./routers/blogCategorieRoute");
 var blogTagRouter = require("./routers/tagRoute");
 var contactQueriesRouter = require("./routers/contactQueriesRoute");
 var SocialMediaRouter = require("./routers/SocialMediaRoute");
+var testimonialRouter = require("./routers/testimonialRoute");
 
 var APIProfileRouter = require("./routers/APIProfileRoute");
 
@@ -132,6 +133,7 @@ app.use(blogCategorieRouter);
 app.use(blogTagRouter);
 app.use(contactQueriesRouter);
 app.use(SocialMediaRouter);
+app.use(testimonialRouter);
 
 app.use(APIProfileRouter);
 app.get("/", function (req, res) {

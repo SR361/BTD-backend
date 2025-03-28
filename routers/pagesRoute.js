@@ -12,6 +12,7 @@ const {
     homepageThirdSection,
     homepageFourthSection,
     homepageFifthSection,
+    homepageSixthSection,
     deleteImage,
 
     servicepageFirstSection,
@@ -36,24 +37,31 @@ router.post(
     "/admin/homepage/firtsection/update",
     pageupload.fields([
         {
-            name: "banner_image",
+            name: "desktop_banner_image",
             maxCount: 1,
         },{
-            name: "image_one",
-            maxCount: 1
-        },{
-            name: "image_two",
-            maxCount: 1
-        },{
-            name: "image_three",
+            name: "mobile_banner_image",
             maxCount: 1
         }
     ]),
     isAdminAllowed, 
     homepageFirstSection
 );
+router.post("/admin/homepage/secondsection/update", urlencodeParser, isAdminAllowed, homepageSecondSection);
+
 router.post(
-    "/admin/homepage/secondsection/update",
+    "/admin/homepage/thirdsection/update",
+    pageupload.fields([
+        {
+            name: "images",
+            maxCount: 20
+        }
+    ]),
+    isAdminAllowed,
+    homepageThirdSection
+);
+router.post(
+    "/admin/homepage/fourthsection/update",
     pageupload.fields([
         {
             name: "image_one",
@@ -64,18 +72,9 @@ router.post(
         },{
             name: "image_three",
             maxCount: 1
-        }
-    ]),
-    isAdminAllowed, 
-    homepageSecondSection
-);
-router.post("/admin/homepage/thirdsection/update", urlencodeParser, isAdminAllowed, homepageThirdSection);
-router.post(
-    "/admin/homepage/fourthsection/update",
-    pageupload.fields([
-        {
-            name: "images",
-            maxCount: 20
+        },{
+            name: "image_four",
+            maxCount: 1
         }
     ]),
     isAdminAllowed,
@@ -85,16 +84,14 @@ router.post(
     "/admin/homepage/fifthsection/update",
     pageupload.fields([
         {
-            name: "image_one",
-            maxCount: 1
-        },{
-            name: "image_two",
+            name: "section_image",
             maxCount: 1
         }
     ]),
     isAdminAllowed,
     homepageFifthSection
 );
+router.post("/admin/homepage/sixthsection/update", urlencodeParser, isAdminAllowed, homepageSixthSection);
 
 router.post("/admin/page/metatags/update", urlencodeParser, isAdminAllowed, metaTagUpdate);
 // ================================================= HOME PAGE =================================================
