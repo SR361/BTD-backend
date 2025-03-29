@@ -22,7 +22,7 @@ const {
     aboutuspageFirstSection,
     contactpageFirstSection,
     dataprotectionpageFirstSection,
-    imprintpageFirstSection,managePageMetaTag, metaTagUpdate
+    imprintpageFirstSection,managePageMetaTag, metaTagUpdate, footerpageFirstSection
 } = require("../controllers/admin/PageController");
 const router = express.Router();
 
@@ -162,6 +162,19 @@ router.post("/admin/dataprotectionpage/firstsection/update", urlencodeParser, is
 router.post("/admin/imprintpage/firstsection/update", urlencodeParser, isAdminAllowed, imprintpageFirstSection);
 // ================================================= IMORINT PAGE ========================================================
 router.get("/admin/page/delete-image/:id", isAdminAllowed, deleteImage);
+
+// 29-03-2025
+router.post(
+    "/admin/footerpage/firtsection/update",
+    pageupload.fields([
+        {
+            name: "footer_image",
+            maxCount: 1,
+        }
+    ]),
+    isAdminAllowed, 
+    footerpageFirstSection
+);
 /*---------- WEB Routes  -------------*/
 
 module.exports = router;

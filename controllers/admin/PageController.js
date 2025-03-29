@@ -285,6 +285,24 @@ exports.editPage = async (req, res) => {
 					res.redirect("back");
 				}
 			}
+		}else if(slug == 'footer'){
+			if(section === 'First Section'){
+				const firstsectionsql = "select * from pages where id = ?";
+				const firstsection = await db.query(firstsectionsql, [page_id]);
+
+				if(firstsection.length > 0){
+					res.render("Pages/footer/first-section.ejs", {
+						title: "Footer",
+						firstsection: firstsection[0],
+						baseUrl: baseUrl,
+						message: req.flash("message"),
+						error: req.flash("error"),
+					});
+				}else{
+					req.flash("error", "Sorry. No page not found!");
+					res.redirect("back");
+				}
+			}
 		}
 	} catch (error) {
 		console.log("ERROR : ", error);
@@ -1073,3 +1091,78 @@ exports.metaTagUpdate = async (req, res) => {
 		res.redirect("back");
 	}
 }
+
+// 29-03-2025
+exports.footerpageFirstSection = async (req, res) => {
+    try {
+
+        const { id, main_title, content, button_label, button_link, button_link_full } = req.body;
+
+        if (!id) {
+            req.flash("error", "Invalid page ID.");
+            return res.redirect("back");
+        }
+		
+        const selectsql = "SELECT * FROM pages WHERE id = ?";
+        const firstsection = await db.query(selectsql, [id]);
+
+        if (firstsection.length === 0) {
+            req.flash("error", "Sorry, home page first section not found!");
+            return res.redirect("back");
+        }
+
+        let existingContent = {};
+        if (firstsection[0].content) {
+            try {
+                existingContent = JSON.parse(firstsection[0].content);
+            } catch (error) {
+                console.error("Error parsing JSON:", error);
+                existingContent = {};
+            }
+        }
+
+        // Handle file upload
+        let footer_image_path = existingContent.footer_image || "";
+        if (req.files && req.files.footer_image) {
+            // Remove old image if exists
+            if (footer_image_path) {
+                const oldImagePath = path.join(__dirname, "../../public/", footer_image_path);
+                try {
+                    await fs.access(oldImagePath);
+                    await fs.unlink(oldImagePath);
+                } catch (error) {
+                    console.error("Error deleting old image:", error);
+                }
+            }
+            footer_image_path = "/uploads/pages/" + req.files.footer_image[0].filename;
+        }
+
+        // Prepare updated content
+        const updatedContent = {
+            main_title: main_title || "",
+            content: content || "",
+            footer_image: footer_image_path,
+            button_label: button_label || "",
+            button_link: button_link || "",
+            button_link_full: button_link_full || "no",
+        };
+
+        const contentJSON = JSON.stringify(updatedContent);
+
+        // Update the database
+        const updatesql = "UPDATE `pages` SET title=?, content=? WHERE id=?";
+        const updateresult = await db.query(updatesql, [main_title, contentJSON, id]);
+
+        if (updateresult.affectedRows > 0) {
+            req.flash("message", "Page first section has been updated successfully");
+            res.redirect("/admin/page/footer");
+        } else {
+            req.flash("error", "Something went wrong!");
+            res.redirect("back");
+        }
+    } catch (error) {
+        console.error("ERROR:", error);
+        req.flash("error", "An unexpected error occurred.");
+        res.redirect("back");
+    }
+};
