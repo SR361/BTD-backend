@@ -26,6 +26,7 @@ var blogTagRouter = require("./routers/tagRoute");
 var contactQueriesRouter = require("./routers/contactQueriesRoute");
 var SocialMediaRouter = require("./routers/SocialMediaRoute");
 var testimonialRouter = require("./routers/testimonialRoute");
+var CMSRouter = require("./routers/CMSRoute");
 
 var APIProfileRouter = require("./routers/APIProfileRoute");
 
@@ -134,6 +135,7 @@ app.use(blogTagRouter);
 app.use(contactQueriesRouter);
 app.use(SocialMediaRouter);
 app.use(testimonialRouter);
+app.use(CMSRouter);
 
 app.use(APIProfileRouter);
 app.get("/", function (req, res) {
