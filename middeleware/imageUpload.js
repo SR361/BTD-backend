@@ -138,6 +138,22 @@ const PDFfilefilter = (req, file, cb) => {
     });
 // ================================================================ SERVICES STORAGE ==========================================================
 
+// ================================================================ SERVICES STORAGE ==========================================================
+    const testimonialstorage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, "public/uploads/testimonial");
+        },
+        filename: (req, file, cb) => {
+            cb(null, Date.now() + '_' + file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_'))
+        },
+    });
+    const testimonialupload = multer({
+        storage: testimonialstorage,
+        limits: { fieldSize: 25 * 1024 * 1024 },
+        fileFilter: filefilter,
+    });
+// ================================================================ SERVICES STORAGE ==========================================================
+
 function bannerFilter(req, file, cb) {
     console.log(file.fieldname)
     if (file.mimetype === 'video/mp4' || !file.originalname.match(/\.(webp|png|jpg|jpeg|mp4)$/)) {
@@ -155,5 +171,6 @@ module.exports = {
     adminupload,
     pageupload,
     categoryupload,
-    storyupload
+    storyupload,
+    testimonialupload
 };

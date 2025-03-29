@@ -48,21 +48,26 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label" for="title">Designation <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter designation" name="designation" required >
+                                <label class="form-label" for="title">Company <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter company" name="company" required >
                             </div>
                             <div class="mb-3">
-                                <label for="" class="form-label">Select image</label>
-                                <input type="file" class="form-control" name="image">
+                                <label for="" class="form-label">Select image <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" name="user_image" required>
                             </div>
                         </div>
-                        <div class="col-md-6"></div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="title">Testimonial <span class="text-danger">*</span></label>
+                                <textarea name="testimonial" rows="3" class="form-control" required></textarea>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3 text-left">
+                        <div class="col-md-6 text-left">
                             <a href="/admin/testimonial" class="btn btn-secondary w-md">Back</a>
                         </div>
-                        <div class="col-md-3 text-right">
+                        <div class="col-md-6 text-right">
                             <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
                         </div>
                     </div>                  

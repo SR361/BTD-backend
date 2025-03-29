@@ -43,21 +43,22 @@ exports.create = async (req, res) => {
 };
 
 exports.insert = async (req, res) => {    
-    const { name } = req.body;
+    const { name, position, company, testimonial } = req.body;
     try {
         const sql = "SELECT * FROM `testimonials` WHERE name=?";
         const tag = await db.query(sql, [name]);
         if(tag.length === 0){
-            const slug = slugify(name, {
-                lower: true,
-                strict: true,
-            });
-            const sql = "INSERT INTO `blog_tags` SET name=?, slug=?";
-            const results = await db.query(sql, [name, slug]);
+            var image_path = "";
+            if(req.files.user_image){
+                image_path = '/uploads/testimonial/' + req.files.user_image[0].filename;
+            }
+
+            const sql = "INSERT INTO `testimonials` SET name=?, position=?, company=?, testimonial=?, image=?";
+            const results = await db.query(sql, [name, position, company, testimonial, image_path]);
 
             if (results.insertId > 0) {
-                req.flash("message", "Blog tag has been added successfully");
-                res.redirect("/admin/blog-tags");
+                req.flash("message", "Testimonial has been added successfully");
+                res.redirect("/admin/testimonials");
             } else {
                 req.flash("error", 'Error fetching data:', error);
                 res.redirect("back");
@@ -74,22 +75,22 @@ exports.insert = async (req, res) => {
 };
 
 exports.edit = async (req, res) => {
-    var tag_id = req.params.id;    
+    var id = req.params.id;    
     try {
-        const sql = 'SELECT * FROM `blog_tags` WHERE id = ?';
-        const tag = await db.query(sql, [tag_id]);
+        const sql = 'SELECT * FROM `testimonials` WHERE id = ?';
+        const testimonial = await db.query(sql, [id]);
       
-        if(tag.length > 0){
-            res.render("BlogTag/edit", {
-                title: "Edit Blog Tag",
-                tag: tag[0],
+        if(testimonial.length > 0){
+            res.render("Testimonials/edit", {
+                title: "Edit Testimonials",
+                testimonial: testimonial[0],
                 baseUrl: baseUrl,
                 message: req.flash("message"),
                 error: req.flash("error"),
             });
         }else{
-            req.flash("error", "Sorry. No Blog tag records exists!");
-            res.redirect("/admin/blog-tags");
+            req.flash("error", "Sorry. No testimonials records exists!");
+            res.redirect("/admin/testimonials");
         }
     } catch (error) {
         console.log('Error fetching data:', error);
@@ -98,24 +99,30 @@ exports.edit = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-    const {id, name } = req.body;
+    const {id, name, position, company, testimonial } = req.body;
+    
     try {
-        const sql = 'SELECT * FROM `blog_tags` WHERE id=?';
-        const tag = await db.query(sql, [id]);
-      
-        if(tag.length > 0){
-            const slug = slugify(name, {
-                lower: true,
-                strict: true,
-            });
-            const sql = "UPDATE `blog_tags` SET name=?, slug=? WHERE id=?";
-            const edit_results = await db.query(sql, [name, slug, id]);
+        const sql = 'SELECT * FROM `testimonials` WHERE id=?';
+        const testimonials = await db.query(sql, [id]);
+        if(testimonials.length > 0){
+            var image_path = testimonials[0].image;
+            if(req.files.user_image){
+                if (image_path) {
+                    const oldImagePath = path.join(__dirname, "../../public/", image_path);
+                    try {
+                        await fs.access(oldImagePath);
+                        await fs.unlink(oldImagePath);
+                    } catch (error) { }
+                }
+                image_path = '/uploads/testimonial/' + req.files.user_image[0].filename;
+            }
+            const sql = "UPDATE `testimonials` SET name=?, position=?, company=?, testimonial=?, image=? WHERE id=?";
+            const edit_results = await db.query(sql, [name, position, company, testimonial, image_path, id]);
             if (edit_results.affectedRows > 0) {
-                req.flash("message", "Blog tag has been updated successfully");
-                res.redirect("back");
+                req.flash("message", "Testimonials has been updated successfully");
+                res.redirect("/admin/testimonials");
             } else {
-                console.log(edit_results);
-                req.flash("error", "Blog tag record has not updated.");
+                req.flash("error", "Testimonials record has not updated.");
                 res.redirect("back");
             }
         }else{
@@ -130,18 +137,26 @@ exports.update = async (req, res) => {
     }
 }
 
-exports.deletetag = async (req, res) => {
+exports.deletetestimonial = async (req, res) => {
     var id = req.params.id;
     try {
-        const sql = 'SELECT * FROM `blog_tags` WHERE id = ?';
-        const Material = await db.query(sql, [id]);
-        if(Material.length > 0)
-        {
-            const sql = 'DELETE FROM `blog_tags` WHERE id=?';
+        const sql = 'SELECT * FROM `testimonials` WHERE id = ?';
+        const testimonials = await db.query(sql, [id]);
+        if(testimonials.length > 0){
+            var image = testimonials[0].image;
+            if (image) {
+                const oldBlogImagePath = path.join(__dirname, '../../public/', image);
+                try {
+                    await fs.access(oldBlogImagePath);
+                    await fs.unlink(oldBlogImagePath);
+                } catch (err) {
+                    console.error('Error deleting old image:', err);
+                }
+            }
+            const sql = 'DELETE FROM `testimonials` WHERE id=?';
             const edit_results = await db.query(sql, [id]);
-        
             if (edit_results.affectedRows > 0) {
-                req.flash("message", "Blog tag has been deleted successfully.");
+                req.flash("message", "Testimonials has been deleted successfully.");
                 res.redirect("back");
             }else{
                 req.flash("error", `Sorry! Could not delete with id ${id}.`);
@@ -151,7 +166,6 @@ exports.deletetag = async (req, res) => {
             req.flash("error", `Sorry! Could not delete with id ${id}. Maybe id is wrong`);
             res.redirect("back");
         }
-
     } catch (error) {
         console.log('Error fetching data:', error);
         req.flash("error", "Oops! Could not delete product size.");

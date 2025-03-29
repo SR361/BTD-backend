@@ -39,8 +39,9 @@
                     <table class="table table-bordered border-grey table-hover mb-0">
                         <thead>
                             <tr class="table-dark">
+                                <td>Image</td>
                                 <td>Name</td>
-                                <td>Designation</td>
+                                <td>Company</td>
                                 <td>Position</td>
                                 <td>Action</td>
                             </tr>
@@ -49,12 +50,15 @@
                         <% if(testimonials.length>0){ %>
                             <% testimonials.forEach(testimonial => { %>
                                 <tr>
+                                    <td>
+                                        <img src="<%= testimonial.image %>" width="50" />
+                                    </td>
                                     <td><%= testimonial.name %></td>
-                                    <td><%= testimonial.designation %></td>
+                                    <td><%= testimonial.company %></td>
                                     <td><%= testimonial.position %></td>
                                     <td>
-                                        <a href="/admin/testimonials/edit/<%= testimonial.id %>" class="btn btn-success btn-sm mr-2">Edit</a> 
-                                        <a href="/admin/testimonials/delete/<%= testimonial.id %>" id="delete-btn" class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="/admin/testimonial/edit/<%= testimonial.id %>" class="btn btn-success btn-sm mr-2">Edit</a> 
+                                        <a href="/admin/testimonial/delete/<%= testimonial.id %>" id="delete-btn" class="btn btn-danger btn-sm">Delete</a>
                                     </td>
                                 </tr>
                             <% }); %>
