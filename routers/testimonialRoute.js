@@ -12,6 +12,7 @@ const {
     update,
     deletetestimonial
 } = require("../controllers/admin/TestimonialController");
+const { getTestimonial } = require("../controllers/api/TestimonialController");
 
 const router = express.Router();
 
@@ -43,5 +44,7 @@ router.post(
     update
 );
 router.get("/admin/testimonial/delete/:id", isAdminAllowed, deletetestimonial);
+
+router.get("/api/V1/testimonials", urlencodeParser, getTestimonial);
 /*---------- WEB Routes  -------------*/
 module.exports = router;

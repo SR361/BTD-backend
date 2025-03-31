@@ -303,6 +303,23 @@ exports.editPage = async (req, res) => {
 					res.redirect("back");
 				}
 			}
+		}else if(slug == 'm&a-verhandlung'){
+			if(section == 'First Section'){
+				const firstsectionsql = "select * from pages where id = ?";
+				const firstsection = await db.query(firstsectionsql, [page_id]);
+				if(firstsection.length > 0){
+					res.render("Pages/m&a-verhandlung/first-section.ejs", {
+						title: "Home Page",
+						firstsection: firstsection[0],
+						baseUrl: baseUrl,
+						message: req.flash("message"),
+						error: req.flash("error"),
+					});
+				}else{
+					req.flash("error", "Sorry. No page not found!");
+					res.redirect("back");
+				}
+			}
 		}
 	} catch (error) {
 		console.log("ERROR : ", error);
@@ -660,6 +677,87 @@ exports.homepageSixthSection = async (req, res) => {
             }
 		}else{
 			req.flash("error", "Sorry. home page first section not found!");
+			res.redirect("back");
+		}
+	} catch (error) {
+		console.log("ERROR : ", error);
+		res.redirect("back");
+	}
+}
+// ================================================= HOME PAGE =================================================
+// ================================================= HOME PAGE =================================================
+exports.verhandlungFirstSection = async (req, res) => {
+	const { id, main_title, subtitle } = req.body;
+	try {
+		const selectsql = "select * from pages where id = ?";
+		const firstsection = await db.query(selectsql, [id]);
+
+		if(firstsection.length > 0){
+			let content = null;
+			if(firstsection[0].content !== null){
+				content = JSON.parse(firstsection[0]?.content);
+			}else{
+				const simplecontentJSONParse = {
+					main_title: "",
+					subtitle: "",
+					desktop_banner_image: "",
+					mobile_banner_image: ""
+				};
+				
+				const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
+				const updateresult = await db.query(updatesql, [JSON.stringify(simplecontentJSONParse), id]);
+
+				content = simplecontentJSONParse;
+			}
+			var desktop_banner_image_path = content.desktop_banner_image;
+			if(req.files.desktop_banner_image){
+				if (desktop_banner_image_path) {
+					const oldImagePath = path.join(
+						__dirname,
+						"../../public/",
+						desktop_banner_image_path
+					);
+					try {
+						await fs.access(oldImagePath);
+						await fs.unlink(oldImagePath);
+					} catch (error) { }
+				}
+				desktop_banner_image_path = '/uploads/pages/' + req.files.desktop_banner_image[0].filename;
+			}
+			var mobile_banner_image_path = content.mobile_banner_image;
+			if(req.files.mobile_banner_image){
+				if (mobile_banner_image_path) {
+					const oldImagePath = path.join(
+						__dirname,
+						"../../public/",
+						mobile_banner_image_path
+					);
+					try {
+						await fs.access(oldImagePath);
+						await fs.unlink(oldImagePath);
+					} catch (error) { }
+				}
+				mobile_banner_image_path = '/uploads/pages/' + req.files.mobile_banner_image[0].filename;
+			}
+			const contentJSONParse = {
+				main_title: main_title,
+				subtitle: subtitle,
+				desktop_banner_image: desktop_banner_image_path,
+				mobile_banner_image: mobile_banner_image_path
+			};
+			const contentJSON = JSON.stringify(contentJSONParse);
+
+			const updatesql = "UPDATE `pages` SET title=?, content=? WHERE id=?";
+			const updateresult = await db.query(updatesql, [main_title, contentJSON, id]);
+			if (updateresult.affectedRows > 0) {
+                req.flash("message", "Page first section has been update successfully");
+                res.redirect("/admin/page/m&a-verhandlung");
+            } else {
+                req.flash("error", "Something went wrong!");
+                res.redirect("back");
+            }
+		}else{
+			req.flash("error", "Sorry. M&A verhandlung first section not found!");
 			res.redirect("back");
 		}
 	} catch (error) {

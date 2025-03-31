@@ -15,6 +15,8 @@ const {
     destory, manageServiceMetaTag, metaTagUpdate
 } = require("../controllers/admin/ServiceController");
 
+const { getAllServices } = require("../controllers/api/ServicesController");
+
 const router = express.Router();
 router.get("/admin/services", isAdminAllowed, index);
 router.get("/admin/service/create", isAdminAllowed, create);
@@ -133,4 +135,7 @@ router.get("/admin/service/delete-image/:id", isAdminAllowed, deleteimage);
 router.get("/admin/service/delete/:id", isAdminAllowed, destory);
 router.get("/admin/service/metatags/:id", isAdminAllowed, manageServiceMetaTag);
 router.post("/admin/service/metatags/update", urlencodeParser, isAdminAllowed, metaTagUpdate);
+
+router.get("/api/V1/all-service", urlencodeParser, getAllServices);
+
 module.exports = router;

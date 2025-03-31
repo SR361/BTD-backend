@@ -15,6 +15,8 @@ const {
     homepageSixthSection,
     deleteImage,
 
+    verhandlungFirstSection,
+
     servicepageFirstSection,
     servicepageSecondSection,
     servicepageThirdSection,
@@ -22,7 +24,10 @@ const {
     aboutuspageFirstSection,
     contactpageFirstSection,
     dataprotectionpageFirstSection,
-    imprintpageFirstSection,managePageMetaTag, metaTagUpdate, footerpageFirstSection
+    imprintpageFirstSection,
+    managePageMetaTag, 
+    metaTagUpdate, 
+    footerpageFirstSection
 } = require("../controllers/admin/PageController");
 const router = express.Router();
 
@@ -94,6 +99,22 @@ router.post(
 router.post("/admin/homepage/sixthsection/update", urlencodeParser, isAdminAllowed, homepageSixthSection);
 
 router.post("/admin/page/metatags/update", urlencodeParser, isAdminAllowed, metaTagUpdate);
+// ================================================= HOME PAGE =================================================
+// ================================================= HOME PAGE =================================================
+router.post(
+    "/admin/m&a-verhandlung/firtsection/update",
+    pageupload.fields([
+        {
+            name: "desktop_banner_image",
+            maxCount: 1,
+        },{
+            name: "mobile_banner_image",
+            maxCount: 1
+        }
+    ]),
+    isAdminAllowed, 
+    verhandlungFirstSection
+);
 // ================================================= HOME PAGE =================================================
 
 // ================================================= SERVICE PAGE =================================================

@@ -13,6 +13,10 @@ exports.homePageContent = async (req, res) => {
         const content = await db.query(sql,['home']);
         const output = {};
         for (const [index, item] of content.entries()) {
+            const metasql = "select metatitle,metakeywords,metadescription from page_lists where page_name = ?";
+            const metacontent = await db.query(metasql, 'Home Page')
+            output['metacontent'] = metacontent[0];
+
             if(item.section == 'First Section'){
                 const contentJSON = JSON.parse(item.content);
                 output['first_section'] = contentJSON;
@@ -42,7 +46,14 @@ exports.homePageContent = async (req, res) => {
                 output['fivth_section'] = portfolio;
             }else if(item.section == 'Sixth Section'){
                 const contentJSON = JSON.parse(item.content);
-                output['sixth_section'] = contentJSON;
+                const sql = "select name, position, company, testimonial, image from testimonials";
+                const testimonials = await db.query(sql);
+                const data = {
+                    title: item.title,
+                    content: contentJSON,
+                    testimonial: testimonials
+                }
+                output['sixth_section'] = data;
             }
         }
         if(content.length > 0){
