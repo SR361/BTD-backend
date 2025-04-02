@@ -27,7 +27,7 @@ const {
     imprintpageFirstSection,
     managePageMetaTag, 
     metaTagUpdate, 
-    footerpageFirstSection, publicationpageFirstSection
+    footerpageFirstSection, publicationpageFirstSection, publicationfachartikelpageFirstSection
 } = require("../controllers/admin/PageController");
 const router = express.Router();
 
@@ -198,7 +198,19 @@ router.post(
 );
 
 // 01-04-2025
-router.post("/admin/publicationpage/firtsection/update", urlencodeParser, isAdminAllowed, publicationpageFirstSection);
+// router.post("/admin/publicationpage/firtsection/update", urlencodeParser, isAdminAllowed, publicationpageFirstSection);
+router.post(
+    "/admin/publicationpage/firtsection/update",
+    pageupload.fields([
+        {
+            name: "image",
+            maxCount: 1
+        }
+    ]),
+    isAdminAllowed, 
+    publicationpageFirstSection
+);
+router.post("/admin/publicationfachartikelpage/firtsection/update", urlencodeParser, isAdminAllowed, publicationfachartikelpageFirstSection);
 /*---------- WEB Routes  -------------*/
 
 module.exports = router;

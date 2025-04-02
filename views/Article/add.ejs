@@ -33,37 +33,33 @@
                 <h4 class="card-title mb-0">Add Article</h4>
             </div>
             <div class="card-body">
-                <form action="/admin/article/save" method="post">
+                <form action="/admin/article/save" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="category" value="<%= cat %>">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="mb-3">
                                 <label class="form-label" for="title">Title <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title" value="" required >
+                                <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title" value="" required>
                             </div>
                         </div>
-                        <div class="col-md-6"></div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="title">Address <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter address" id="address" name="address" value="" required >
-                            </div>
+            
+                        <!-- Conditional File Upload -->
+                        <div class="col-md-12 mt-3">
+                            <% if (cat == 'publication') { %>
+                                <label for="image" class="form-label">Select Article Image</label>
+                                <input type="file" class="form-control" name="image" accept="image/*">
+                            <% } else { %>
+                                <label for="pdf" class="form-label">Upload PDF</label>
+                                <input type="file" class="form-control" name="pdf" accept="application/pdf">
+                            <% } %>
                         </div>
-                        <div class="col-md-6"></div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="title">Email <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter email" id="email" name="email" value="" required >
-                            </div>
+            
+                        <div class="col-md-12 mt-3">
+                            <label for="description" class="form-label">Enter Description</label>
+                            <textarea name="description" class="form-control content"></textarea>
                         </div>
-                        <div class="col-md-6"></div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="title">Number <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter number" id="number" name="number" value="" required >
-                            </div>
-                        </div>
-                        <div class="col-md-6"></div>
                     </div>
+            
                     <div class="row">
                         <div class="col-md-3 text-left">
                             <a href="/admin/page/publication" class="btn btn-secondary w-md">Back</a>
@@ -71,12 +67,31 @@
                         <div class="col-md-3 text-right">
                             <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
                         </div>
-                    </div>                  
-                </form>               
+                    </div>
+                </form>
             </div>
+            
         </div>
     </div>
 </div>
 
 <%- contentFor('FooterJs') %>
 <%- contentFor('BottomJs') %>
+<script src="/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script type="text/javascript">
+    ClassicEditor.create(
+        document.querySelector(".content"),
+        {
+            ckfinder: {
+                uploadUrl: '/admin/page/editor/upload'
+            },
+        }
+    )
+    .then(function (editor) {
+        console.log('CKEditor initialized successfully:', editor);
+        editor.ui.view.editable.element.style.height = "400px";
+    })
+    .catch(function (error) {
+        console.error('Error initializing CKEditor:', error);
+    });
+</script>

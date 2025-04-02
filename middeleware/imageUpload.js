@@ -3,7 +3,7 @@ const path = require('path');
 
 const filefilter = (req, file, cb) => {
     console.log('Field name : ',file);
-    if (!file.originalname.match(/\.(webp|png|jpg|jpeg|mp4|webp)$/)) {
+    if (!file.originalname.match(/\.(webp|png|jpg|jpeg|mp4|webp|pdf)$/)) {
         cb(new Error("Only webp, png, jpg or jpeg image files are allowed"));
     }
     cb(null, true);
@@ -162,6 +162,47 @@ function bannerFilter(req, file, cb) {
         req.flash("Invalid file type!")
     }
 }
+// ============================================================== Article Storage =========================================================
+const articlestorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+    cb(null, "public/uploads/articles");
+    },
+    filename: (req, file, cb) => {
+        cb(
+            null,
+            Date.now() + "_" + file.originalname.replace(/[^a-zA-Z0-9._-]/g, "_")
+        );
+    },
+});
+const articleupload = multer({
+    storage: articlestorage,
+    limits: { fieldSize: 25 * 1024 * 1024 },
+    fileFilter: filefilter,
+});
+// ============================================================== Article Storage =========================================================
+
+// ============================================================== Archive Storage ====================================================
+
+const achivestorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+    cb(null, "public/uploads/archives");
+    },
+    filename: (req, file, cb) => {
+        cb(
+            null,
+            Date.now() + "_" + file.originalname.replace(/[^a-zA-Z0-9._-]/g, "_")
+        );
+    },
+});
+const archiveupload = multer({
+    storage: achivestorage,
+    limits: { fieldSize: 25 * 1024 * 1024 },
+    fileFilter: filefilter,
+});
+
+// ============================================================== Archive Storage =====================================================
+
+
 
 const noupload = multer().none();
 module.exports = { 
@@ -172,5 +213,7 @@ module.exports = {
     pageupload,
     categoryupload,
     storyupload,
-    testimonialupload
+    testimonialupload,
+    articleupload,
+    archiveupload
 };

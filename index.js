@@ -31,7 +31,7 @@ var CMSRouter = require("./routers/CMSRoute");
 var APIProfileRouter = require("./routers/APIProfileRoute");
 var APIContacustRouter = require("./routers/APIContactRoute");
 var articleRouter = require("./routers/articleRoute");
-
+var archiveRouter = require("./routers/archiveRoute");
 
 
 var session = require("express-session");
@@ -142,6 +142,7 @@ app.use(CMSRouter);
 app.use(APIProfileRouter);
 app.use(APIContacustRouter);
 app.use(articleRouter);
+app.use(archiveRouter);
 
 app.get("/", function (req, res) {
   res.redirect("/");

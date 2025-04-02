@@ -55,7 +55,7 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title float-start">For publication articles</h4>
-                    <a href="/admin/article/create" class="btn btn-warning  float-end">Add New Article</a>
+                    <a href="/admin/article/create/<%= page.slug %>" class="btn btn-warning float-end">Add New Article</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -69,12 +69,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% if(articles.length>0){ %>
+                                <% if (articles.length > 0) { %>
                                     <% articles.forEach(article => { %>
                                         <tr>
                                             <td><%= article.title %></td>
-                                            <td><%= article.image%></td>
-                                            <td><%= article.description %></td>
+                                            <td>
+                                                <% if (article.image) { %>
+                                                    <img src="<%= article.image %>" width="100" />
+                                                <% } %>
+                                            </td>
+                                            <td><%= article.description.replace(/<[^>]+>/g, '') %></td>
                                             
                                             <td>
                                                 <a href="/admin/article/edit/<%= article.id %>" class="btn btn-success btn-sm mr-2">Edit</a> 
@@ -82,12 +86,69 @@
                                             </td>
                                         </tr>
                                     <% }); %>
-                                <% }else{ %>
+                                <% } else { %>
                                     <tr>
-                                        <td colspan="5"  class="text-center text-bold">Sorry. No Article records exits!</td>
+                                        <td colspan="5" class="text-center text-bold">Sorry. No Article records exist!</td>
                                     </tr>
                                 <% } %>
                             </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+
+        <% if(page.slug == 'publication-fachartikel' || page.slug == 'publication-pressemitteilungen'){ %>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title float-start">For publication fachartikel articles</h4>
+                    <a href="/admin/article/create/<%= page.slug %>" class="btn btn-warning float-end">Add New PDF Article</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered border-grey table-hover mb-0">
+                            <thead>
+                                <tr class="table-dark">
+                                    <td>Title</td>
+                                    <td>pdf</td>
+                                    <td>Description</td>
+                                    <td>Action</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (articles.length > 0) { %>
+                                    <% articles.forEach(article => { %>
+                                        <tr>
+                                            <td><%= article.title %></td>
+                                            <td>
+                                                <% if (article.image) { %>
+                                                    <% if (article.image.match(/\.(webp|png|jpg|jpeg)$/)) { %>
+                                                        <!-- If it's an image, display it -->
+                                                        <img src="<%= article.image %>" width="100" />
+                                                    <% } else if (article.image.match(/\.pdf$/)) { %>
+                                                        <!-- If it's a PDF, show a clickable link -->
+                                                        <a href="<%= article.image %>" target="_blank">
+                                                            <i class="fa fa-file-pdf-o text-danger"></i> View PDF
+                                                        </a>
+                                                    <% } %>
+                                                <% } %>
+                                            </td>                                            
+                                            <td><%= article.description.replace(/<[^>]+>/g, '') %></td>
+                                            
+                                            <td>
+                                                <a href="/admin/article/edit/<%= article.id %>" class="btn btn-success btn-sm mr-2">Edit</a> 
+                                                <a href="/admin/article/delete/<%= article.id %>" id="delete-btn" class="btn btn-danger btn-sm">Delete</a>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="5" class="text-center text-bold">Sorry. No Article records exist!</td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                            
                         </table>
                     </div>
                 </div>
