@@ -16,6 +16,9 @@ const {
     deleteImage,
 
     verhandlungFirstSection,
+    verhandlungSecondSection,
+    verhandlungThirdSection,
+    verhandlungFourthSection,
 
     servicepageFirstSection,
     servicepageSecondSection,
@@ -114,6 +117,25 @@ router.post(
     ]),
     isAdminAllowed, 
     verhandlungFirstSection
+);
+router.post("/admin/m&a-verhandlung/secondsection/update", urlencodeParser, isAdminAllowed, verhandlungSecondSection);
+router.post("/admin/m&a-verhandlung/thirdsection/update", urlencodeParser, isAdminAllowed, verhandlungThirdSection);
+router.post(
+    "/admin/m&a-verhandlung/fourthsection/update",
+    pageupload.fields([
+        {
+            name: "image_one",
+            maxCount: 1
+        },{
+            name: "image_two",
+            maxCount: 1
+        },{
+            name: "image_three",
+            maxCount: 1
+        }
+    ]),
+    isAdminAllowed,
+    verhandlungFourthSection
 );
 // ================================================= HOME PAGE =================================================
 

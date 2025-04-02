@@ -5,11 +5,11 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-flex align-items-center justify-content-between">
-            <h4 class="mb-0">Home</h4>
+            <h4 class="mb-0">BTD's M&A Verhandlung</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="/admin/pages">Home page</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/page/<%= firstsection.slug %>">BTD's M&A Verhandlung page</a></li>
                     <li class="breadcrumb-item active">First Section</li>
                 </ol>
             </div>
@@ -34,7 +34,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Home page</h4>
+                <h4 class="card-title mb-0">BTD's M&A Verhandlung page</h4>
             </div>
             <form action="/admin/m&a-verhandlung/firtsection/update" method="post" enctype="multipart/form-data">
                 <div class="card-body">
@@ -77,7 +77,7 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-md-6 text-left">
-                            <a href="/admin/pages" class="btn btn-secondary w-md">Back</a>
+                            <a href="/admin/page/<%= firstsection.slug %>" class="btn btn-secondary w-md">Back</a>
                         </div>
                         <div class="col-md-6 text-right">
                             <input type="hidden" name="id" value="<%= firstsection.id %>">

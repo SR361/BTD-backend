@@ -9,7 +9,7 @@ const db = require("./database/db"); // Adjust the path as needed
 var cors = require("cors");
 
 // import controller
-var AuthController = require("./controllers/admin/AuthController");
+var AuthController = require("./controllers/admin/AuthController.js");
 
 // import Router file
 var pageRouter = require("./routers/route");

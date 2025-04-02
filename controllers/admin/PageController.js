@@ -312,8 +312,53 @@ exports.editPage = async (req, res) => {
 				const firstsection = await db.query(firstsectionsql, [page_id]);
 				if(firstsection.length > 0){
 					res.render("Pages/m&a-verhandlung/first-section.ejs", {
-						title: "Home Page",
+						title: "M&A verhandlung Page",
 						firstsection: firstsection[0],
+						baseUrl: baseUrl,
+						message: req.flash("message"),
+						error: req.flash("error"),
+					});
+				}else{
+					req.flash("error", "Sorry. No page not found!");
+					res.redirect("back");
+				}
+			}else if(section == 'Second Section'){
+				const secondsectionsql = "select * from pages where id = ?";
+				const secondsection = await db.query(secondsectionsql,[page_id]);
+				if(secondsection.length > 0){
+					res.render("Pages/m&a-verhandlung/second-section.ejs", {
+						title: "M&A verhandlung Page",
+						secondsection: secondsection[0],
+						baseUrl: baseUrl,
+						message: req.flash("message"),
+						error: req.flash("error"),
+					});
+				}else{
+					req.flash("error", "Sorry. No page not found!");
+					res.redirect("back");
+				}
+			}else if(section == 'Third Section'){
+				const thirdsectionsql = "select * from pages where id = ?";
+				const thirdsection = await db.query(thirdsectionsql,[page_id]);
+				if(thirdsection.length > 0){
+					res.render("Pages/m&a-verhandlung/third-section.ejs", {
+						title: "M&A verhandlung Page",
+						thirdsection: thirdsection[0],
+						baseUrl: baseUrl,
+						message: req.flash("message"),
+						error: req.flash("error"),
+					});
+				}else{
+					req.flash("error", "Sorry. No page not found!");
+					res.redirect("back");
+				}
+			}else if(section == 'Fourth Section'){
+				const fourthsectionsql = "select * from pages where id = ?";
+				const fourthsection = await db.query(fourthsectionsql,[page_id]);
+				if(fourthsection.length > 0){
+					res.render("Pages/m&a-verhandlung/fourth-section.ejs", {
+						title: "M&A verhandlung Page",
+						fourthsection: fourthsection[0],
 						baseUrl: baseUrl,
 						message: req.flash("message"),
 						error: req.flash("error"),
@@ -723,7 +768,7 @@ exports.homepageSixthSection = async (req, res) => {
 	}
 }
 // ================================================= HOME PAGE =================================================
-// ================================================= HOME PAGE =================================================
+// ================================================= VERHANDLUNG PAGE ==========================================
 exports.verhandlungFirstSection = async (req, res) => {
 	const { id, main_title, subtitle } = req.body;
 	try {
@@ -803,7 +848,164 @@ exports.verhandlungFirstSection = async (req, res) => {
 		res.redirect("back");
 	}
 }
-// ================================================= HOME PAGE =================================================
+exports.verhandlungSecondSection = async (req, res) => {
+	const { id, main_title, subtitle, content, button_label, button_link, button_link_full } = req.body;
+	console.log(req.body);
+	try {
+		const selectsql = "select * from pages where id = ?";
+		const secondsection = await db.query(selectsql, [id]);
+
+		if(secondsection.length > 0){
+			// content = JSON.parse(secondsection[0]?.content);
+			const contentJSONParse = {
+				main_title: main_title,
+				subtitle: subtitle,
+				content: content,
+				button_label: button_label,
+				button_link: button_link,
+				button_link_full: button_link_full
+			};
+			const contentJSON = JSON.stringify(contentJSONParse);
+
+			const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
+			const updateresult = await db.query(updatesql, [contentJSON, id]);
+			if (updateresult.affectedRows > 0) {
+                req.flash("message", "Page second section has been update successfully");
+                res.redirect("/admin/page/m&a-verhandlung");
+            } else {
+                req.flash("error", "Something went wrong!");
+                res.redirect("back");
+            }
+		}else{
+			req.flash("error", "Sorry. M&A verhandlung page second section not found!");
+			res.redirect("back");
+		}
+	} catch (error) {
+		console.log("ERROR : ", error);
+		res.redirect("back");
+	}
+}
+exports.verhandlungThirdSection = async (req, res) => {
+	const { id, main_title } = req.body;
+	try {
+		const selectsql = "select * from pages where id = ?";
+		const thirdsection = await db.query(selectsql, [id]);
+
+		if(thirdsection.length > 0){
+			const contentJSONParse = {
+				main_title: main_title
+			}
+			const content = JSON.stringify(contentJSONParse);
+			const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
+			const updateresult = await db.query(updatesql, [content, id]);
+
+			if (updateresult.affectedRows > 0) {
+                req.flash("message", "Page third section has been update successfully");
+                res.redirect("/admin/page/m&a-verhandlung");
+            } else {
+                req.flash("error", "Something went wrong!");
+                res.redirect("back");
+            }
+		}else{
+			req.flash("error", "Sorry. M&A verhandlung page third section not found!");
+			res.redirect("back");
+		}
+	} catch (error) {
+		console.log("ERROR : ", error);
+		res.redirect("back");
+	}
+}
+exports.verhandlungFourthSection = async (req, res) => {
+	const { 
+		id, main_title,
+		title_one, content_one,
+		title_two, content_two,
+		title_three, content_three
+	} = req.body;
+	try {
+		const selectsql = "select * from pages where id = ?";
+		const fourthsection = await db.query(selectsql, [id]);
+		if(fourthsection.length > 0){
+			content = JSON.parse(fourthsection[0]?.content);
+			var image_one_path = content.image_one;
+			if(req.files.image_one){
+				if (image_one_path) {
+					const oldImagePath = path.join(
+						__dirname,
+						"../../public/",
+						image_one_path
+					);
+					try {
+						await fs.access(oldImagePath);
+						await fs.unlink(oldImagePath);
+					} catch (error) { }
+				}
+				image_one_path = '/uploads/pages/' + req.files.image_one[0].filename;
+			}
+			var image_two_path = content.image_two;
+			if(req.files.image_two){
+				if (image_two_path) {
+					const oldImagePath = path.join(
+						__dirname,
+						"../../public/",
+						image_two_path
+					);
+					try {
+						await fs.access(oldImagePath);
+						await fs.unlink(oldImagePath);
+					} catch (error) { }
+				}
+				image_two_path = '/uploads/pages/' + req.files.image_two[0].filename;
+			}
+			var image_three_path = content.image_three;
+			if(req.files.image_three){
+				if (image_three_path) {
+					const oldImagePath = path.join(
+						__dirname,
+						"../../public/",
+						image_three_path
+					);
+					try {
+						await fs.access(oldImagePath);
+						await fs.unlink(oldImagePath);
+					} catch (error) { }
+				}
+				image_three_path = '/uploads/pages/' + req.files.image_three[0].filename;
+			}
+
+			const contentJSON = {
+				main_title	: main_title,
+				title_one	: title_one,
+				content_one	: content_one,
+				title_two	: title_two,
+				content_two	: content_two,
+				title_three	: title_three,
+				content_three: content_three,
+				image_one 	: image_one_path,
+				image_two	: image_two_path,
+				image_three	: image_three_path
+			};
+
+			const contentJSONParse = JSON.stringify(contentJSON);
+			const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
+			const updateresult = await db.query(updatesql, [contentJSONParse, id]);
+			if (updateresult.affectedRows > 0) {
+                req.flash("message", "Page fourth section has been update successfully");
+                res.redirect("/admin/page/m&a-verhandlung");
+            } else {
+                req.flash("error", "Something went wrong!");
+                res.redirect("back");
+            }
+		}else{
+			req.flash("error", "Sorry. BTD's M&A Verhandlung page fourth section not found!");
+			res.redirect("back");
+		}
+	} catch (error) {
+		console.log("ERROR : ", error);
+		res.redirect("back");	
+	}
+}
+// ================================================= VERHANDLUNG PAGE ==========================================
 // ================================================= SERVICE PAGE ==============================================
 exports.servicepageFirstSection = async (req, res) => {
 	const { id, main_title, subtitle, content } = req.body;
