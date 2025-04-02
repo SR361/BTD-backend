@@ -25,412 +25,563 @@
         <%= error %>
     </div>
 <% } %>
-<form class="row" action="/admin/service/store" method="post" enctype="multipart/form-data">
+<!-- <form class="row" action="/admin/service/store" method="post" enctype="multipart/form-data"> -->
+<div class="row">
     <div class="col-lg-12">        
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">First Section</h3>
+                <form action="/admin/service/firstsection/insert" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">First Section (Banner Section)</h3>
+                        </div>
+                        <div class="card-body row">
+                            <div class="col-md-12">
+                                <label for="">Service name  <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="service_name" required>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <label class="form-label">Main Title <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter main title" name="main_title" required>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <label class="form-label">Sub Title <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter sub title" name="subtitle" required>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <label class="form-label">Desktop Banner image<span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" name="desktop_banner_image" required>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <label class="form-label">Mobile Banner image<span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" name="mobile_banner_image" required>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6 text-left">
+                                    <a href="/admin/services" class="btn btn-secondary w-md">Back</a>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body row">
-                        <div class="form-group col-md-6">
-                            <label class="form-label" for="title">Title <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter title" name="firstsection_main_title" >
+                </form>
+            </div>
+            <!-- <div class="col-md-12">
+                <form action="/admin/service/secondsection/insert" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Second Section</h4>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="" class="form-label">Banner Image <span class="text-danger">*</span></label>
-                            <input type="file" class="form-control" name="firstsection_banner_image" >
+                        <div class="card-body">
+                            <div class="row">
+                                <div class=" col-md-6">
+                                    <label for="" class="form-label">Main title<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="main_title" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="" class="form-label">Sub title<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="subtitle" required>
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="" class="form-label">Content<span class="text-danger">*</span></label>
+                                    <textarea name="content" rows="4" class="form-control second_section_content" required></textarea>
+                                </div>                            
+                                <div class="mt-3 col-md-6">
+                                    <label class="form-label">Button labe<span class="text-danger">*</span></label>
+                                    <input type="text" name="button_label" id="" class="form-control" required>
+                                </div>
+                                <div class="mt-3 col-md-6">
+                                    <label class="form-label">Button link<span class="text-danger">*</span></label>
+                                    <input type="text" name="button_link" id="" class="form-control" required>
+                                </div>
+                                <div class="mt-3 row">
+                                    <label class="form-label col-md-2">Button link full<span class="text-danger">*</span></label>                            
+                                    <div class="form-check mb-3 col-md-1">
+                                        <input class="form-check-input" type="radio" name="button_link_full" value="yes">
+                                        <label class="form-check-label">Yes</label>
+                                    </div>                        
+                                    <div class="form-check mb-3 col-md-1">
+                                        <input class="form-check-input" type="radio" name="button_link_full" value="no">
+                                        <label class="form-check-label">No</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mt-3 col-md-4">
-                            <label for="" class="form-label">Content One</label>
-                            <textarea name="firstsection_content_one" rows="4" class="form-control" placeholder="Enter content one"></textarea>
-                        </div>
-                        <div class="mt-3 col-md-4">
-                            <label for="" class="form-label">Content Two</label>
-                            <textarea name="firstsection_content_two" rows="4" class="form-control" placeholder="Enter content two"></textarea>
-                        </div>
-                        <div class="mt-3 col-md-4">
-                            <label for="" class="form-label">Content Three</label>
-                            <textarea name="firstsection_content_three" rows="4" class="form-control" placeholder="Enter content three"></textarea>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6 text-left">
+                                    <a href="/admin/services" class="btn btn-secondary w-md">Back</a>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Second Section</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="" class="form-label">Title</label>
-                            <input type="text" class="form-control" name="secondsection_main_title" placeholder="Enter main title">
+                <form action="/admin/service/thirdsection/insert" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Third Section (Testimonials)</h4>
                         </div>
-                        <div class="row mt-4">
-                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Title One</label>
-                                    <input type="text" name="secondsection_title_one" class="form-control" placeholder="Enter title one">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Image One</label>
-                                    <input type="file" class="form-control" name="secondsection_image_one">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Content One</label>
-                                    <textarea name="secondsection_content_one" rows="3" class="form-control"></textarea>
-                                </div>
-                            </div>                            
-                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Title Two</label>
-                                    <input type="text" name="secondsection_title_two" class="form-control" placeholder="Enter title two">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Image Two</label>
-                                    <input type="file" class="form-control" name="secondsection_image_two">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Content One</label>
-                                    <textarea name="secondsection_content_two" rows="3" class="form-control"></textarea>
+                        <div class="card-body row">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="" class="form-label">Enter main Title</label>
+                                    <input type="text" class="form-control" name="thirdsection_main_title" placeholder="Enter main title">
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Title Three</label>
-                                    <input type="text" name="secondsection_title_three" class="form-control" placeholder="Enter title three">
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6 text-left">
+                                    <a href="/admin/services" class="btn btn-secondary w-md">Back</a>
                                 </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Image Three</label>
-                                    <input type="file" class="form-control" name="secondsection_image_three">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Content Three</label>
-                                    <textarea name="secondsection_content_three" rows="3" class="form-control"></textarea>
+                                <div class="col-md-6 text-right">
+                                    <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Third Section</h4>
-                    </div>
-                    <div class="card-body row">
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label for="" class="form-label">Enter main Title</label>
-                                <input type="text" class="form-control" name="thirdsection_main_title" placeholder="Enter main title">
+                <form action="/admin/service/fourthsection/update" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Fourth Section</h4>
+                        </div>
+                        <div class="card-body row">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Main Title <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="main_title" required>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="" class="form-label">Enter main content</label>
-                                <textarea class="form-control" name="thirdsection_main_content" rows="3" placeholder="Enter main content"></textarea>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Select image One</label>
+                                        <input type="file" class="form-control" name="image_one">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Select image two</label>
+                                        <input type="file" class="form-control" name="image_two">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Select image three</label>
+                                        <input type="file" class="form-control" name="image_three">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Title one <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="title_one" required>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Content one <span class="text-danger">*</span></label>
+                                        <textarea name="content_one" rows="4" class="form-control" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Title two <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="title_two" required>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Content two <span class="text-danger">*</span></label>
+                                        <textarea name="content_two" rows="4" class="form-control" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Title three <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="title_three" required>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Content three</label>
+                                        <textarea name="content_three" rows="4" class="form-control"></textarea>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter title one</label>
-                                    <input type="text" class="form-control" name="thirdsection_title_one">
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6 text-left">
+                                    <a href="/admin/services" class="btn btn-secondary w-md">Back</a>
                                 </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter content one</label>
-                                    <textarea name="thirdsection_content_one" rows="4" placeholder="Enter content" class="form-control"></textarea>
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Select image one</label>
-                                    <input type="file" class="form-control" name="thirdsection_image_one">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter button label one</label>
-                                    <input type="text" class="form-control" name="thirdsection_button_label_one" placeholder="Enter button label">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter button link one</label>
-                                    <input type="text" class="form-control" name="thirdsection_button_link_one" placeholder="Enter button link">
-                                </div>
-                            </div>
-                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter title two</label>
-                                    <input type="text" class="form-control" name="thirdsection_title_two">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter content two</label>
-                                    <textarea name="thirdsection_content_two" rows="4" placeholder="Enter content" class="form-control"></textarea>
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Select image two</label>
-                                    <input type="file" class="form-control" name="thirdsection_image_two" >
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter button label two</label>
-                                    <input type="text" class="form-control" name="thirdsection_button_label_two" placeholder="Enter button label">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter button link two</label>
-                                    <input type="text" class="form-control" name="thirdsection_button_link_two" placeholder="Enter button link">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter title three</label>
-                                    <input type="text" class="form-control" name="thirdsection_title_three">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter content three</label>
-                                    <textarea name="thirdsection_content_three" rows="4" placeholder="Enter content" class="form-control"></textarea>
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Select image three</label>
-                                    <input type="file" class="form-control" name="thirdsection_image_three">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter button label three</label>
-                                    <input type="text" class="form-control" name="thirdsection_button_label_three" placeholder="Enter button label">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter button link three</label>
-                                    <input type="text" class="form-control" name="thirdsection_button_link_three" placeholder="Enter button link">
+                                <div class="col-md-6 text-right">
+                                    <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Fourth Section</h4>
+                <form action="/admin/service/fivthsection/update" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Fivth Section</h4>
+                        </div>
+                        <div class="card-body row">
+                            <div class="form-group col-md-12">
+                                <label for="" class="form-label">Enter main title <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="main_title" required>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Enter title one <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="title_one" re.>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Enter content one <span class="text-danger">*</span></label>
+                                        <textarea name="content_one" rows="4" class="form-control" req.></textarea>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Select image one <span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control" name="image_one" req.>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Enter title two <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="title_two" required>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Enter content two <span class="text-danger">*</span></label>
+                                        <textarea name="content_two" rows="4" class="form-control"></textarea required>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Select image two <span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control" name="image_two" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Enter title three <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="title_three" required>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Enter content three <span class="text-danger">*</span></label>
+                                        <textarea name="content_three" rows="4" class="form-control"></textarea required>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Select image three <span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control" name="image_three" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mt-3">
+                                    <label for="" class="form-label">Enter button label <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="button_label" required>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="" class="form-label">Enter button link <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="button_link" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6 text-left">
+                                    <a href="/admin/services" class="btn btn-secondary w-md">Back</a>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body row">
-                        <div class="form-group col-md-6">
-                            <label for="" class="form-label">Enter Title</label>
-                            <input type="text" class="form-control" name="fourthsection_main_title" placeholder="Enter title">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="" class="form-label">Select Image</label>
-                            <input type="file" class="form-control" name="fourthsection_image">
-                        </div>
-                        <div class="mt-3">
-                            <label for="" class="form-label">Enter content</label>
-                            <textarea name="fourthsection_content" rows="4" class="form-control fourthsection_content   " placeholder="Enter content"></textarea>
-                        </div>
-                        <div class="mt-3 col-md-6">
-                            <label for="" class="form-label">Enter button label</label>
-                            <input type="text" class="form-control" name="fourthsection_button_label" placeholder="Enter button label">
-                        </div>
-                        <div class="mt-3 col-md-6">
-                            <label for="" class="form-label">Enter button link</label>
-                            <input type="text" class="form-control" name="fourthsection_button_link" placeholder="Enter button link">
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Fivth Section</h4>
-                    </div>
-                    <div class="card-body row">
-                        <div class="form-group col-md-12">
-                            <label for="" class="form-label">Enter main title</label>
-                            <input type="text" class="form-control" name="fivthsection_main_title">
+                <form action="/admin/service/sixthsection/update" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Sixth Section</h4>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter title one</label>
-                                    <input type="text" class="form-control" name="fivthsection_title_one">
+                        <div class="card-body row">
+                            <div class="row mt-3">
+                                <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Enter title one <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="title_one" required>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Enter content one <span class="text-danger">*</span></label>
+                                        <textarea name="content_one" rows="4" class="form-control" required></textarea>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Select image one <span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control" name="image_one" required>
+                                    </div>
                                 </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter subtitle one</label>
-                                    <input type="text" class="form-control" name="fivthsection_subtitle_one">
+                                <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Enter title two <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="title_two" required>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Enter content two <span class="text-danger">*</span></label>
+                                        <textarea name="content_two" rows="4" class="form-control"></textarea required>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Select image two <span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control" name="image_two" required>
+                                    </div>
                                 </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter content one</label>
-                                    <textarea name="fivthsection_content_one" rows="4" class="form-control"></textarea>
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Select image one</label>
-                                    <input type="file" class="form-control" name="fivthsection_image_one">
+                                <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Enter title three <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="title_three" required>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Enter content three <span class="text-danger">*</span></label>
+                                        <textarea name="content_three" rows="4" class="form-control"></textarea required>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="" class="form-label">Select image three <span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control" name="image_three" required>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter title two</label>
-                                    <input type="text" class="form-control" name="fivthsection_title_two">
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6 text-left">
+                                    <a href="/admin/services" class="btn btn-secondary w-md">Back</a>
                                 </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter subtitle two</label>
-                                    <input type="text" class="form-control" name="fivthsection_subtitle_two">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter content two</label>
-                                    <textarea name="fivthsection_content_two" rows="4" class="form-control"></textarea>
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Select image two</label>
-                                    <input type="file" class="form-control" name="fivthsection_image_two">
-                                </div>
-                            </div>
-                            <div class="col-md-4" style="border-right: 1px solid #e2e5e8;">
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter title three</label>
-                                    <input type="text" class="form-control" name="fivthsection_title_three">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter subtitle three</label>
-                                    <input type="text" class="form-control" name="fivthsection_subtitle_three">
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Enter content three</label>
-                                    <textarea name="fivthsection_content_three" rows="4" class="form-control"></textarea>
-                                </div>
-                                <div class="mt-3">
-                                    <label for="" class="form-label">Select image three</label>
-                                    <input type="file" class="form-control" name="fivthsection_image_three">
+                                <div class="col-md-6 text-right">
+                                    <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Sixth Section</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="form-group">
-                                <label for="" class="form-label">Enter main title</label>
-                                <input type="text" class="form-control" name="sixthsection_main_title" placeholder="Enter main title">
+                <form action="/admin/service/seventhsection/update" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Seventh Section</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="" class="form-label">Enter main title <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="main_title" placeholder="Enter main title" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="" class="form-label">Enter sub title <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="subtitle" placeholder="Enter sub title" required>
+                                </div>
                             </div>
-                            <div class="mt-3">
-                                <label for="" class="form-label">Enter content</label>
-                                <textarea name="sixthsection_content" rows="4" class="form-control sixthsection_content" placeholder="Enter content"></textarea>
+                            <div class="row">
+                                <div class="mt-3 col-md-6">
+                                    <label for="" class="form-label">Enter button label <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="button_label" placeholder="Enter button label" required>
+                                </div>
+                                <div class="mt-3 col-md-6">
+                                    <label for="" class="form-label">Enter button link <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="button_link" placeholder="Enter button link" required>
+                                </div>
                             </div>
-                            <div class="mt-3 col-md-6">
-                                <label for="" class="form-label">Enter button label</label>
-                                <input type="text" class="form-control" name="sixthsection_button_label" placeholder="Enter button label">
+                            <div class="row">
+                                <div class="mt-3 col-md-6">
+                                    <label for="" class="form-label">Select logo image <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="logo_image" required>
+                                </div>
+                                <div class="mt-3 col-md-6">
+                                    <label for="" class="form-label">Select background image <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="background_image" required>
+                                </div>
                             </div>
-                            <div class="mt-3 col-md-6">
-                                <label for="" class="form-label">Enter button link</label>
-                                <input type="text" class="form-control" name="sixthsection_button_link" placeholder="Enter button link">
+                            <div class="mt-3 col-md-12">
+                                <label for="" class="form-label">Enter content <span class="text-danger">*</span></label>
+                                <textarea name="content" class="form-control" rows="4" required></textarea>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6 text-left">
+                                    <a href="/admin/services" class="btn btn-secondary w-md">Back</a>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Seventh Section</h4>
+                <form action="/admin/service/eighthsection/update" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Eighth Section</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="" class="form-label">Enter main title <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="main_title" placeholder="Enter main title" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="" class="form-label">Enter sub title <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="subtitle" placeholder="Enter sub title" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mt-3 col-md-6">
+                                    <label for="" class="form-label">Enter button label <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="button_label" placeholder="Enter button label" required>
+                                </div>
+                                <div class="mt-3 col-md-6">
+                                    <label for="" class="form-label">Enter button link <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="button_link" placeholder="Enter button link" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mt-3 col-md-12">
+                                    <label for="" class="form-label">Select logo image <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="logo_image" required>
+                                </div>
+                            </div>
+                            <div class="mt-3 col-md-12">
+                                <label for="" class="form-label">Enter content <span class="text-danger">*</span></label>
+                                <textarea name="content" class="form-control" rows="4" required></textarea>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6 text-left">
+                                    <a href="/admin/services" class="btn btn-secondary w-md">Back</a>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="" class="form-label">Enter main title</label>
-                            <input type="text" class="form-control" name="seventhsection_main_title" placeholder="Enter main title">
-                        </div>
-                        <div class="mt-3">
-                            <label for="" class="form-label">Enter sub title</label>
-                            <input type="text" class="form-control" name="seventhsection_subtitle" placeholder="Enter sub title">
-                        </div>
-                        <div class="mt-3">
-                            <label for="" class="form-label">Enter youtube link</label>
-                            <input type="text" class="form-control" name="seventhsection_youtube_link" placeholder="Enter youtube link">
-                        </div>
-                        <div class="mt-3">
-                            <label for="" class="form-label">Enter content</label>
-                            <input type="text" class="form-control seventhsection_content" name="seventhsection_content" placeholder="Enter content">
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Eighth Section</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="" class="form-label">Enter main tile</label>
-                            <input type="text" class="form-control" name="eighthsection_main_title" placeholder="Enter main title">
+                <form action="/admin/service/ninethsection/update" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Nineth Section</h4>
                         </div>
-                        <div class="mt-3">
-                            <label for="" class="form-label">Select images</label>
-                            <input type="file" class="form-control" name="eighthsection_images" multiple>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="" class="form-label">Enter main title</label>
+                                    <input type="text" class="form-control" name="main_title" placeholder="Enter main title">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="" class="form-label">Enter sub title</label>
+                                    <input type="text" class="form-control" name="subtitle" placeholder="Enter sub title">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="" class="form-label">Select image<span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="image" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <table class="table" id="portfolioTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Portfolio Points</th>
+                                            <th>Action</th>
+                                        </tr>    
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <textarea name="portfolio_points[]" class="form-control" rows="2"></textarea>
+                                            </td>
+                                            <td>
+                                                <span class="btn btn-sm btn-success add-btn" onclick="addRow()">➕</span>
+                                                <span class="btn btn-sm btn-danger remove-btn" onclick="removeRow(this)">➖</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6 text-left">
+                                    <a href="/admin/services" class="btn btn-secondary w-md">Back</a>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col-md-12 text-left">
-                        <a href="/admin/services" class="btn btn-secondary w-md">Back</a>
-                        <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
-                    </div>
-                </div>
-            </div>
+                </form>
+            </div> -->
         </div>
     </div>
-</form>
+</div>
+<!-- </form> -->
 <%- contentFor('FooterJs') %>
 <%- contentFor('BottomJs') %>
 <script src="/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
-<script type="text/javascript">
-    ClassicEditor.create(
-        document.querySelector(".fourthsection_content"),
-        {
-            ckfinder: {
-                uploadUrl: '/admin/page/editor/upload'
-            },
+<script>
+    function addRow() {
+        $('#portfolioTable tbody').append(`
+            <tr>
+                <td>
+                    <textarea class="form-control" name="portfolio_points[]" rows="2"></textarea>
+                </td>
+                <td>
+                    <span class="btn btn-sm btn-success add-btn" onclick="addRow()">➕</span>
+                    <span class="btn btn-sm btn-danger remove-btn" onclick="removeRow(this)">➖</span>
+                </td>
+            </tr>
+        `);
+    }
+
+    // Remove a row
+    function removeRow(button) {
+        if ($('#portfolioTable tbody tr').length > 1) {
+            $(button).closest('tr').remove();
+        } else {
+            alert('At least one row is required.');
         }
-    )
-    .then(function (editor) {
-        console.log('CKEditor initialized successfully:', editor);
-        editor.ui.view.editable.element.style.height = "200px";
-    })
-    .catch(function (error) {
-        console.error('Error initializing CKEditor:', error);
-    });
-// =======================================================================================
-    ClassicEditor.create(
-        document.querySelector(".sixthsection_content"),
-        {
-            ckfinder: {
-                uploadUrl: '/admin/page/editor/upload'
-            },
-        }
-    )
-    .then(function (editor) {
-        console.log('CKEditor initialized successfully:', editor);
-        editor.ui.view.editable.element.style.height = "200px";
-    })
-    .catch(function (error) {
-        console.error('Error initializing CKEditor:', error);
-    });
-// =======================================================================================
-    ClassicEditor.create(
-        document.querySelector(".seventhsection_content"),
-        {
-            ckfinder: {
-                uploadUrl: '/admin/page/editor/upload'
-            },
-        }
-    )
-    .then(function (editor) {
-        console.log('CKEditor initialized successfully:', editor);
-        editor.ui.view.editable.element.style.height = "200px";
-    })
-    .catch(function (error) {
-        console.error('Error initializing CKEditor:', error);
-    });
+    }
     
+    ClassicEditor.create(
+        document.querySelector(".second_section_content"),
+        {
+            ckfinder: {
+                uploadUrl: '/admin/page/editor/upload'
+            },
+        }
+    )
+    .then(function (editor) {
+        console.log('CKEditor initialized successfully:', editor);
+        editor.ui.view.editable.element.style.height = "200px";
+    })
+    .catch(function (error) {
+        console.error('Error initializing CKEditor:', error);
+    });
 </script>

@@ -104,39 +104,7 @@ router.post("/admin/homepage/sixthsection/update", urlencodeParser, isAdminAllow
 router.post("/admin/page/metatags/update", urlencodeParser, isAdminAllowed, metaTagUpdate);
 // ================================================= HOME PAGE =================================================
 // ================================================= HOME PAGE =================================================
-router.post(
-    "/admin/m&a-verhandlung/firtsection/update",
-    pageupload.fields([
-        {
-            name: "desktop_banner_image",
-            maxCount: 1,
-        },{
-            name: "mobile_banner_image",
-            maxCount: 1
-        }
-    ]),
-    isAdminAllowed, 
-    verhandlungFirstSection
-);
-router.post("/admin/m&a-verhandlung/secondsection/update", urlencodeParser, isAdminAllowed, verhandlungSecondSection);
-router.post("/admin/m&a-verhandlung/thirdsection/update", urlencodeParser, isAdminAllowed, verhandlungThirdSection);
-router.post(
-    "/admin/m&a-verhandlung/fourthsection/update",
-    pageupload.fields([
-        {
-            name: "image_one",
-            maxCount: 1
-        },{
-            name: "image_two",
-            maxCount: 1
-        },{
-            name: "image_three",
-            maxCount: 1
-        }
-    ]),
-    isAdminAllowed,
-    verhandlungFourthSection
-);
+
 // ================================================= HOME PAGE =================================================
 
 // ================================================= SERVICE PAGE =================================================
