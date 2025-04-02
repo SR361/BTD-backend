@@ -29,6 +29,8 @@ var testimonialRouter = require("./routers/testimonialRoute");
 var CMSRouter = require("./routers/CMSRoute");
 
 var APIProfileRouter = require("./routers/APIProfileRoute");
+var APIContacustRouter = require("./routers/APIContactRoute");
+var articleRouter = require("./routers/articleRoute");
 
 
 
@@ -138,6 +140,9 @@ app.use(testimonialRouter);
 app.use(CMSRouter);
 
 app.use(APIProfileRouter);
+app.use(APIContacustRouter);
+app.use(articleRouter);
+
 app.get("/", function (req, res) {
   res.redirect("/");
 });

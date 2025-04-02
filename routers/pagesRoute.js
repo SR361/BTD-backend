@@ -27,7 +27,7 @@ const {
     imprintpageFirstSection,
     managePageMetaTag, 
     metaTagUpdate, 
-    footerpageFirstSection
+    footerpageFirstSection, publicationpageFirstSection
 } = require("../controllers/admin/PageController");
 const router = express.Router();
 
@@ -196,6 +196,9 @@ router.post(
     isAdminAllowed, 
     footerpageFirstSection
 );
+
+// 01-04-2025
+router.post("/admin/publicationpage/firtsection/update", urlencodeParser, isAdminAllowed, publicationpageFirstSection);
 /*---------- WEB Routes  -------------*/
 
 module.exports = router;

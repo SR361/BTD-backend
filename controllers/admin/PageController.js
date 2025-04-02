@@ -44,6 +44,9 @@ exports.pageSectionList = async (req, res) => {
 	const pageSectionListSql = "SELECT * FROM `pages` WHERE slug=? ORDER BY `id` ASC";
 	const pageSectioLists = await db.query(pageSectionListSql,[slug]);
 
+	const articleSql = `SELECT * FROM articles`;
+	const articles = await db.query(articleSql);
+
 	// const contactSql = "SELECT * FROM `contacts`";
 	// const contacts = await db.query(contactSql);
 	
@@ -51,7 +54,7 @@ exports.pageSectionList = async (req, res) => {
         title: "Pages",
 		slug : slug,
 		page : page[0],
-		// contacts : contacts,
+		articles : articles,
 		pageSectioLists : pageSectioLists,
         message: req.flash("message"),
         error: req.flash("error"),
@@ -310,6 +313,23 @@ exports.editPage = async (req, res) => {
 				if(firstsection.length > 0){
 					res.render("Pages/m&a-verhandlung/first-section.ejs", {
 						title: "Home Page",
+						firstsection: firstsection[0],
+						baseUrl: baseUrl,
+						message: req.flash("message"),
+						error: req.flash("error"),
+					});
+				}else{
+					req.flash("error", "Sorry. No page not found!");
+					res.redirect("back");
+				}
+			}
+		}else if(slug == 'publication'){
+			if(section == 'First Section'){
+				const firstsectionsql = "select * from pages where id = ?";
+				const firstsection = await db.query(firstsectionsql, [page_id]);
+				if(firstsection.length > 0){
+					res.render("Pages/publication/first-section.ejs", {
+						title: "Publication Page",
 						firstsection: firstsection[0],
 						baseUrl: baseUrl,
 						message: req.flash("message"),
@@ -1013,12 +1033,15 @@ exports.aboutuspageFirstSection = async (req, res) => {
 // ================================================= ABOUT US PAGE ================================================
 // ================================================= CONTACT PAGE =================================================
 exports.contactpageFirstSection = async (req, res) => {
-	const { id, countrie_one, city_one, address_one, phone_one, email_one, countrie_two, city_two, address_two, phone_two, email_two } = req.body;
+	const { id, title, subtitle, detail, countrie_one, city_one, address_one, phone_one, email_one, countrie_two, city_two, address_two, phone_two, email_two } = req.body;
 	try {
 		const selectsql = "select * from pages where id = ?";
 		const firstsection = await db.query(selectsql, [id]);
 		if(firstsection.length > 0){
 			const contentJSON = {
+				title: title,
+				subtitle: subtitle,
+				detail: detail,
 				countrie_one: countrie_one,
 				city_one: city_one,
 				address_one: address_one,
@@ -1254,6 +1277,62 @@ exports.footerpageFirstSection = async (req, res) => {
         if (updateresult.affectedRows > 0) {
             req.flash("message", "Page first section has been updated successfully");
             res.redirect("/admin/page/footer");
+        } else {
+            req.flash("error", "Something went wrong!");
+            res.redirect("back");
+        }
+    } catch (error) {
+        console.error("ERROR:", error);
+        req.flash("error", "An unexpected error occurred.");
+        res.redirect("back");
+    }
+};
+
+// 01-04-2025
+exports.publicationpageFirstSection = async (req, res) => {
+    try {
+
+        const { id, main_title, first_heading, first_content, second_heading, second_content } = req.body;
+		console.log("Publication Page Request @@ = ",req.body);
+        if (!id) {
+            req.flash("error", "Invalid page ID.");
+            return res.redirect("back");
+        }
+		
+        const selectsql = "SELECT * FROM pages WHERE id = ?";
+        const firstsection = await db.query(selectsql, [id]);
+
+        if (firstsection.length === 0) {
+            req.flash("error", "Sorry, home page first section not found!");
+            return res.redirect("back");
+        }
+
+        let existingContent = {};
+        if (firstsection[0].content) {
+            try {
+                existingContent = JSON.parse(firstsection[0].content);
+            } catch (error) {
+                console.error("Error parsing JSON:", error);
+                existingContent = {};
+            }
+        }
+        const updatedContent = {
+            main_title: main_title || "",
+            first_heading: first_heading || "",
+            first_content: first_content,
+            second_heading: second_heading || "",
+            second_content: second_content || "",
+        };
+
+        const contentJSON = JSON.stringify(updatedContent);
+
+        // Update the database
+        const updatesql = "UPDATE `pages` SET content=? WHERE id=?";
+        const updateresult = await db.query(updatesql, [contentJSON, id]);
+
+        if (updateresult.affectedRows > 0) {
+            req.flash("message", "Page first section has been updated successfully");
+            res.redirect("/admin/page/publication");
         } else {
             req.flash("error", "Something went wrong!");
             res.redirect("back");

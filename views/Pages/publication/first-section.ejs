@@ -1,0 +1,116 @@
+<%- contentFor('HeaderCss') %>
+<%- contentFor('breadcrumb') %>
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0">Footer</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="/admin/pages">Publication page</a></li>
+                    <li class="breadcrumb-item active">First Section</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<%- contentFor('body') %>
+<% if (message!="" ) { %>
+    <div class="alert alert-success">
+        <%= message  %>
+    </div>
+<% } %>
+<% if (error!="") { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+<% } %>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Publication page</h4>
+            </div>
+            <form action="/admin/publicationpage/firtsection/update" method="post">
+                <div class="card-body">
+                   
+                    <%
+                        let contentJSONParse = {};
+                        if (firstsection && firstsection.content) {
+                            try {
+                                contentJSONParse = JSON.parse(firstsection.content);
+                            } catch (error) {
+                                console.error("Error parsing JSON:", error);
+                                contentJSONParse = {}; // Default to empty object if parsing fails
+                            }
+                        }
+                    %>
+                    <div class="row">
+                    <div class="row">
+                        <div class="col-md-12 row">
+                            <div class="mt-3 col-md-12">
+                                <label for="" class="form-label">Main title</label>
+                                <input type="text" class="form-control" name="main_title" value="<%= contentJSONParse.main_title %>">
+                            </div>
+                            <div class="mt-3 col-md-12">
+                                <label for="" class="form-label">First Heading</label>
+                                <input type="text" class="form-control" name="first_heading" value="<%= contentJSONParse.first_heading %>">
+                            </div>
+                            
+                            <div class="mt-3">
+                                <label for="" class="form-label">First Content</label>
+                                <textarea name="first_content" rows="4" class="form-control content"><%= contentJSONParse.first_content %></textarea>
+                            </div>
+                            <div class="mt-3 col-md-12">
+                                <label for="" class="form-label">Second Heading</label>
+                                <input type="text" class="form-control" name="second_heading" value="<%= contentJSONParse.second_heading %>">
+                            </div>
+                            
+                            <div class="mt-3">
+                                <label for="" class="form-label">Second Content</label>
+                                <textarea name="second_content" rows="4" class="form-control content1"><%= contentJSONParse.second_content %></textarea>
+                            </div>                            
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <a href="/admin/pages" class="btn btn-secondary w-md">Back</a>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <input type="text" name="id" value="<%= firstsection.id %>">
+                            <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Form Layout -->
+<%- contentFor('FooterJs') %>
+<%- contentFor('BottomJs') %>
+<script src="/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script type="text/javascript">
+    document.querySelectorAll(".content, .content1").forEach((element) => {
+        ClassicEditor.create(element, {
+            ckfinder: {
+                uploadUrl: "/admin/page/editor/upload",
+            },
+        })
+        .then((editor) => {
+            console.log("CKEditor initialized successfully:", editor);
+            editor.ui.view.editable.element.style.height = "200px";
+        })
+        .catch((error) => {
+            console.error("Error initializing CKEditor:", error);
+        });
+    });
+</script>

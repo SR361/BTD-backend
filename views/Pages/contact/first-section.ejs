@@ -39,23 +39,23 @@
             const contentJSONParse = JSON.parse(firstsection.content);
         %>
         <div class="row mt-2">
-            <!-- <div class="col-md-12">
+            <div class="col-md-12">
                 <div class="card ">
-                    <div class="card-header">
+                    <!-- <div class="card-header">
                         <h4 class="card-title mb-0">Meta content</h4>
-                    </div>
+                    </div> -->
                     <div class="card-body row">
                         <div class="col-md-6">
-                            <label class="form-label">Meta keywords<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter meta keywords" name="metakeywords" value="<%= firstsection.metakeywords %>" required >
+                            <label class="form-label">Title<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Enter title" name="title" value="<%= contentJSONParse.title %>" required >
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Meta description<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter meta description" name="metadescription" value="<%= firstsection.metadescription %>" required >
+                            <label class="form-label">Sub Title<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Enter subtitle" name="subtitle" value="<%= contentJSONParse.subtitle %>" required >
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
@@ -117,6 +117,18 @@
                     
                 </div>
             </div>
+            <!-- Short Description -->
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-body row">
+                        <div class="col-md-12">
+                            <label class="form-label">Detail</label>
+                            <textarea type="text" class="form-control" name="detail" rows="3"><%= contentJSONParse.detail %></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Short description -->
         </div>
         <div class="card-footer">
             <div class="row">
