@@ -13,6 +13,8 @@ const {
     deletearchive
 } = require("../controllers/admin/ArchiveController");
 
+const { getArchives } = require("../controllers/api/ArchiveController");
+
 const router = express.Router();
 
 /*---------- WEB Routes  -------------*/
@@ -43,5 +45,7 @@ router.post(
     update
 );
 router.get("/admin/archive/delete/:id", isAdminAllowed, deletearchive);
+
+router.get("/api/V1/archives", urlencodeParser, getArchives);
 /*---------- WEB Routes  -------------*/
 module.exports = router;

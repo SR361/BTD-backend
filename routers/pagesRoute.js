@@ -23,14 +23,15 @@ const {
     servicepageFirstSection,
     servicepageSecondSection,
     servicepageThirdSection,
-
     aboutuspageFirstSection,
+    aboutuspageSecondSection,
+    aboutuspageThirdSection,
     contactpageFirstSection,
     dataprotectionpageFirstSection,
     imprintpageFirstSection,
     managePageMetaTag, 
     metaTagUpdate, 
-    footerpageFirstSection, publicationpageFirstSection, publicationfachartikelpageFirstSection
+    footerpageFirstSection, publicationpageFirstSection, publicationfachartikelpageFirstSection, blogpageFirstSection
 } = require("../controllers/admin/PageController");
 const router = express.Router();
 
@@ -159,10 +160,44 @@ router.post(
     isAdminAllowed, 
     aboutuspageFirstSection
 );
+
+router.post(
+    "/admin/aboutuspage/secondsection/update",
+    pageupload.fields([
+        {
+            name: "image",
+            maxCount: 1
+        }
+    ]),
+    isAdminAllowed, 
+    aboutuspageSecondSection
+);
+router.post(
+    "/admin/aboutuspage/thirdsection/update",
+    pageupload.fields([
+        {
+            name: "image",
+            maxCount: 1
+        }
+    ]),
+    isAdminAllowed, 
+    aboutuspageThirdSection
+);
 // ================================================= ABOUT US PAGE =================================================
 
 // ================================================= CONTACT PAGE =================================================
-router.post("/admin/contactpage/firstsection/update", urlencodeParser, isAdminAllowed, contactpageFirstSection);
+// router.post("/admin/contactpage/firstsection/update", urlencodeParser, isAdminAllowed, contactpageFirstSection);
+router.post(
+    "/admin/contactpage/firstsection/update",
+    pageupload.fields([
+        {
+            name: "banner_image",
+            maxCount: 1
+        }
+    ]),
+    isAdminAllowed, 
+    contactpageFirstSection
+);
 // ================================================= CONTACT PAGE =================================================
 
 // ================================================= DATA PROTECTION PAGE =================================================
@@ -201,6 +236,17 @@ router.post(
     publicationpageFirstSection
 );
 router.post("/admin/publicationfachartikelpage/firtsection/update", urlencodeParser, isAdminAllowed, publicationfachartikelpageFirstSection);
+router.post(
+    "/admin/blogpage/firtsection/update",
+    pageupload.fields([
+        {
+            name: "banner_image",
+            maxCount: 1,
+        }
+    ]),
+    isAdminAllowed, 
+    blogpageFirstSection
+);
 /*---------- WEB Routes  -------------*/
 
 module.exports = router;

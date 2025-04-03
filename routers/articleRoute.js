@@ -11,29 +11,18 @@ const {
     updateArticle,
     deleteArticle,
 } = require("../controllers/admin/ArticleController");
+const { getArticles } = require("../controllers/api/ArticleController");
 
 const router = express.Router();
 
 /*---------- WEB Routes  -------------*/
 router.get("/admin/article/create/:slug", isAdminAllowed, addArticle);
-// router.post("/admin/article/save", urlencodeParser, isAdminAllowed, insertArticle);
 
-// router.post(
-//     "/admin/article/save",
-//     articleupload.fields([
-//         {
-//             name: "image",
-//             maxCount: 1,
-//         },
-//     ]),
-//     isAdminAllowed,
-//     insertArticle
-// );
 router.post(
     "/admin/article/save",
     articleupload.fields([
         { name: "image", maxCount: 1 },
-        { name: "pdf", maxCount: 1 }  // ✅ Add this line to allow PDF uploads
+        { name: "pdf", maxCount: 1 }  
     ]),
     isAdminAllowed,
     insertArticle
@@ -41,7 +30,7 @@ router.post(
 
 
 router.get('/admin/article/edit/:id', isAdminAllowed, editArticle);
-// router.post('/admin/article/update/', urlencodeParser, isAdminAllowed, updateArticle);
+
 router.post(
     "/admin/article/update",
     articleupload.fields([
@@ -54,5 +43,7 @@ router.post(
     updateArticle
 );
 router.get("/admin/article/delete/:id", isAdminAllowed, deleteArticle);
+
+router.get("/api/V1/articles/:slug", urlencodeParser, getArticles);
 /*---------- WEB Routes  -------------*/
 module.exports = router;

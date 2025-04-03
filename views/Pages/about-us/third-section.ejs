@@ -1,0 +1,166 @@
+<%- contentFor('HeaderCss') %>
+<%- contentFor('breadcrumb') %>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+</style>
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0">About Us</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="/admin/pages">About Us page</a></li>
+                    <li class="breadcrumb-item active">Fivth Section</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<%- contentFor('body') %>
+<% if (message!="" ) { %>
+    <div class="alert alert-success">
+        <%= message  %>
+    </div>
+<% } %>
+<% if (error!="") { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+<% } %>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Home page</h4>
+            </div>
+            <form action="/admin/aboutuspage/thirdsection/update" method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                    <%
+                        let contentJSONParse = {};
+                        
+                        try {
+                            contentJSONParse = thirdsection.content 
+                                ? JSON.parse(thirdsection.content) 
+                                : {}; // If content is null, assign an empty object
+                        } catch (error) {
+                            console.error("JSON Parse Error: ", error);
+                            contentJSONParse = {}; // Fallback to empty object on parse error
+                        }
+                    %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mt-3">
+                                <label class="form-label">Main title</label>
+                                <input type="text" class="form-control" name="main_title" value="<%= contentJSONParse.main_title %>">
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="col-md-12 mt-3">
+                            <table class="table" id="portfolioTable">
+                                <thead>
+                                    <tr>
+                                        <th>Portfolio Points</th>
+                                        <th>Action</th>
+                                    </tr>    
+                                </thead>
+                                <tbody>
+                                    <%
+                                        <!-- const points = JSON.parse(contentJSONParse.point); -->
+                                        let points = [];
+                                        if (contentJSONParse && contentJSONParse.point) {
+                                            try {
+                                                points = JSON.parse(contentJSONParse.point);
+                                            } catch (error) {
+                                                console.error("Invalid JSON in contentJSONParse.point:", error);
+                                            }
+                                        }
+                                        if(points.length ==0) {
+                                            %>
+                                            <tr>
+                                                <td>
+                                                    <textarea name="portfolio_points[]" class="form-control" rows="2"></textarea>
+                                                </td>
+                                                <td>
+                                                    <span class="btn btn-sm btn-success add-btn" onclick="addRow()">➕</span>
+                                                    <span class="btn btn-sm btn-danger remove-btn" onclick="removeRow(this)">➖</span>
+                                                </td>
+                                            </tr>
+                                    <%
+                                        }
+                                        for(let index = 0; index < points.length; index++){
+                                            %>
+                                            <tr>
+                                                <td>
+                                                    <textarea name="portfolio_points[]" class="form-control" rows="2"><%= points[index] %></textarea>
+                                                </td>
+                                                <td>
+                                                    <span class="btn btn-sm btn-success add-btn" onclick="addRow()">➕</span>
+                                                    <span class="btn btn-sm btn-danger remove-btn" onclick="removeRow(this)">➖</span>
+                                                </td>
+                                            </tr>
+                                            <%
+                                        }
+                                    %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <a href="/admin/pages" class="btn btn-secondary w-md">Back</a>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <input type="hidden" name="id" value="<%= thirdsection.id %>">
+                            <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Form Layout -->
+
+
+<%- contentFor('FooterJs') %>
+<%- contentFor('BottomJs') %>
+<script>
+    function addRow() {
+        $('#portfolioTable tbody').append(`
+            <tr>
+                <td>
+                    <textarea class="form-control" name="portfolio_points[]" rows="2"></textarea>
+                </td>
+                <td>
+                    <span class="btn btn-sm btn-success add-btn" onclick="addRow()">➕</span>
+                    <span class="btn btn-sm btn-danger remove-btn" onclick="removeRow(this)">➖</span>
+                </td>
+            </tr>
+        `);
+    }
+
+    // Remove a row
+    function removeRow(button) {
+        if ($('#portfolioTable tbody tr').length > 1) {
+            $(button).closest('tr').remove();
+        } else {
+            alert('At least one row is required.');
+        }
+    }
+</script>

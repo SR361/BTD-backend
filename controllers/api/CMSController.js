@@ -66,3 +66,54 @@ exports.homePageContent = async (req, res) => {
         res.status(500).send({ status: false, result: "", errors:error });
     }
 }
+
+exports.footerPageContent = async (req, res) => {
+    try {
+        const output = {};
+        const pageContentSql = "SELECT title,content FROM `pages` where slug = 'footer' and section = 'First Section'";
+        const pageContent = await db.query(pageContentSql);
+        const contentJSON = JSON.parse(pageContent[0].content);
+        output['first_section'] = contentJSON; 
+        // console.log("Contact Data @@ = ",output);
+        res.status(200).send({ 
+            status: true, 
+            result:  { content : output },
+            errors: "" 
+          });
+    } catch (error) {
+        res.status(500).send({ status: false, result: "", errors:error });
+    }
+}
+
+exports.aboutUsPageContent = async (req, res) => {
+    try {
+        const sql = "select * from pages where page = ?";
+        const content = await db.query(sql,['blog']);
+        const output = {};
+        for (const [index, item] of content.entries()) {
+            const metasql = "select metatitle,metakeywords,metadescription from page_lists where slug = ?";
+            const metacontent = await db.query(metasql, 'blog')
+            output['metacontent'] = metacontent[0];
+
+            if(item.section == 'First Section'){
+                const contentJSON = JSON.parse(item.content);
+                output['first_section'] = contentJSON;
+            }else if(item.section == 'Second Section'){
+                const contentJSON = JSON.parse(item.content);
+                output['second_section'] = contentJSON;
+            }else if(item.section == 'Third Section'){
+                const contentJSON = JSON.parse(item.content);
+                
+                output['third_section'] = contentJSON;
+            }
+        }
+        if(content.length > 0){
+            res.status(200).send({ status : true, result : { content : output }, message : "" });
+        }else{
+            res.status(200).send({ status : false, result : "", message : "Homep page content not exits" });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ status: false, result: "", errors:error });
+    }
+}

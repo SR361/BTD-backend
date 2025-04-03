@@ -202,6 +202,26 @@ const archiveupload = multer({
 
 // ============================================================== Archive Storage =====================================================
 
+// ============================================================== Our Partner ================================================
+const ourpartnerstorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+    cb(null, "public/uploads/ourpartners");
+    },
+    filename: (req, file, cb) => {
+        cb(
+            null,
+            Date.now() + "_" + file.originalname.replace(/[^a-zA-Z0-9._-]/g, "_")
+        );
+    },
+});
+const ourpartnerupload = multer({
+    storage: ourpartnerstorage,
+    limits: { fieldSize: 25 * 1024 * 1024 },
+    fileFilter: filefilter,
+});
+// ============================================================== Our Partner ====================================================
+
+
 
 
 const noupload = multer().none();
@@ -215,5 +235,6 @@ module.exports = {
     storyupload,
     testimonialupload,
     articleupload,
-    archiveupload
+    archiveupload,
+    ourpartnerupload
 };

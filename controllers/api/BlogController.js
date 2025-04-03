@@ -45,3 +45,45 @@ exports.getblogs = async (req, res) => {
         res.status(500).send({ status: false, result: "", errors : "Error: "+error, errorData:error });
     }
 }
+
+exports.getblogs2 = async (req, res) => {
+    try {
+        // Fetch all blog categories
+        const categorySql = "SELECT id, name FROM blog_categories";
+        const categories = await db.query(categorySql);
+        
+        // Fetch all blogs with correct column 'cat_id'
+        const blogSql = "SELECT id, title, slug, banner, short_description, description, meta_title, meta_img, meta_keywords, meta_description, cat_id FROM blogs";
+        const blogs = await db.query(blogSql);
+        
+        let categorizedBlogs = {};
+        
+        // Initialize categories in the response
+        categories.forEach(category => {
+            categorizedBlogs[category.id] = {
+                category_name: category.name,
+                blogs: []
+            };
+        });
+        
+        // Process blogs and categorize them
+        blogs.forEach(blog => {
+            try {
+                let catData = JSON.parse(blog.cat_id); // Convert stored JSON object into JS object
+                let blogCategories = JSON.parse(catData.categories); // Extract and parse 'categories' array
+                
+                blogCategories.forEach(catId => {
+                    if (categorizedBlogs[catId]) {
+                        categorizedBlogs[catId].blogs.push(blog);
+                    }
+                });
+            } catch (error) {
+                console.error("Invalid JSON format in blog.cat_id:", blog.cat_id);
+            }
+        });
+
+        res.status(200).send({ status: true, result: categorizedBlogs, message: "" });
+    } catch (error) {
+        res.status(500).send({ status: false, result: "", errors: "Error: " + error, errorData: error });
+    }
+};

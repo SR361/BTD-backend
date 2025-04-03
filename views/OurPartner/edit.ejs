@@ -1,0 +1,103 @@
+<%- contentFor('HeaderCss') %>
+<%- contentFor('breadcrumb') %>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0">Our Partner</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="/admin/our-partners">Our Partner</a></li>
+                    <li class="breadcrumb-item active">Edit</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<%- contentFor('body') %>
+<% if (message!="" ) { %>
+    <div class="alert alert-success">
+        <%= message  %>
+    </div>
+<% } %>
+<% if (error!="") { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+<% } %>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Add Our Partner</h4>
+            </div>
+            <div class="card-body">
+                <form action="/admin/our-partner/update" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="title">Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter Name" name="name" required value="<%= our_partner.name %>">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="title">Position <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter position" name="position" required value="<%= our_partner.position %>">
+                            </div>
+                                                        
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Select image <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" name="user_image">
+                                <% if(our_partner.image!="" && our_partner.image != null){ %>
+                                    <div class="image-container mt-3"> 
+                                        <div class="inner">
+                                            <img src="<%= our_partner.image %>" width="200" />
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="title">Description <span class="text-danger">*</span></label>
+                                <textarea name="description" rows="3" class="form-control content"><%= our_partner.description %></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <a href="/admin/our-partners" class="btn btn-secondary w-md">Back</a>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <input type="hidden" name="id" value="<%= our_partner.id %>">
+                            <button type="submit" class="btn btn-primary w-md float-end">Submit</button>
+                        </div>
+                    </div>                  
+                </form>               
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- contentFor('FooterJs') %>
+<%- contentFor('BottomJs') %>
+<script src="/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script type="text/javascript">
+    ClassicEditor.create(
+        document.querySelector(".content"),
+        {
+            ckfinder: {
+                uploadUrl: '/admin/page/editor/upload'
+            },
+        }
+    )
+    .then(function (editor) {
+        console.log('CKEditor initialized successfully:', editor);
+        editor.ui.view.editable.element.style.height = "400px";
+    })
+    .catch(function (error) {
+        console.error('Error initializing CKEditor:', error);
+    });
+</script>

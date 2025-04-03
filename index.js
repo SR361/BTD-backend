@@ -32,7 +32,7 @@ var APIProfileRouter = require("./routers/APIProfileRoute");
 var APIContacustRouter = require("./routers/APIContactRoute");
 var articleRouter = require("./routers/articleRoute");
 var archiveRouter = require("./routers/archiveRoute");
-
+var ourPartnerRouter = require("./routers/ourPartnerRoute");
 
 
 var session = require("express-session");
@@ -144,6 +144,7 @@ app.use(APIProfileRouter);
 app.use(APIContacustRouter);
 app.use(articleRouter);
 app.use(archiveRouter);
+app.use(ourPartnerRouter);
 
 app.get("/", function (req, res) {
   res.redirect("/");

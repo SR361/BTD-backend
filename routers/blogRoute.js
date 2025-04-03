@@ -16,7 +16,7 @@ const {
     metaContentUpdate
 } = require("../controllers/admin/BlogController");
 
-const { getcategories, gettags, getblogs } = require("../controllers/api/BlogController")
+const { getcategories, gettags, getblogs, getblogs2 } = require("../controllers/api/BlogController")
 
 
 const router = express.Router();
@@ -57,6 +57,7 @@ router.post("/admin/blog/meta/update", urlencodeParser, isAdminAllowed, metaCont
 router.get("/api/V1/get-categories", urlencodeParser, getcategories);
 router.get("/api/V1/get-tags", urlencodeParser, gettags);
 router.get("/api/V1/get-blogs", urlencodeParser, getblogs);
+router.get("/api/V1/get-blogs2", urlencodeParser, getblogs2);
 
 
 /*---------- WEB Routes  -------------*/
