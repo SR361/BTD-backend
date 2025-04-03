@@ -39,6 +39,14 @@
             <form action="/admin/service/metatags/update" method="post">
                 <div class="card-body">
                     <div class="row">
+                        <div class="col-md-12">
+                            <label class="form-label">Service namge  <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Enter service name" name="service_name" value="<%= metaTags.title %>" required >
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Slug<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Enter slug" name="slug" value="<%= metaTags.slug %>" required >
+                        </div>
                         <div class="col-md-6">
                             <label class="form-label">Meta Title<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" placeholder="Enter meta title" name="metatitle" value="<%= metaTags.metatitle %>" required >

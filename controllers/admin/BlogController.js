@@ -86,8 +86,8 @@ exports.insert = async (req, res) => {
                 lower: true,
                 strict: true,
             });
-            const sql = "INSERT INTO `blogs` SET cat_id=?, tag_id=?, title=?, slug=?, short_description=?, description=?, banner=?";
-            const results = await db.query(sql, [categoriesJSON, tagJSON, blog_title, slug, short_description, content, banner_image_path]);
+            const sql = "INSERT INTO `blogs` SET category_id=?, cat_id=?, tag_id=?, title=?, slug=?, short_description=?, description=?, banner=?";
+            const results = await db.query(sql, [categories.join(","), categoriesJSON, tagJSON, blog_title, slug, short_description, content, banner_image_path]);
 
             if (results.insertId > 0) {
                 req.flash("message", "Blog has been added successfully");
@@ -145,8 +145,7 @@ exports.update = async (req, res) => {
         const sql = 'SELECT * FROM `blogs` WHERE id=?';
         const blog = await db.query(sql, [id]);
         
-        if(blog.length > 0)
-        {
+        if(blog.length > 0){
             var banner_image_path = blog[0].banner;
             if(req.files.banner){
                 if (banner_image_path) {
@@ -180,13 +179,12 @@ exports.update = async (req, res) => {
                 lower: true,
                 strict: true,
             });
-            const sql = "UPDATE `blogs` SET cat_id=?, tag_id=?, title=?, slug=?, short_description=?, description=?, banner=? WHERE id=?";
-            const edit_results = await db.query(sql, [categoriesJSON, tagJSON, blog_title, slug, short_description, content, banner_image_path, id]);
+            const sql = "UPDATE `blogs` SET category_id=?, cat_id=?, tag_id=?, title=?, slug=?, short_description=?, description=?, banner=? WHERE id=?";
+            const edit_results = await db.query(sql, [categories.join(","), categoriesJSON, tagJSON, blog_title, slug, short_description, content, banner_image_path, id]);
             if (edit_results.affectedRows > 0) {
                 req.flash("message", "Blog tag has been updated successfully");
                 res.redirect("back");
             } else {
-                console.log(edit_results);
                 req.flash("error", "Blog tag record has not updated.");
                 res.redirect("back");
             }

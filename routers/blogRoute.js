@@ -17,6 +17,7 @@ const {
 } = require("../controllers/admin/BlogController");
 
 const { getcategories, gettags, getblogs, getblogs2 } = require("../controllers/api/BlogController")
+const { getcategories, gettags, getblogs, categorieblogs } = require("../controllers/api/BlogController")
 
 
 const router = express.Router();
@@ -58,6 +59,10 @@ router.get("/api/V1/get-categories", urlencodeParser, getcategories);
 router.get("/api/V1/get-tags", urlencodeParser, gettags);
 router.get("/api/V1/get-blogs", urlencodeParser, getblogs);
 router.get("/api/V1/get-blogs2", urlencodeParser, getblogs2);
+router.get("/api/V1/categories", urlencodeParser, getcategories);
+router.get("/api/V1/tags", urlencodeParser, gettags);
+router.get("/api/V1/blogs", urlencodeParser, getblogs);
+router.get("/api/V1/categorie-blog/:id", urlencodeParser, categorieblogs);
 
 
 /*---------- WEB Routes  -------------*/

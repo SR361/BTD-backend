@@ -8,8 +8,8 @@ const { serviceupload } = require("../middeleware/imageUpload");
 const {
     index,
     create,
-
     InserServiceFirstSection,
+    UpdateServiceFirstSection,
     UpdateServiceSecondSection,
     UpdateServiceThirdSection,
     UpdateServiceFourthSection,
@@ -18,15 +18,13 @@ const {
     UpdateServiceSeventhSection,
     UpdateServiceEighthSection,
     UpdateServiceNinethSection,
-
-    store,
     edit,
-    update,
-    deleteimage,
-    destory, manageServiceMetaTag, metaTagUpdate
+    destory, 
+    manageServiceMetaTag, 
+    metaTagUpdate
 } = require("../controllers/admin/ServiceController");
 
-const { getAllServices } = require("../controllers/api/ServicesController");
+const { getAllServices, getService } = require("../controllers/api/ServicesController");
 
 const router = express.Router();
 router.get("/admin/services", isAdminAllowed, index);
@@ -45,6 +43,19 @@ router.get("/admin/service/create", isAdminAllowed, create);
         ]),
         isAdminAllowed, 
         InserServiceFirstSection
+    );
+    router.post("/admin/service/firstsection/update",
+        serviceupload.fields([
+            {
+                name: "desktop_banner_image",
+                maxCount: 1,
+            },{
+                name: "mobile_banner_image",
+                maxCount: 1
+            }
+        ]),
+        isAdminAllowed, 
+        UpdateServiceFirstSection
     );
     router.post("/admin/service/secondsection/update", urlencodeParser, isAdminAllowed, UpdateServiceSecondSection);
     router.post("/admin/service/thirdsection/update", urlencodeParser, isAdminAllowed, UpdateServiceThirdSection);
@@ -131,138 +142,14 @@ router.get("/admin/service/create", isAdminAllowed, create);
     );
 // ========================================================= INSERT SECTION CONTENT =========================================================
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-router.post(
-    "/admin/service/store", 
-    serviceupload.fields([
-        {
-            name: "firstsection_banner_image",
-            maxCount: 1,
-        },
-        {
-            name: "secondsection_image_one",
-            maxCount: 1,
-        },
-        {
-            name : "secondsection_image_two",
-            maxCount:1
-        },
-        {
-            name : "secondsection_image_three",
-            maxCount : 1
-        },
-        {
-            name : "thirdsection_image_one",
-            maxCount : 1
-        },
-        {
-            name : "thirdsection_image_two",
-            maxCount : 1
-        },
-        {
-            name : "thirdsection_image_three",
-            maxCount : 1
-        },
-        {
-            name : "fourthsection_image",
-            maxCount : 1
-        },
-        {
-            name : "fivthsection_image_one",
-            maxCount : 1
-        },
-        {
-            name : "fivthsection_image_two",
-            maxCount : 1
-        },
-        {
-            name : "fivthsection_image_three",
-            maxCount : 1
-        },
-        {
-            name : "eighthsection_images",
-            maxCount : 10
-        },
-    ]),
-    isAdminAllowed, 
-    store
-);
 router.get("/admin/service/edit/:id", isAdminAllowed, edit);
-router.post(
-    "/admin/service/update", 
-    serviceupload.fields([
-        {
-            name: "firstsection_banner_image",
-            maxCount: 1,
-        },
-        {
-            name: "secondsection_image_one",
-            maxCount: 1,
-        },
-        {
-            name : "secondsection_image_two",
-            maxCount:1
-        },
-        {
-            name : "secondsection_image_three",
-            maxCount : 1
-        },
-        {
-            name : "thirdsection_image_one",
-            maxCount : 1
-        },
-        {
-            name : "thirdsection_image_two",
-            maxCount : 1
-        },
-        {
-            name : "thirdsection_image_three",
-            maxCount : 1
-        },
-        {
-            name : "fourthsection_image",
-            maxCount : 1
-        },
-        {
-            name : "fivthsection_image_one",
-            maxCount : 1
-        },
-        {
-            name : "fivthsection_image_two",
-            maxCount : 1
-        },
-        {
-            name : "fivthsection_image_three",
-            maxCount : 1
-        },
-        {
-            name : "eighthsection_images",
-            maxCount : 10
-        },
-    ]),
-    isAdminAllowed, 
-    update
-);
-router.get("/admin/service/delete-image/:id", isAdminAllowed, deleteimage);
+
 router.get("/admin/service/delete/:id", isAdminAllowed, destory);
 router.get("/admin/service/metatags/:id", isAdminAllowed, manageServiceMetaTag);
 router.post("/admin/service/metatags/update", urlencodeParser, isAdminAllowed, metaTagUpdate);
-
-router.get("/api/V1/all-service", urlencodeParser, getAllServices);
+// ========================================================= APIs =========================================================
+    router.get("/api/V1/services", urlencodeParser, getAllServices);
+    router.get("/api/V1/service/:id", urlencodeParser, getService);
+// ========================================================= APIs =========================================================
 
 module.exports = router;

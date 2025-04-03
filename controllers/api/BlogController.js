@@ -1,5 +1,6 @@
 const db = require('../../database/db');
 require("dotenv").config();
+const { format } = require('date-fns');
 
 exports.getcategories = async (req, res) => {
     try {
@@ -33,11 +34,80 @@ exports.gettags = async (req, res) => {
 
 exports.getblogs = async (req, res) => {
     try {
-        const blogsql = "select id, title, slug, banner, short_description, description, meta_title, meta_img, meta_keywords, meta_description from blogs";
+        const blogsql = "select id, cat_id, title, slug, banner, short_description, description, meta_title, meta_img, meta_keywords, meta_description, created_at from blogs limit 0,8";
         const blogs = await db.query(blogsql);
 
+        const populerblog = [];
+        for (const [index, item] of blogs.entries()) {
+            const createdAt = item.created_at;
+            const formattedDate = format(new Date(createdAt), "MMMM dd, yyyy");
+            const cat_id = JSON.parse(item.cat_id);
+            const categorysql = "select * from blog_categories where id in (?)";
+            const categories = await db.query(categorysql,[JSON.parse(cat_id.categories)]);
+            const allcategories = [];
+            for (const [i, categoryitem] of categories.entries()) {
+                allcategories.push(categoryitem.name);
+            }
+            const singleblog = {
+                id: item.id,
+                title: item.title,
+                image: item.banner,
+                description: item.short_description,
+                author: "Caption",
+                date: formattedDate,
+                category: allcategories.join(","),
+                readTime: "10 min to Read"
+            };
+            populerblog.push(singleblog)
+        }
+
+        const query = `SELECT * FROM blogs WHERE FIND_IN_SET(?, category_id)`;
+        const latestblog = await db.query(query, [3]);
+
         if(blogs.length > 0){
-            res.status(200).send({ status : true, result : blogs, message : "" });
+            res.status(200).send({ status : true, result : populerblog, message : "" });
+        }else{
+            res.status(200).send({ status : false, result : "", message : "Sorry! blogs don't not exits record." });
+        }
+    } catch (error) {
+        res.status(500).send({ status: false, result: "", errors : "Error: "+error, errorData:error });
+    }
+}
+exports.categorieblogs = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const query = `SELECT * FROM blogs WHERE FIND_IN_SET(?, category_id)`;
+        const blogs = await db.query(query, [id]);
+
+        const blogdata = [];
+        for (const [index, item] of blogs.entries()) {
+            const createdAt = item.created_at;
+            const formattedDate = format(new Date(createdAt), "MMMM dd, yyyy");
+            const cat_id = JSON.parse(item.cat_id);
+
+            const categorysql = "select * from blog_categories where id in (?)";
+            const categories = await db.query(categorysql,[JSON.parse(cat_id.categories)]);
+            
+            const allcategories = [];
+            for (const [i, categoryitem] of categories.entries()) {
+                allcategories.push(categoryitem.name);
+            }
+
+            const singleblog = {
+                id: item.id,
+                title: item.title,
+                image: item.banner,
+                description: item.short_description,
+                author: "Caption",
+                date: formattedDate,
+                category: allcategories.join(","),
+                readTime: "10 min to Read"
+            };
+            blogdata.push(singleblog)
+        }
+
+        if(blogs.length > 0){
+            res.status(200).send({ status : true, result : blogdata, message : "" });
         }else{
             res.status(200).send({ status : false, result : "", message : "Sorry! blogs don't not exits record." });
         }
