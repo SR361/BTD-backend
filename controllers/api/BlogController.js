@@ -158,3 +158,71 @@ exports.getblogs2 = async (req, res) => {
         res.status(500).send({ status: false, result: "", errors: "Error: " + error, errorData: error });
     }
 };
+
+exports.getblogdetail = async (req, res) => {
+    const slug = req.params.slug;
+
+    try {
+        const blogSql = `
+            SELECT id, title, slug, short_description, description, banner, 
+                   meta_title, meta_keywords, meta_description, category_id 
+            FROM blogs 
+            WHERE slug = ?
+        `;
+        const blogResult = await db.query(blogSql, [slug]);
+
+        if (blogResult.length === 0) {
+            return res.status(200).send({
+                status: false,
+                result: "",
+                message: "Sorry! blog does not exist."
+            });
+        }
+
+        const blog = blogResult[0];
+
+        const categoryIds = blog.category_id
+            ? blog.category_id.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id))
+            : [];
+
+        let categories = [];
+
+        if (categoryIds.length > 0) {
+            const placeholders = categoryIds.map(() => '?').join(',');
+            const categorySql = `SELECT id, name FROM blog_categories WHERE id IN (${placeholders})`;
+            categories = await db.query(categorySql, categoryIds);
+        }
+
+        // Structure the response
+        const responseData = {
+            id: blog.id,
+            title: blog.title,
+            slug: blog.slug,
+            short_description: blog.short_description,
+            description: blog.description,
+            banner: blog.banner,
+            categories: categories,
+            content: {
+                metacontent: {
+                    metatitle: blog.meta_title || null,
+                    metakeywords: blog.meta_keywords || null,
+                    metadescription: blog.meta_description || null
+                }
+            }
+        };
+
+        res.status(200).send({
+            status: true,
+            result: responseData,
+            message: ""
+        });
+
+    } catch (error) {
+        res.status(500).send({
+            status: false,
+            result: "",
+            errors: "Error: " + error,
+            errorData: error
+        });
+    }
+};
