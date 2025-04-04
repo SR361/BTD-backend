@@ -75,25 +75,32 @@ exports.getblogs = async (req, res) => {
     }
 }
 exports.categorieblogs = async (req, res) => {
-    const { id } = req.params;
+    // const { id } = req.params;
     try {
-        const query = `SELECT * FROM blogs WHERE FIND_IN_SET(?, category_id)`;
-        const blogs = await db.query(query, [id]);
+        var page = req.query.page || 1;
+        var perPage = 2;
+        var offset = (page - 1) * perPage;
+        var id = req.query.id;
 
-        const blogdata = [];
+        const sqlCount = `SELECT COUNT(*) AS totalBlog FROM blogs where FIND_IN_SET(?, category_id)`;
+        const [countRows] = await db.query(sqlCount,[id]);
+        const totalBlog = countRows.totalBlog;
+
+        const query = `SELECT * FROM blogs WHERE FIND_IN_SET(?, category_id) ORDER BY id DESC`;
+        const blogs = await db.query(query, [id]);
+        // const sql = `SELECT * FROM blogs where cat_id = ${cat_id} ORDER BY id DESC LIMIT ? OFFSET ?`;
+        // const blogs = await db.query(sql, [perPage, offset]);
+        const blogoutput = [];
         for (const [index, item] of blogs.entries()) {
             const createdAt = item.created_at;
             const formattedDate = format(new Date(createdAt), "MMMM dd, yyyy");
             const cat_id = JSON.parse(item.cat_id);
-
             const categorysql = "select * from blog_categories where id in (?)";
             const categories = await db.query(categorysql,[JSON.parse(cat_id.categories)]);
-            
             const allcategories = [];
             for (const [i, categoryitem] of categories.entries()) {
                 allcategories.push(categoryitem.name);
             }
-
             const singleblog = {
                 id: item.id,
                 title: item.title,
@@ -104,13 +111,12 @@ exports.categorieblogs = async (req, res) => {
                 category: allcategories.join(","),
                 readTime: "10 min to Read"
             };
-            blogdata.push(singleblog)
+            blogoutput.push(singleblog)
         }
-
         if(blogs.length > 0){
-            res.status(200).send({ status : true, result : blogdata, message : "" });
+            res.status(200).send({ status : true, result : { blogs : blogoutput }, message : "" });
         }else{
-            res.status(200).send({ status : false, result : "", message : "Sorry! blogs don't not exits record." });
+            res.status(200).send({ status : false, result : {}, message : "Blog not found!" });
         }
     } catch (error) {
         res.status(500).send({ status: false, result: "", errors : "Error: "+error, errorData:error });
@@ -159,70 +165,191 @@ exports.getblogs2 = async (req, res) => {
     }
 };
 
-exports.getblogdetail = async (req, res) => {
-    const slug = req.params.slug;
-
+exports.negotiationBlogs = async (req, res) => {
     try {
-        const blogSql = `
-            SELECT id, title, slug, short_description, description, banner, 
-                   meta_title, meta_keywords, meta_description, category_id 
-            FROM blogs 
-            WHERE slug = ?
-        `;
-        const blogResult = await db.query(blogSql, [slug]);
+        var page = req.query.page || 1;
+        var perPage = 4;
+        var offset = (page - 1) * perPage;
+        var cat_id = req.query.cat_id;
 
-        if (blogResult.length === 0) {
-            return res.status(200).send({
-                status: false,
-                result: "",
-                message: "Sorry! blog does not exist."
-            });
-        }
+        const sqlCount = `SELECT COUNT(*) AS totalBlog FROM blogs where FIND_IN_SET(?, category_id)`;
+        const [countRows] = await db.query(sqlCount,[1]);
+        const totalBlog = countRows.totalBlog;
 
-        const blog = blogResult[0];
-
-        const categoryIds = blog.category_id
-            ? blog.category_id.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id))
-            : [];
-
-        let categories = [];
-
-        if (categoryIds.length > 0) {
-            const placeholders = categoryIds.map(() => '?').join(',');
-            const categorySql = `SELECT id, name FROM blog_categories WHERE id IN (${placeholders})`;
-            categories = await db.query(categorySql, categoryIds);
-        }
-
-        // Structure the response
-        const responseData = {
-            id: blog.id,
-            title: blog.title,
-            slug: blog.slug,
-            short_description: blog.short_description,
-            description: blog.description,
-            banner: blog.banner,
-            categories: categories,
-            content: {
-                metacontent: {
-                    metatitle: blog.meta_title || null,
-                    metakeywords: blog.meta_keywords || null,
-                    metadescription: blog.meta_description || null
-                }
+        const query = `SELECT * FROM blogs WHERE FIND_IN_SET(?, category_id) ORDER BY id DESC LIMIT ? OFFSET ?`;
+        const blogs = await db.query(query, [1, perPage, offset]);
+        // const sql = `SELECT * FROM blogs where cat_id = ${cat_id} ORDER BY id DESC LIMIT ? OFFSET ?`;
+        // const blogs = await db.query(sql, [perPage, offset]);
+        const blogoutput = [];
+        for (const [index, item] of blogs.entries()) {
+            const createdAt = item.created_at;
+            const formattedDate = format(new Date(createdAt), "MMMM dd, yyyy");
+            const cat_id = JSON.parse(item.cat_id);
+            const categorysql = "select * from blog_categories where id in (?)";
+            const categories = await db.query(categorysql,[JSON.parse(cat_id.categories)]);
+            const allcategories = [];
+            for (const [i, categoryitem] of categories.entries()) {
+                allcategories.push(categoryitem.name);
             }
-        };
-
-        res.status(200).send({
-            status: true,
-            result: responseData,
-            message: ""
-        });
-
+            const singleblog = {
+                id: item.id,
+                title: item.title,
+                image: item.banner,
+                description: item.short_description,
+                author: "Caption",
+                date: formattedDate,
+                category: allcategories.join(","),
+                readTime: "10 min to Read"
+            };
+            blogoutput.push(singleblog)
+        }
+        if(blogs.length > 0){
+            res.status(200).send({ status : true, result : { blogs : blogoutput }, message : "" });
+        }else{
+            res.status(200).send({ status : false, result : {}, message : "Blog not found!" });
+        }
     } catch (error) {
-        res.status(500).send({
-            status: false,
-            result: "",
-            errors: "Error: " + error,
-            errorData: error
-        });
+        res.status(500).send({ status: false, result: "", errors : "Error: "+error, errorData:error });
     }
-};
+}
+exports.MABlogs = async (req, res) => {
+    try {
+        var page = req.query.page || 1;
+        var perPage = 4;
+        var offset = (page - 1) * perPage;
+        var cat_id = req.query.cat_id;
+
+        const sqlCount = `SELECT COUNT(*) AS totalBlog FROM blogs where FIND_IN_SET(?, category_id)`;
+        const [countRows] = await db.query(sqlCount,[3]);
+        const totalBlog = countRows.totalBlog;
+
+        const query = `SELECT * FROM blogs WHERE FIND_IN_SET(?, category_id) ORDER BY id DESC LIMIT ? OFFSET ?`;
+        const blogs = await db.query(query, [3, perPage, offset]);
+        // const sql = `SELECT * FROM blogs where cat_id = ${cat_id} ORDER BY id DESC LIMIT ? OFFSET ?`;
+        // const blogs = await db.query(sql, [perPage, offset]);
+        const blogoutput = [];
+        for (const [index, item] of blogs.entries()) {
+            const createdAt = item.created_at;
+            const formattedDate = format(new Date(createdAt), "MMMM dd, yyyy");
+            const cat_id = JSON.parse(item.cat_id);
+            const categorysql = "select * from blog_categories where id in (?)";
+            const categories = await db.query(categorysql,[JSON.parse(cat_id.categories)]);
+            const allcategories = [];
+            for (const [i, categoryitem] of categories.entries()) {
+                allcategories.push(categoryitem.name);
+            }
+            const singleblog = {
+                id: item.id,
+                title: item.title,
+                image: item.banner,
+                description: item.short_description,
+                author: "Caption",
+                date: formattedDate,
+                category: allcategories.join(","),
+                readTime: "10 min to Read"
+            };
+            blogoutput.push(singleblog)
+        }
+        if(blogs.length > 0){
+            res.status(200).send({ status : true, result : { blogs : blogoutput }, message : "" });
+        }else{
+            res.status(200).send({ status : false, result : {}, message : "Blog not found!" });
+        }
+    } catch (error) {
+        res.status(500).send({ status: false, result: "", errors : "Error: "+error, errorData:error });
+    }
+}
+exports.StrategyBlogs = async (req, res) => {
+    try {
+        var page = req.query.page || 1;
+        var perPage = 4;
+        var offset = (page - 1) * perPage;
+        var cat_id = req.query.cat_id;
+
+        const sqlCount = `SELECT COUNT(*) AS totalBlog FROM blogs where FIND_IN_SET(?, category_id)`;
+        const [countRows] = await db.query(sqlCount,[4]);
+        const totalBlog = countRows.totalBlog;
+
+        const query = `SELECT * FROM blogs WHERE FIND_IN_SET(?, category_id) ORDER BY id DESC LIMIT ? OFFSET ?`;
+        const blogs = await db.query(query, [4, perPage, offset]);
+        // const sql = `SELECT * FROM blogs where cat_id = ${cat_id} ORDER BY id DESC LIMIT ? OFFSET ?`;
+        // const blogs = await db.query(sql, [perPage, offset]);
+        const blogoutput = [];
+        for (const [index, item] of blogs.entries()) {
+            const createdAt = item.created_at;
+            const formattedDate = format(new Date(createdAt), "MMMM dd, yyyy");
+            const cat_id = JSON.parse(item.cat_id);
+            const categorysql = "select * from blog_categories where id in (?)";
+            const categories = await db.query(categorysql,[JSON.parse(cat_id.categories)]);
+            const allcategories = [];
+            for (const [i, categoryitem] of categories.entries()) {
+                allcategories.push(categoryitem.name);
+            }
+            const singleblog = {
+                id: item.id,
+                title: item.title,
+                image: item.banner,
+                description: item.short_description,
+                author: "Caption",
+                date: formattedDate,
+                category: allcategories.join(","),
+                readTime: "10 min to Read"
+            };
+            blogoutput.push(singleblog)
+        }
+        if(blogs.length > 0){
+            res.status(200).send({ status : true, result : { blogs : blogoutput }, message : "" });
+        }else{
+            res.status(200).send({ status : false, result : {}, message : "Blog not found!" });
+        }
+    } catch (error) {
+        res.status(500).send({ status: false, result: "", errors : "Error: "+error, errorData:error });
+    }
+}
+exports.LeaderShipCompanyBlogs = async (req, res) => {
+    try {
+        var page = req.query.page || 1;
+        var perPage = 4;
+        var offset = (page - 1) * perPage;
+        var cat_id = req.query.cat_id;
+
+        const sqlCount = `SELECT COUNT(*) AS totalBlog FROM blogs where FIND_IN_SET(?, category_id)`;
+        const [countRows] = await db.query(sqlCount,[5]);
+        const totalBlog = countRows.totalBlog;
+
+        const query = `SELECT * FROM blogs WHERE FIND_IN_SET(?, category_id) ORDER BY id DESC LIMIT ? OFFSET ?`;
+        const blogs = await db.query(query, [5, perPage, offset]);
+        // const sql = `SELECT * FROM blogs where cat_id = ${cat_id} ORDER BY id DESC LIMIT ? OFFSET ?`;
+        // const blogs = await db.query(sql, [perPage, offset]); LeaderShipCompany
+        const blogoutput = [];
+        for (const [index, item] of blogs.entries()) {
+            const createdAt = item.created_at;
+            const formattedDate = format(new Date(createdAt), "MMMM dd, yyyy");
+            const cat_id = JSON.parse(item.cat_id);
+            const categorysql = "select * from blog_categories where id in (?)";
+            const categories = await db.query(categorysql,[JSON.parse(cat_id.categories)]);
+            const allcategories = [];
+            for (const [i, categoryitem] of categories.entries()) {
+                allcategories.push(categoryitem.name);
+            }
+            const singleblog = {
+                id: item.id,
+                title: item.title,
+                image: item.banner,
+                description: item.short_description,
+                author: "Caption",
+                date: formattedDate,
+                category: allcategories.join(","),
+                readTime: "10 min to Read"
+            };
+            blogoutput.push(singleblog)
+        }
+        if(blogs.length > 0){
+            res.status(200).send({ status : true, result : { blogs : blogoutput }, message : "" });
+        }else{
+            res.status(200).send({ status : false, result : {}, message : "Blog not found!" });
+        }
+    } catch (error) {
+        res.status(500).send({ status: false, result: "", errors : "Error: "+error, errorData:error });
+    }
+}
