@@ -51,6 +51,7 @@ exports.getblogs = async (req, res) => {
             const singleblog = {
                 id: item.id,
                 title: item.title,
+                slug: item.slug,
                 image: item.banner,
                 description: item.short_description,
                 author: "Caption",

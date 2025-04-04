@@ -54,11 +54,11 @@ exports.create = async (req, res) => {
 };
 
 exports.insert = async (req, res) => {
-    const { categories, tags, blog_title, short_description, content } = req.body;
+    const { categories, tags, blog_title, short_description, content,slug } = req.body;
     const status = 1;
     try {
-        const sql = "SELECT * FROM `blogs` WHERE  title=?";
-        const blog = await db.query(sql, [blog_title]);
+        const sql = "SELECT * FROM `blogs` WHERE  slug=?";
+        const blog = await db.query(sql, [slug]);
         if(blog.length === 0){
             var banner_image_path = "";
             if(req.files.banner_image){
@@ -82,10 +82,10 @@ exports.insert = async (req, res) => {
             tagstringify["tags"] = JSON.stringify(tags);
             const tagJSON = JSON.stringify(tagstringify);
 
-            const slug = slugify(blog_title, {
-                lower: true,
-                strict: true,
-            });
+            // const slug = slugify(blog_title, {
+            //     lower: true,
+            //     strict: true,
+            // });
             const sql = "INSERT INTO `blogs` SET category_id=?, cat_id=?, tag_id=?, title=?, slug=?, short_description=?, description=?, banner=?";
             const results = await db.query(sql, [categories.join(","), categoriesJSON, tagJSON, blog_title, slug, short_description, content, banner_image_path]);
 
@@ -140,7 +140,7 @@ exports.edit = async (req, res) => {
 };
   
 exports.update = async (req, res) => {
-    const { id, categories, tags, blog_title, short_description, content } = req.body;
+    const { id, categories, tags, blog_title, short_description, content,slug } = req.body;
     try {
         const sql = 'SELECT * FROM `blogs` WHERE id=?';
         const blog = await db.query(sql, [id]);
@@ -175,10 +175,10 @@ exports.update = async (req, res) => {
             tagstringify["tags"] = JSON.stringify(tags);
             const tagJSON = JSON.stringify(tagstringify);
 
-            const slug = slugify(blog_title, {
-                lower: true,
-                strict: true,
-            });
+            // const slug = slugify(blog_title, {
+            //     lower: true,
+            //     strict: true,
+            // });
             const sql = "UPDATE `blogs` SET category_id=?, cat_id=?, tag_id=?, title=?, slug=?, short_description=?, description=?, banner=? WHERE id=?";
             const edit_results = await db.query(sql, [categories.join(","), categoriesJSON, tagJSON, blog_title, slug, short_description, content, banner_image_path, id]);
             if (edit_results.affectedRows > 0) {
