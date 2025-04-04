@@ -45,6 +45,6 @@ router.post(
 );
 router.get("/admin/our-partner/delete/:id", isAdminAllowed, deleteOurPartner);
 
-router.get("/api/V1/our-partner", urlencodeParser, getOurPartners);
+router.get("/api/V1/our-partners", urlencodeParser, getOurPartners);
 /*---------- WEB Routes  -------------*/
 module.exports = router;

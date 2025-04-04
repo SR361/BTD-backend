@@ -88,11 +88,11 @@ exports.footerPageContent = async (req, res) => {
 exports.aboutUsPageContent = async (req, res) => {
     try {
         const sql = "select * from pages where page = ?";
-        const content = await db.query(sql,['blog']);
+        const content = await db.query(sql,['About Us']);
         const output = {};
         for (const [index, item] of content.entries()) {
             const metasql = "select metatitle,metakeywords,metadescription from page_lists where slug = ?";
-            const metacontent = await db.query(metasql, 'blog')
+            const metacontent = await db.query(metasql, 'about-us')
             output['metacontent'] = metacontent[0];
 
             if(item.section == 'First Section'){
@@ -114,6 +114,27 @@ exports.aboutUsPageContent = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
+        res.status(500).send({ status: false, result: "", errors:error });
+    }
+}
+
+exports.getBlogContent = async (req, res) => {
+    try {
+        const output = {};
+        const pageContentSql = "SELECT title,content FROM `pages` where slug = 'blog' and section = 'First Section'";
+        const pageContent = await db.query(pageContentSql);
+        const contentJSON = JSON.parse(pageContent[0].content);
+        output['first_section'] = contentJSON;
+        const metasql = "select metatitle,metakeywords,metadescription from page_lists where slug = ?";
+        const metacontent = await db.query(metasql, 'blog');
+        output['metacontent'] = metacontent[0];
+        // console.log("Contact Data @@ = ",output);
+        res.status(200).send({ 
+            status: true, 
+            result:  { content : output },
+            errors: "" 
+          });
+    } catch (error) {
         res.status(500).send({ status: false, result: "", errors:error });
     }
 }
