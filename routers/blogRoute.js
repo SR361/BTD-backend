@@ -16,10 +16,7 @@ const {
     metaContentUpdate
 } = require("../controllers/admin/BlogController");
 
-const { 
-    getcategories, gettags, getblogs, getblogs2, categorieblogs,
-    negotiationBlogs, MABlogs, StrategyBlogs, LeaderShipCompanyBlogs
-} = require("../controllers/api/BlogController");
+const { getcategories, gettags, getblogs, getblogs2, categorieblogs, getblogdetail, updateBlogView, getpopularblogs } = require("../controllers/api/BlogController");
 
 
 const router = express.Router();
@@ -61,11 +58,10 @@ router.get("/api/V1/get-blogs2", urlencodeParser, getblogs2);
 router.get("/api/V1/categories", urlencodeParser, getcategories);
 router.get("/api/V1/tags", urlencodeParser, gettags);
 router.get("/api/V1/blogs", urlencodeParser, getblogs);
-router.get("/api/V1/categorie-blog", urlencodeParser, categorieblogs);
-router.get("/api/V1/negotiation-blogs/", urlencodeParser, negotiationBlogs);
-router.get("/api/V1/m&a-blogs/", urlencodeParser, MABlogs);
-router.get("/api/V1/strategy-blogs/", urlencodeParser, StrategyBlogs);
-router.get("/api/V1/leadership-company-blogs/", urlencodeParser, LeaderShipCompanyBlogs);
+router.get("/api/V1/categorie-blog/:id", urlencodeParser, categorieblogs);
+router.get("/api/V1/blog-detail/:slug", urlencodeParser, getblogdetail);
+router.put("/api/V1/update-blog-view/:slug", updateBlogView);
+router.get("/api/V1/popular-blogs", urlencodeParser, getpopularblogs);
 
 
 /*---------- WEB Routes  -------------*/

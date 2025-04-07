@@ -93,7 +93,7 @@ exports.updateArticle = async (req, res) => {
         const articles = await db.query(sql, [id]);
 
         if (articles.length > 0) {
-            let file_path = articles[0].file; // Store existing file (image or PDF)
+            let file_path = articles[0].image; // Store existing file (image or PDF)
 
             // Check if user uploaded a new file
             if (req.files.image && category === "publication") {
@@ -127,7 +127,7 @@ exports.updateArticle = async (req, res) => {
             const slug = slugify(title, { lower: true, strict: true });
 
             // Update the article
-            const updateSQL = "UPDATE `articles` SET title=?, slug=?, description=?, file=? WHERE id=?";
+            const updateSQL = "UPDATE `articles` SET title=?, slug=?, description=?, image=? WHERE id=?";
             const updateResult = await db.query(updateSQL, [title, slug, description, file_path, id]);
 
             if (updateResult.affectedRows > 0) {

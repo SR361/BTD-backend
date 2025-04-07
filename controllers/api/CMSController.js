@@ -138,3 +138,41 @@ exports.getBlogContent = async (req, res) => {
         res.status(500).send({ status: false, result: "", errors:error });
     }
 }
+
+exports.getPublicationContent = async (req, res) => {
+    try {
+        const pageConfigs = [
+            { page: 'Publication Whitepaper', slug: 'publication' },
+            { page: 'Publication Fachartikel', slug: 'publication-fachartikel' },
+            { page: 'Publication Pressemitteilungen', slug: 'publication-pressemitteilungen' }
+        ];
+
+        const output = {};
+        const metaSql = "SELECT metatitle, metakeywords, metadescription FROM page_lists WHERE slug = ?";
+        const metaContent = await db.query(metaSql, ['publication']);
+        for (const config of pageConfigs) {
+            const contentSql = "SELECT * FROM pages WHERE page = ?";
+            const content = await db.query(contentSql, [config.page]);
+
+            
+
+            // Default structure
+            output[config.slug] = {
+                metacontent: metaContent[0] || {},
+                first_section: null
+            };
+
+            for (const item of content) {
+                if (item.section === 'First Section') {
+                    output[config.slug].first_section = JSON.parse(item.content);
+                }
+            }
+        }
+
+        res.status(200).send({ status: true, result: { content: output }, message: "" });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ status: false, result: "", errors: error });
+    }
+};
