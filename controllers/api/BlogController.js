@@ -81,15 +81,15 @@ exports.categorieblogs = async (req, res) => {
         var perPage = 2;
         var offset = (page - 1) * perPage;
         var id = req.query.id;
-
+        console.log('page : ',page)
         const sqlCount = `SELECT COUNT(*) AS totalBlog FROM blogs where FIND_IN_SET(?, category_id)`;
         const [countRows] = await db.query(sqlCount,[id]);
         const totalBlog = countRows.totalBlog;
 
-        const query = `SELECT * FROM blogs WHERE FIND_IN_SET(?, category_id) ORDER BY id DESC`;
-        const blogs = await db.query(query, [id]);
-        // const sql = `SELECT * FROM blogs where cat_id = ${cat_id} ORDER BY id DESC LIMIT ? OFFSET ?`;
-        // const blogs = await db.query(sql, [perPage, offset]);
+        // const query = `SELECT * FROM blogs WHERE FIND_IN_SET(?, category_id) ORDER BY id DESC `;
+        // const blogs = await db.query(query, [id]);
+        const sql = `SELECT * FROM blogs where FIND_IN_SET(?, category_id) ORDER BY id DESC LIMIT ? OFFSET ?`;
+        const blogs = await db.query(sql, [id, perPage, offset]);
         const blogoutput = [];
         for (const [index, item] of blogs.entries()) {
             const createdAt = item.created_at;
@@ -125,39 +125,85 @@ exports.categorieblogs = async (req, res) => {
 
 exports.getblogs2 = async (req, res) => {
     try {
+        // let page = req.query.page;
+        // if(page == 0){
+        //     page = 1
+        //     console.log('page :: ',page)
+        // }else {
+        //     page = page;
+        // }
+        var page = parseInt(req.query.page) + 1 || 1
+        var perPage = 2;
+        var offset = (parseInt(page) - 1) * perPage;
+        console.log('page => ',page)
+        // var id = req.query.id;
+
         // Fetch all blog categories
-        const categorySql = "SELECT id, name FROM blog_categories";
+        const categorySql = "SELECT id, slug, name FROM blog_categories";
         const categories = await db.query(categorySql);
-        
         // Fetch all blogs with correct column 'cat_id'
-        const blogSql = "SELECT id, title, slug, banner, short_description, description, meta_title, meta_img, meta_keywords, meta_description, cat_id FROM blogs";
-        const blogs = await db.query(blogSql);
-        
-        let categorizedBlogs = {};
-        
+        let categorizedBlogs = [];
         // Initialize categories in the response
-        categories.forEach(category => {
-            categorizedBlogs[category.id] = {
+        // categories.forEach(category => {
+        for (const [index, category] of categories.entries()) {
+            const sqlCount = `SELECT COUNT(*) AS totalBlog FROM blogs where FIND_IN_SET(?, category_id)`;
+            const [countRows] = await db.query(sqlCount,[category.id]);
+            const totalBlog = countRows.totalBlog;
+
+            const blogSql = "SELECT id, title, slug, banner, short_description, category_id, cat_id, created_at FROM blogs where FIND_IN_SET(?, category_id) ORDER BY id DESC LIMIT ? OFFSET ?";
+            const categoryblogs = await db.query(blogSql,[category.id, perPage, offset]);
+            let blogObject = [];
+            for (const [i,blog] of categoryblogs.entries()) {
+                const createdAt = blog.created_at;
+                const formattedDate = format(new Date(createdAt), "MMMM dd, yyyy");
+
+                const cat_id = JSON.parse(blog.cat_id);
+                const categorysql = "select * from blog_categories where id in (?)";
+                const categories = await db.query(categorysql,[JSON.parse(cat_id.categories)]);
+                const allcategories = [];
+                for (const [j,categoryitem] of categories.entries()) {
+                    allcategories.push(categoryitem.name);
+                }
+
+                const singleblog = {
+                    id: blog.id,
+                    title: blog.title,
+                    slug: blog.slug,
+                    banner: blog.banner,
+                    short_description: blog.short_description,
+                    author: "Caption",
+                    date: formattedDate,
+                    category: allcategories.join(","),
+                    readTime: "10 min to Read"
+                } 
+                blogObject.push(singleblog);
+            }
+
+            const singlecategorizedBlogs = {
+                category_id: category.id,
                 category_name: category.name,
-                blogs: []
+                slug: category.slug,
+                blogs: blogObject,
+                total_blogs: totalBlog
             };
-        });
+            categorizedBlogs.push(singlecategorizedBlogs);
+        };
         
         // Process blogs and categorize them
-        blogs.forEach(blog => {
-            try {
-                let catData = JSON.parse(blog.cat_id); // Convert stored JSON object into JS object
-                let blogCategories = JSON.parse(catData.categories); // Extract and parse 'categories' array
+        // blogs.forEach(blog => {
+        //     try {
+        //         let catData = JSON.parse(blog.cat_id); // Convert stored JSON object into JS object
+        //         let blogCategories = JSON.parse(catData.categories); // Extract and parse 'categories' array
                 
-                blogCategories.forEach(catId => {
-                    if (categorizedBlogs[catId]) {
-                        categorizedBlogs[catId].blogs.push(blog);
-                    }
-                });
-            } catch (error) {
-                console.error("Invalid JSON format in blog.cat_id:", blog.cat_id);
-            }
-        });
+        //         blogCategories.forEach(catId => {
+        //             // if (categorizedBlogs.category_id) {
+        //                 categorizedBlogs.category_id.blogs.push(blog);
+        //             // }
+        //         });
+        //     } catch (error) {
+        //         console.error("Invalid JSON format in blog.cat_id:", blog.cat_id);
+        //     }
+        // });
 
         res.status(200).send({ status: true, result: categorizedBlogs, message: "" });
     } catch (error) {
