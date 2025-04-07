@@ -125,26 +125,15 @@ exports.categorieblogs = async (req, res) => {
 
 exports.getblogs2 = async (req, res) => {
     try {
-        // let page = req.query.page;
-        // if(page == 0){
-        //     page = 1
-        //     console.log('page :: ',page)
-        // }else {
-        //     page = page;
-        // }
         var page = parseInt(req.query.page) + 1 || 1
         var perPage = 2;
         var offset = (parseInt(page) - 1) * perPage;
-        console.log('page => ',page)
-        // var id = req.query.id;
-
-        // Fetch all blog categories
+        
         const categorySql = "SELECT id, slug, name FROM blog_categories";
         const categories = await db.query(categorySql);
-        // Fetch all blogs with correct column 'cat_id'
+        
         let categorizedBlogs = [];
-        // Initialize categories in the response
-        // categories.forEach(category => {
+        
         for (const [index, category] of categories.entries()) {
             const sqlCount = `SELECT COUNT(*) AS totalBlog FROM blogs where FIND_IN_SET(?, category_id)`;
             const [countRows] = await db.query(sqlCount,[category.id]);
