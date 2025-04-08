@@ -43,7 +43,7 @@ app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://hans.neuronsit.in"], // Add your frontend URLs
+    origin: ["http://localhost:5173", "https://beyond.neuronsit.in"], // Add your frontend URLs
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -77,7 +77,7 @@ app.use(
 );
 if (process.env.NODE_ENV == "production") {
   const allowCrossDomain = (req, res, next) => {
-    res.header(`Access-Control-Allow-Origin`, `https://hans.neuronsit.in`,"http://localhost:5173");
+    res.header(`Access-Control-Allow-Origin`, `https://beyond.neuronsit.in`,"http://localhost:5173");
 
     res.header(`Access-Control-Allow-Headers`, `Content-Type`);
     res.header(
@@ -91,7 +91,7 @@ if (process.env.NODE_ENV == "production") {
 app.use("/uploads", (req, res, next) => {
   // setting the response headers
   if (process.env.NODE_ENV == "production") {
-    res.header("Access-Control-Allow-Origin", "https://hans.neuronsit.in","http://localhost:5173");
+    res.header("Access-Control-Allow-Origin", "https://beyond.neuronsit.in","http://localhost:5173");
   }
   // cache control header
   // next middleware or route handler
