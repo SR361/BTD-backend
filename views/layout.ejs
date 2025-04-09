@@ -4,13 +4,13 @@
 <head>
   
   <meta charset="utf-8" />
-  <title><%- title %> - Admin - Becoming Your Best  </title>
+  <title><%- title %> - Admin - Beyond The Deal  </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta content="Becoming Your Best Admin" name="description" />
   <meta content="Ameet" name="author" />
   <!-- App favicon -->
   <link rel="shortcut icon" href="/assets/images/favicon.ico">
-
+  <link href="https://cdn.jsdelivr.net/npm/metismenu/dist/metisMenu.min.css" rel="stylesheet">
   <%- HeaderCss %>
   
   <%- include ('./Partials/HeaderStyle') %>
@@ -50,6 +50,42 @@
 
   <script src="/assets/js/app.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"  crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/metismenu/dist/metisMenu.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      $('#side-menu').metisMenu();
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const currentPath = window.location.pathname;
+      const menuLinks = document.querySelectorAll("#side-menu a");
+  
+      menuLinks.forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+          link.classList.add("active");
+  
+          // Expand parent submenu if exists
+          let parentLi = link.closest("li");
+          let subMenu = link.closest(".sub-menu");
+          if (subMenu) {
+            subMenu.style.display = "block";
+            let mainLi = subMenu.closest("li");
+            if (mainLi) {
+              mainLi.classList.add("mm-active");
+              let mainAnchor = mainLi.querySelector("a.has-arrow");
+              if (mainAnchor) {
+                mainAnchor.setAttribute("aria-expanded", "true");
+              }
+            }
+          } else {
+            parentLi?.classList.add("mm-active");
+          }
+        }
+      });
+    });
+  </script>
+  
   <%- BottomJs %>
 </body>
 

@@ -1,6 +1,88 @@
 <!-- ========== Left Sidebar Start ========== -->
+<style>
+    /* Sidebar Base Styles */
+    .vertical-menu {
+      width: 250px;
+      background: #2a3042;
+      color: #c2c7d0;
+      height: 100vh;
+      position: fixed;
+    }
+    
+    .vertical-menu .navbar-brand-box {
+      padding: 1rem;
+      background-color: #1f2330;
+      border-bottom: 1px solid #3b4256;
+    }
+    
+    .vertical-menu .logo img {
+      max-width: 100%;
+    }
+    
+    #side-menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    #side-menu > li > a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: #c2c7d0;
+      text-decoration: none;
+      font-size: 15px;
+      transition: background 0.2s ease;
+    }
+    
+    #side-menu > li > a:hover,
+    #side-menu > li.active > a {
+      background-color: #383f53;
+      color: #fff;
+    }
+    
+    #side-menu > li > a i {
+      font-size: 18px;
+      margin-right: 10px;
+    }
+    
+    .menu-title {
+      padding: 12px 20px;
+      font-size: 13px;
+      color: #6c757d;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Submenu Styles */
+    .sub-menu {
+      background-color: #232936;
+      display: none;
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .sub-menu li a {
+      display: block;
+      padding: 10px 40px;
+      color: #a0a5b9;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    
+    .sub-menu li a:hover {
+      color: #ffffff;
+      background-color: #2f3647;
+    }
+    
+    /* Show submenu when expanded */
+    li.mm-active > .sub-menu,
+    li > a[aria-expanded="true"] + .sub-menu {
+      display: block;
+    }
+    </style>
+    
 <div class="vertical-menu">
-    <!-- LOGO -->
     <div class="navbar-brand-box">
         <a href="/" class="logo logo-dark">
             <span class="logo-sm">
@@ -22,197 +104,148 @@
     <button type="button" class="btn btn-sm px-3 font-size-16 header-item vertical-menu-btn">
         <i class="fa fa-fw fa-bars"></i>
     </button>
+
     <div data-simplebar class="sidebar-menu-scroll">
-        <!--- Sidemenu -->
-        <div id="sidebar-menu">
-            <!-- Left Menu Start -->
-            <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title" data-key="t-menu"><%=translation.Menu%></li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="bx bx-book icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-covers">Categories</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="/admin/categories" data-key="t-covercategory">Categories</a></li>
-                        
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="fa fa-blog icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-stories">Blog</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li>
-                            <a href="/admin/blog-categories" data-key="t-stories">
-                                <i class="fa fa-indent icon nav-icon"></i>
-                                <span class="menu-item" data-key="t-stories">Categorie</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/blog-tags" data-key="t-stories">
-                                <i class="fa fa-tags icon nav-icon"></i>
-                                <span class="menu-item" data-key="t-stories">Tag</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/blog" data-key="t-stories">
-                                <i class="bx bx-list-ul icon nav-icon"></i>
-                                <span class="menu-item" data-key="t-stories">Blog</span>
-                            </a>
-                        </li>                        
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="bx bx-cog icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-stories">Services</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li>
-                            <a href="/admin/services" data-key="t-stories">
-                                <i class="bx bx-list-ul icon nav-icon"></i>
-                                <span class="menu-item" data-key="t-stories">Service</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/service/create" data-key="t-stories">
-                                <i class="bx bx-plus-circle icon nav-icon"></i>
-                                <span class="menu-item" data-key="t-stories">Add Service</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="fa fa-trademark icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-stories">Testimonials</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li>
-                            <a href="/admin/testimonials" data-key="t-stories">
-                                <i class="bx bx-list-ul icon nav-icon"></i>
-                                <span class="menu-item" data-key="t-stories">Testimonial</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/testimonial/create" data-key="t-stories">
-                                <i class="bx bx-plus-circle icon nav-icon"></i>
-                                <span class="menu-item" data-key="t-stories">Add Testimonial</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <!-- Archive -->
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="fa fa-archive nav-icon"></i>
-                        <span class="menu-item" data-key="t-stories">Archive</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li>
-                            <a href="/admin/archives" data-key="t-stories">
-                                <i class="bx bx-list-ul icon nav-icon"></i>
-                                <span class="menu-item" data-key="t-stories">Archive</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/archive/create" data-key="t-stories">
-                                <i class="bx bx-plus-circle icon nav-icon"></i>
-                                <span class="menu-item" data-key="t-stories">Add Archive</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                 <!-- Archive -->
-                <!-- Our Partner -->
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="fa fa-users nav-icon"></i>
-                        <span class="menu-item" data-key="t-stories">Our Partner</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li>
-                            <a href="/admin/our-partners" data-key="t-stories">
-                                <i class="bx bx-list-ul icon nav-icon"></i>
-                                <span class="menu-item" data-key="t-stories">Our Partner</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/our-partner/create" data-key="t-stories">
-                                <i class="bx bx-plus-circle icon nav-icon"></i>
-                                <span class="menu-item" data-key="t-stories">Add Our Partner</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                 <!-- Our Partner -->
-                <li>
-                    <a href="/admin/pages" >
-                        <i class="bx bx-file icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-users">Pages</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="bx bx-user icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-users"><%=translation.Users%></span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="/admin/users" data-key="t-users"><%=translation.Users%></a></li>
-                        <li><a href="/admin/user/create" data-key="t-createuser"><%=translation.Create_User%></a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="bx bxs-user icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-users">Contact Queries</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="/admin/contact-queries" data-key="t-users">Contact Queries</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="bx bxs-user icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-users">Admins</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="/admin/admins" data-key="t-users">Admins</a></li>
-                        <li><a href="/admin/admins/create" data-key="t-createuser">Add Admin</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="/admin/profile" >
-                        <i class="bx bx-user-circle icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-invoices">Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/admin/change-password" >
-                        <i class="bx bx-key icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-invoices">Change Password</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="bx bx-credit-card-front icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-users">Setup & Configurations</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="/admin/social-media" data-key="t-users">Social Media</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="/logout" >
-                        <i class="bx bx-log-out icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-invoices">Logout</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <!-- Sidebar -->
+        <ul class="metismenu list-unstyled" id="side-menu">
+            <li class="menu-title">Menu</li>
+
+            <!-- Blog Menu -->
+            <li>
+                <a href="javascript:void(0);" class="has-arrow" aria-expanded="false">
+                    <i class="fa fa-blog"></i>
+                    <span>Blog</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="/admin/blog-categories">Categories</a></li>
+                    <li><a href="/admin/blog-tags">Tags</a></li>
+                    <li><a href="/admin/blog">Blog Posts</a></li>
+                </ul>
+            </li>
+
+            <!-- Services -->
+            <li>
+                <a href="javascript:void(0);" class="has-arrow" aria-expanded="false">
+                    <i class="bx bx-cog"></i>
+                    <span>Services</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="/admin/services">Service List</a></li>
+                    <li><a href="/admin/service/create">Add Service</a></li>
+                </ul>
+            </li>
+
+            <!-- Testimonials -->
+            <li>
+                <a href="javascript:void(0);" class="has-arrow" aria-expanded="false">
+                    <i class="fa fa-trademark"></i>
+                    <span>Testimonials</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="/admin/testimonials">Testimonial List</a></li>
+                    <li><a href="/admin/testimonial/create">Add Testimonial</a></li>
+                </ul>
+            </li>
+
+            <!-- Archive -->
+            <li>
+                <a href="javascript:void(0);" class="has-arrow" aria-expanded="false">
+                    <i class="fa fa-archive"></i>
+                    <span>Archive</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="/admin/archives">Archive List</a></li>
+                    <li><a href="/admin/archive/create">Add Archive</a></li>
+                </ul>
+            </li>
+
+            <!-- Our Partner -->
+            <li>
+                <a href="javascript:void(0);" class="has-arrow" aria-expanded="false">
+                    <i class="fa fa-users"></i>
+                    <span>Our Partner</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="/admin/our-partners">Partner List</a></li>
+                    <li><a href="/admin/our-partner/create">Add Partner</a></li>
+                </ul>
+            </li>
+
+            <!-- Pages -->
+            <li>
+                <a href="/admin/pages">
+                    <i class="bx bx-file"></i>
+                    <span>Pages</span>
+                </a>
+            </li>
+
+            <!-- Users -->
+            <li>
+                <a href="javascript:void(0);" class="has-arrow" aria-expanded="false">
+                    <i class="bx bx-user"></i>
+                    <span>Users</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="/admin/users">User List</a></li>
+                    <li><a href="/admin/user/create">Add User</a></li>
+                </ul>
+            </li>
+
+            <!-- Contact Queries -->
+            <li>
+                <a href="/admin/contact-queries">
+                    <i class="bx bxs-user"></i>
+                    <span>Contact Queries</span>
+                </a>
+            </li>
+
+            <!-- Admins -->
+            <li>
+                <a href="javascript:void(0);" class="has-arrow" aria-expanded="false">
+                    <i class="bx bxs-user"></i>
+                    <span>Admins</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="/admin/admins">Admin List</a></li>
+                    <li><a href="/admin/admins/create">Add Admin</a></li>
+                </ul>
+            </li>
+
+            <!-- Profile -->
+            <li>
+                <a href="/admin/profile">
+                    <i class="bx bx-user-circle"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+
+            <!-- Change Password -->
+            <li>
+                <a href="/admin/change-password">
+                    <i class="bx bx-key"></i>
+                    <span>Change Password</span>
+                </a>
+            </li>
+
+            <!-- Setup & Config -->
+            <li>
+                <a href="javascript:void(0);" class="has-arrow" aria-expanded="false">
+                    <i class="bx bx-credit-card-front"></i>
+                    <span>Setup & Config</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="/admin/social-media">Social Media</a></li>
+                </ul>
+            </li>
+
+            <!-- Logout -->
+            <li>
+                <a href="/logout">
+                    <i class="bx bx-log-out"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
     </div>
 </div>
-<!-- Left Sidebar End -->
+<!-- ========== Left Sidebar End ========== -->
