@@ -2,86 +2,98 @@
 <style>
     /* Sidebar Base Styles */
     .vertical-menu {
-      width: 250px;
-      background: #2a3042;
-      color: #c2c7d0;
-      height: 100vh;
-      position: fixed;
+        width: 255px;
+        background: #2a3042;
+        color: #c2c7d0;
+        height: 100vh;
+        position: fixed;
     }
-    
+
     .vertical-menu .navbar-brand-box {
-      padding: 1rem;
-      background-color: #1f2330;
-      border-bottom: 1px solid #3b4256;
+        padding: 1rem;
+        background-color: #1f2330;
+        border-bottom: 1px solid #3b4256;
     }
-    
+
     .vertical-menu .logo img {
-      max-width: 100%;
+        max-width: 100%;
     }
-    
+
     #side-menu {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+        list-style: none;
+        margin: 0;
+        padding: 0;
     }
-    
-    #side-menu > li > a {
-      display: flex;
-      align-items: center;
-      padding: 12px 20px;
-      color: #c2c7d0;
-      text-decoration: none;
-      font-size: 15px;
-      transition: background 0.2s ease;
+
+    #side-menu>li>a {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        color: #c2c7d0;
+        text-decoration: none;
+        font-size: 15px;
+        transition: background 0.2s ease;
     }
-    
-    #side-menu > li > a:hover,
-    #side-menu > li.active > a {
-      background-color: #383f53;
-      color: #fff;
+
+    #side-menu>li>a:hover,
+    #side-menu>li.active>a {
+        background-color: #383f53;
+        color: #fff;
     }
-    
-    #side-menu > li > a i {
-      font-size: 18px;
-      margin-right: 10px;
+
+    #side-menu>li>a i {
+        font-size: 18px;
+        margin-right: 10px;
     }
-    
+
     .menu-title {
-      padding: 12px 20px;
-      font-size: 13px;
-      color: #6c757d;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+        padding: 12px 20px;
+        font-size: 13px;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
-    
+
     /* Submenu Styles */
     .sub-menu {
-      background-color: #232936;
-      display: none;
-      list-style: none;
-      padding-left: 0;
+        background-color: #232936;
+        display: none;
+        list-style: none;
+        padding-left: 0;
     }
-    
+
     .sub-menu li a {
-      display: block;
-      padding: 10px 40px;
-      color: #a0a5b9;
-      text-decoration: none;
-      font-size: 14px;
+        display: block;
+        padding: 10px 40px;
+        color: #a0a5b9;
+        text-decoration: none;
+        font-size: 14px;
     }
-    
+
     .sub-menu li a:hover {
-      color: #ffffff;
-      background-color: #2f3647;
+        color: #ffffff;
+        background-color: #2f3647;
     }
-    
+
     /* Show submenu when expanded */
-    li.mm-active > .sub-menu,
-    li > a[aria-expanded="true"] + .sub-menu {
-      display: block;
+    li.mm-active>.sub-menu,
+    li>a[aria-expanded="true"]+.sub-menu {
+        display: block;
     }
-    </style>
-    
+
+    .vertical-menu {
+        width: 250px;
+        transition: width 0.3s ease;
+        overflow: hidden;
+        /* important */
+    }
+
+    .vertical-menu.collapsed {
+        width: 0px;
+        /* collapsed width */
+    }
+</style>
+
 <div class="vertical-menu">
     <div class="navbar-brand-box">
         <a href="/" class="logo logo-dark">
