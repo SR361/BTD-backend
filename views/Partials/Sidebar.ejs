@@ -82,7 +82,7 @@
     }
 
     .vertical-menu {
-        width: 250px;
+        width: 255px;
         transition: width 0.3s ease;
         overflow: hidden;
         /* important */
@@ -113,6 +113,7 @@
             </span>
         </a>
     </div>
+    
     <button type="button" class="btn btn-sm px-3 font-size-16 header-item vertical-menu-btn">
         <i class="fa fa-fw fa-bars"></i>
     </button>
@@ -256,8 +257,15 @@
                     <span>Logout</span>
                 </a>
             </li>
-
         </ul>
     </div>
 </div>
 <!-- ========== Left Sidebar End ========== -->
+
+<script>
+    const btn = document.querySelector(".vertical-menu-btn");
+
+    // Clone and replace the button to remove all bound events
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+</script>
