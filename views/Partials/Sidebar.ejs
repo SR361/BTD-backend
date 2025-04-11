@@ -86,16 +86,93 @@
         display: none;
     }
 
-    [data-sidebar-size="sm"] li > a.has-arrow::after {
-  display: none !important;
-  content: none !important;
-}
+    [data-sidebar-size="sm"] li>a.has-arrow::after {
+        display: none !important;
+        content: none !important;
+    }
 
-[data-sidebar-size="sm"] li > a.has-arrow {
-  padding-right: 1rem !important; /* optional: remove space reserved for arrow */
-}
+    [data-sidebar-size="sm"] li>a.has-arrow {
+        padding-right: 1rem !important;
+    }
 
+
+
+    [data-sidebar-size="sm"] .vertical-menu li {
+        position: relative;
+    }
+
+    [data-sidebar-size="sm"] .vertical-menu li:hover>.sub-menu {
+        display: block;
+        position: absolute;
+        left: 100%;
+        top: 0;
+        min-width: 200px;
+        z-index: 1000;
+        /* background: #fff; */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 0px 0px 10px 0px;
+        border-radius: 0px;
+    }
+
+    [data-sidebar-size="sm"] .vertical-menu .sub-menu li a {
+        white-space: nowrap;
+        padding: 10px 20px;
+        color: gray;
+        text-decoration: none;
+        display: block;
+    }
+
+    [data-sidebar-size="sm"] .vertical-menu .sub-menu li:first-child {
+        color: gray;
+        background-color: #383f53;
+    }
+
+    [data-sidebar-size="sm"] .vertical-menu .sub-menu li:first-child a:hover{
+        color: gray;
+    }
+
+    [data-sidebar-size="sm"] .vertical-menu .sub-menu li a:hover {
+        color: #f5f5f5;
+        background-color: transparent;
+    }
+
+    
+
+
+    [data-sidebar-size="sm"] .vertical-menu .sub-menu {
+        display: none;
+    }
+
+
+    [data-sidebar-size="sm"] .sub-menu {
+        display: none !important;
+        /* Block any JS-based toggles */
+    }
+
+    [data-sidebar-size="sm"] li:hover>.sub-menu {
+        display: block !important;
+        /* Allow on hover */
+    }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const hasArrowLinks = document.querySelectorAll("a.has-arrow");
+
+        hasArrowLinks.forEach(link => {
+            link.addEventListener("click", function (e) {
+                const sidebarSize = document.body.getAttribute("data-sidebar-size");
+
+                if (sidebarSize === "sm") {
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+                }
+            });
+        });
+    });
+
+
+</script>
 
 <div class="vertical-menu">
     <div class="navbar-brand-box">
