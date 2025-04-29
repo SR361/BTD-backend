@@ -1,16 +1,7 @@
 node_modules
 .envSample
-public.zip
 .env
-node_modules
 
-node_modules/.bin/acorn
-/node_modules
-/public
-/node_modules
-/node_modules
-/node_modules
-.envSample
-public.zip
+public
 *.zip
 .env
